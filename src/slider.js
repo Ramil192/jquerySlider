@@ -1,4 +1,4 @@
-import View from './mvc/view'
+import View from './mvc/view/View'
 
 (function ($) {
   $.fn.inputRange = function (options) {
@@ -16,7 +16,7 @@ import View from './mvc/view'
     }, options);
 
     function main (){
-      const view = new View(this)
+      const view = new View($(this))
       view.init();
     }
     return this.each(main);
