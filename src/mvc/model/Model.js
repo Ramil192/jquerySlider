@@ -2,40 +2,50 @@ export default class Model {
   constructor(settings) {
     this.settings = settings;
     this.state = {
-      valueLeft: 0,
-      valueRight: 0,
-      percentLeft: 0,
-      percentRight: 0,
+      valueLeft: this.settings.valueLeft,
+      valueRight: this.settings.valueRight,
+      percentageLeft: this.getPercentage(this.settings.valueLeft),
+      percentageRight: this.getPercentage(this.settings.valueRight),
     }
   }
 
-  changeInputLeft(_this) {
-    if (isDouble) {
-      const { valueLeft, percentLeft } = this.state;
-      const { min } = this.settings;
-      let min = parseInt(_this.attr('min'));
-      let max = parseInt(_this.attr('max'));
-      _this.val(Math.min(parseInt(_this.val()), parseInt(inputRight.val()) - 1));
+  getPercentage(val) {
+    const { min, max } = this.settings;
+    return ((val - min) / (max - min)) * 100;
+  }
 
-      percentLeft = ((_this.val() - min) / (max - min)) * 100;
-      valueLeft = _this.val;
+  changeInputLeft(_this, inputRightValue) {
 
+    if (this.settings.isDouble) {
+
+      _this.val(Math.min(parseInt(_this.val()), parseInt(inputRightValue) - 1));
+
+      this.state.percentageLeft = this.getPercentage(_this.val());
+      this.state.valueLeft = _this.val();
     }
     else {
       _this.attr({ 'min': min - 1 });
       _this.val(min - 1)
     }
-  }
+  };
 
-  inputLeft(_this) {
-    let { percentRight, valueRight } = model.state;
+  changeInputRight(_this, inputLeftValue) {
 
-    let min = parseInt(_this.attr('min'));
-    let max = parseInt(_this.attr('max'));
+    _this.val(Math.max(parseInt(_this.val()), parseInt(inputLeftValue) + 1))
 
-    _this.val(Math.max(parseInt(_this.val()), parseInt(inputLeft.val()) + 1))
+    this.state.percentageRight = this.getPercentage(_this.val());
+    this.state.valueRight = _this.val();
+  };
 
-    percentRight = ((_this.val() - min) / (max - min)) * 100;
-    valueRight = _this.val();
-  }
+  scaleClick(event, inputLeft, inputRight) {
+    let newText = +event.target.innerHTML;
+    if (+inputLeft.val() > newText) {
+      inputLeft.val(newText);
+      this.changeInputLeft(inputLeft, inputRight.val());
+    };
+    if (+inputRight.val() < newText) {
+      inputRight.val(newText);
+      this.changeInputRight(inputRight, inputLeft.val());
+    };
+  };
 }

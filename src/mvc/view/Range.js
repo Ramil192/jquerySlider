@@ -1,6 +1,6 @@
 export default class Range {
-  init(){
-    let range = '<div class="range"></div>';
-    return range;
+
+  constructor(){
+    this.rangeDiv = $('<div class="range"></div>');
   }
 }
