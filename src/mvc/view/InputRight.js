@@ -1,7 +1,7 @@
 export default class InputRight {
  
-  constructor(){
-    this.input = $(`<input type="range" id="input-right" min=0 max=100 value=75 step==1>`);
+  constructor(min,max,step,val){
+    this.input = $(`<input type="range" id="input-right" min=${min} max=${max} value=${val} step=${step}>`);
   }
 
 }

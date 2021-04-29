@@ -7,30 +7,32 @@ import Controller from './mvc/controller/Controller'
   $.fn.inputRange = function (options) {
 
     let settings = $.extend({
-      min: 0,
+      min: -100,
       max: 100,
-      step: 1,
-      valueLeft: 25,
-      valueRight: 75,
+      step: 10,
+      valueLeft: -100,
+      valueRight: -10,
       isVertical: false,
       isLabel: true,
       isScale: true,
       isDouble: true,
     }, options);
 
+
     function main() {
       const model = new Model(settings)
-      const view = new View($(this),model)
+      const view = new View($(this), model)
       const controller = new Controller(model, view)
-      view.init();
-      view.render();
       controller.init();
     }
+
     return this.each(main);
+
   };
 })(jQuery)
 
 $(function () {
   $('.test').inputRange();
-
+  $('.test1').inputRange();
+  $('#test2').inputRange();
 })

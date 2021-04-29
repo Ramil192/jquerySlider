@@ -13,8 +13,8 @@ export default class View {
   constructor(target, model) {
     this.model = model;
     this.target = target;
-    this.inputLeft = new InputLeft();
-    this.inputRight = new InputRight();
+    this.inputLeft = new InputLeft(this.model.settings.min, this.model.settings.max, this.model.settings.step, model.settings.valueLeft);
+    this.inputRight = new InputRight(this.model.settings.min, this.model.settings.max, this.model.settings.step, model.settings.valueRight);
     this.track = new Track();
     this.range = new Range();
     this.thumbLeft = new ThumbLeft();
@@ -25,18 +25,19 @@ export default class View {
   }
 
   init() {
+    const targetName = this.target.attr('class') ? '.' + this.target.attr('class') : '#' + this.target.attr('id')
+
     this.target.append('<div class="multi-range-slider"></div>');
-    $('.multi-range-slider').append(this.inputLeft.input);
-    $('.multi-range-slider').append(this.inputRight.input);
-    $('.multi-range-slider').append('<div class="slider"></div>');
-    $('.slider').append(this.track.init());
-    $('.slider').append(this.range.rangeDiv);
-    $('.slider').append(this.thumbLeft.thumbDiv);
-    $('.slider').append(this.thumbRight.thumbDiv);
-    $('.slider').append(this.textLeft.textSpan);
-    $('.slider').append(this.textRight.textSpan);
-    $('.slider').append(this.scale.divScale);
-    this.model.changeInputLeft
+    $(targetName).find('.multi-range-slider').append(this.inputLeft.input);
+    $(targetName).find('.multi-range-slider').append(this.inputRight.input);
+    $(targetName).find('.multi-range-slider').append('<div class="slider"></div>');
+    $(targetName).find('.slider').append(this.track.init());
+    $(targetName).find('.slider').append(this.range.rangeDiv);
+    $(targetName).find('.slider').append(this.thumbLeft.thumbDiv);
+    $(targetName).find('.slider').append(this.thumbRight.thumbDiv);
+    $(targetName).find('.slider').append(this.textLeft.textSpan);
+    $(targetName).find('.slider').append(this.textRight.textSpan);
+    $(targetName).find('.slider').append(this.scale.divScale);
   }
 
   render() {
@@ -69,14 +70,14 @@ export default class View {
       this.textLeft.textSpan.css({
         'transform': 'rotate(90deg) translate(-5px,24px)',
       });
-      this.textRight.textSpan.textSpan.css({
+      this.textRight.textSpan.css({
         'transform': 'rotate(90deg) translate(-5px, -15px)',
       });
-
-      $('.scale span').css({
+      this.scale.divScale.children('span').css({
         'transform': 'rotate(90deg) translate(0px,3px)',
       });
     }
+
 
     this.renderThumbLeft();
     this.renderThumbRight();
@@ -85,8 +86,8 @@ export default class View {
 
   renderThumbLeft() {
     const { isDouble } = this.model.settings;
-    const { valueLeft ,percentageLeft } = this.model.state;
-    
+    const { valueLeft, percentageLeft } = this.model.state;
+
     if (isDouble) {
       this.thumbLeft.thumbDiv.css({ 'left': percentageLeft + '%' });
       this.range.rangeDiv.css({ 'left': percentageLeft + '%' });
@@ -98,11 +99,18 @@ export default class View {
       this.thumbLeft.thumbDiv.hide();
     }
   }
-  renderThumbRight(){
-    const { valueRight,percentageRight } = this.model.state;
+  renderThumbRight() {
+    const { isVertical } = this.model.settings;
+    const { valueRight, percentageRight } = this.model.state;
     this.thumbRight.thumbDiv.css({ 'right': (100 - percentageRight) + '%' });
-    this.range.rangeDiv.css({ 'right': (100 - percentageRight) + '%' })
-    this.textRight.textSpan.css({ 'right': (101 - percentageRight) + '%' })
+    this.range.rangeDiv.css({ 'right': (100 - percentageRight) + '%' });
+
+    if (isVertical) {
+      this.textRight.textSpan.css({ 'right': (97 - percentageRight) + '%' });
+    } else {
+      this.textRight.textSpan.css({ 'right': (101 - percentageRight) + '%' });
+    }
+
     this.textRight.textSpan.html(valueRight);
   }
 

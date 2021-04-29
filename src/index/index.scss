@@ -8,8 +8,16 @@ body{
   flex-direction: column;
 }
 .test{
-  width: 50%;
-  max-width: 320px;
+  width: 320px;
+  margin: 50px;
+}
+.test1{
+  width: 320px;
+  margin: 50px;
+}
+#test2{
+  width: 320px;
+  margin: 50px;
 }
 .slider {
   position: relative;
@@ -95,6 +103,7 @@ input[type="range"]::-webkit-slider-thumb {
   & span{
     position: absolute;
     top: 20px;
+    cursor: pointer;
   }
   :nth-child(2){
     left: 25%;

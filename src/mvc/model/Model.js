@@ -22,6 +22,7 @@ export default class Model {
 
       this.state.percentageLeft = this.getPercentage(_this.val());
       this.state.valueLeft = _this.val();
+
     }
     else {
       _this.attr({ 'min': min - 1 });
@@ -38,14 +39,27 @@ export default class Model {
   };
 
   scaleClick(event, inputLeft, inputRight) {
+
     let newText = +event.target.innerHTML;
-    if (+inputLeft.val() > newText) {
-      inputLeft.val(newText);
-      this.changeInputLeft(inputLeft, inputRight.val());
-    };
-    if (+inputRight.val() < newText) {
-      inputRight.val(newText);
-      this.changeInputRight(inputRight, inputLeft.val());
-    };
+    if (this.settings.isDouble) {
+      if (+inputLeft.val() > newText) {
+        inputLeft.val(newText);
+        this.changeInputLeft(inputLeft, inputRight.val());
+      };
+      if (+inputRight.val() < newText) {
+        inputRight.val(newText);
+        this.changeInputRight(inputRight, inputLeft.val());
+      };
+    } else {
+      if (+inputRight.val() > newText) {
+        inputRight.val(newText);
+        this.changeInputRight(inputRight, inputLeft.val());
+      };
+      if (+inputRight.val() < newText) {
+        inputRight.val(newText);
+        this.changeInputRight(inputRight, inputLeft.val());
+      };
+    }
+
   };
 }

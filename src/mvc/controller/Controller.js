@@ -19,6 +19,11 @@ export default class Controller {
     
     scale.bind('click', (e) => {
       this.model.scaleClick(e, inputLeft, inputRight);
+      this.view.renderThumbLeft();
+      this.view.renderThumbRight();
     });
+
+    this.view.init();
+    this.view.render();
   }
 }
