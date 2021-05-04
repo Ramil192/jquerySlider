@@ -1,14 +1,14 @@
-import InputLeft from "./InputLeft"
-import InputRight from "./InputRight"
-import Track from "./Track"
-import Range from "./Range"
-import ThumbLeft from "./ThumbLeft"
-import ThumbRight from "./ThumbRight"
-import TextLeft from "./TextLeft"
-import TextRight from "./TextRight"
-import Scale from "./Scale"
+const InputLeft = require ("./InputLeft")
+const InputRight = require ("./InputRight")
+const Track = require ("./Track")
+const Range = require ("./Range")
+const ThumbLeft = require ("./ThumbLeft")
+const ThumbRight = require ("./ThumbRight")
+const TextLeft = require ("./TextLeft")
+const TextRight = require ("./TextRight")
+const Scale = require ("./Scale")
 
-export default class View {
+module.exports = class View {
 
   constructor(target, model) {
     this.model = model;

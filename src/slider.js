@@ -9,9 +9,9 @@ import Controller from './mvc/controller/Controller'
     let settings = $.extend({
       min: -100,
       max: 100,
-      step: 10,
-      valueLeft: -100,
-      valueRight: -10,
+      step: 1,
+      valueLeft: 0,
+      valueRight: 100,
       isVertical: false,
       isLabel: true,
       isScale: true,
@@ -33,6 +33,4 @@ import Controller from './mvc/controller/Controller'
 
 $(function () {
   $('.test').inputRange();
-  $('.test1').inputRange();
-  $('#test2').inputRange();
 })

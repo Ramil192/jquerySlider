@@ -1,4 +1,5 @@
-export default class Model {
+module.exports = class Model {
+  
   constructor(settings) {
     this.settings = settings;
     this.state = {
@@ -15,14 +16,11 @@ export default class Model {
   }
 
   changeInputLeft(_this, inputRightValue) {
-
     if (this.settings.isDouble) {
-
       _this.val(Math.min(parseInt(_this.val()), parseInt(inputRightValue) - 1));
 
       this.state.percentageLeft = this.getPercentage(_this.val());
       this.state.valueLeft = _this.val();
-
     }
     else {
       _this.attr({ 'min': min - 1 });
@@ -31,7 +29,6 @@ export default class Model {
   };
 
   changeInputRight(_this, inputLeftValue) {
-
     _this.val(Math.max(parseInt(_this.val()), parseInt(inputLeftValue) + 1))
 
     this.state.percentageRight = this.getPercentage(_this.val());
@@ -39,8 +36,8 @@ export default class Model {
   };
 
   scaleClick(event, inputLeft, inputRight) {
-
     let newText = +event.target.innerHTML;
+
     if (this.settings.isDouble) {
       if (+inputLeft.val() > newText) {
         inputLeft.val(newText);
@@ -60,6 +57,5 @@ export default class Model {
         this.changeInputRight(inputRight, inputLeft.val());
       };
     }
-
   };
 }

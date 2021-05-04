@@ -1,4 +1,4 @@
-export default class TextRight {
+module.exports = class TextRight {
   constructor() {
     this.textSpan = $('<span class="text right">75</span>');
   }

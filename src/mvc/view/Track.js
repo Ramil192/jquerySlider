@@ -1,4 +1,4 @@
-export default class Track {
+module.exports =  class Track {
   init(){
     let track = '<div class="track"></div>';
     return track;

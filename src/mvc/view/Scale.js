@@ -1,4 +1,4 @@
-export default class Scale {
+module.exports =  class Scale {
   constructor(){
     this.divScale =  $('<div class="scale"></div>');
   }
