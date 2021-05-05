@@ -1,12 +1,13 @@
-const InputLeft = require ("./InputLeft")
-const InputRight = require ("./InputRight")
-const Track = require ("./Track")
-const Range = require ("./Range")
-const ThumbLeft = require ("./ThumbLeft")
-const ThumbRight = require ("./ThumbRight")
-const TextLeft = require ("./TextLeft")
-const TextRight = require ("./TextRight")
-const Scale = require ("./Scale")
+const InputLeft = require ("./InputLeft");
+const InputRight = require ("./InputRight");
+const Track = require ("./Track");
+const Range = require ("./Range");
+const ThumbLeft = require ("./ThumbLeft");
+const ThumbRight = require ("./ThumbRight");
+const TextLeft = require ("./TextLeft");
+const TextRight = require ("./TextRight");
+const Scale = require ("./Scale");
+const $ = require('jquery');
 
 module.exports = class View {
 
@@ -25,19 +26,17 @@ module.exports = class View {
   }
 
   init() {
-    const targetName = this.target.attr('class') ? '.' + this.target.attr('class') : '#' + this.target.attr('id')
-
     this.target.append('<div class="multi-range-slider"></div>');
-    $(targetName).find('.multi-range-slider').append(this.inputLeft.input);
-    $(targetName).find('.multi-range-slider').append(this.inputRight.input);
-    $(targetName).find('.multi-range-slider').append('<div class="slider"></div>');
-    $(targetName).find('.slider').append(this.track.init());
-    $(targetName).find('.slider').append(this.range.rangeDiv);
-    $(targetName).find('.slider').append(this.thumbLeft.thumbDiv);
-    $(targetName).find('.slider').append(this.thumbRight.thumbDiv);
-    $(targetName).find('.slider').append(this.textLeft.textSpan);
-    $(targetName).find('.slider').append(this.textRight.textSpan);
-    $(targetName).find('.slider').append(this.scale.divScale);
+    this.target.find('.multi-range-slider').append(this.inputLeft.input);
+    this.target.find('.multi-range-slider').append(this.inputRight.input);
+    this.target.find('.multi-range-slider').append('<div class="slider"></div>');
+    this.target.find('.slider').append(this.track.init());
+    this.target.find('.slider').append(this.range.rangeDiv);
+    this.target.find('.slider').append(this.thumbLeft.thumbDiv);
+    this.target.find('.slider').append(this.thumbRight.thumbDiv);
+    this.target.find('.slider').append(this.textLeft.textSpan);
+    this.target.find('.slider').append(this.textRight.textSpan);
+    this.target.find('.slider').append(this.scale.divScale);
   }
 
   render() {
