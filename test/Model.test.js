@@ -36,7 +36,7 @@ describe('Model', () => {
     test('to be defined', () => {
       expect(model.getPercentage).toBeDefined();
     });
-
+    
     test('get valueLeft', () => {
       expect(model.getPercentage(valueLeft)).toBeGreaterThanOrEqual(0);
       expect(model.getPercentage(valueLeft)).toBeLessThanOrEqual(100);
@@ -49,9 +49,9 @@ describe('Model', () => {
       expect(model.getPercentage(50)).not.toBeUndefined();
       expect(model.getPercentage(50)).not.toBeNull();
     });
-
+    
   });
-
+  
   describe('state change:', () => {
     test('input left ', () => {
       model.changeInputLeft(inputL, valueRight);
@@ -62,8 +62,9 @@ describe('Model', () => {
       expect(model.state.valueRight).toBe(inputR.val());
     })
   })
-
+  
   describe('scaleClick :', () => {
+    expect(model.scaleClick).toBeDefined();
     // не знаю как получить event как аргумент для функций  scaleClick(event )
   })
 })

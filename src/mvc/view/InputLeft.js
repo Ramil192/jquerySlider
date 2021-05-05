@@ -1,3 +1,5 @@
+const $ = require('jquery');
+
 module.exports = class InputLeft {
 
   constructor(min,max,step,val){
