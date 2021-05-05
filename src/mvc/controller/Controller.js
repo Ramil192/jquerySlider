@@ -1,4 +1,4 @@
-export default class Controller {
+module.exports = class Controller {
   constructor(model, view) {
     this.view = view;
     this.model = model;
@@ -12,6 +12,7 @@ export default class Controller {
       this.model.changeInputLeft(inputLeft, inputRight.val());
       this.view.renderThumbLeft();
     });
+    
     inputRight.bind('input', () => {
       this.model.changeInputRight(inputRight, inputLeft.val());
       this.view.renderThumbRight();

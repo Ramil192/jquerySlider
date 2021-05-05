@@ -30,7 +30,7 @@ module.exports = class View {
     this.target.find('.multi-range-slider').append(this.inputLeft.input);
     this.target.find('.multi-range-slider').append(this.inputRight.input);
     this.target.find('.multi-range-slider').append('<div class="slider"></div>');
-    this.target.find('.slider').append(this.track.init());
+    this.target.find('.slider').append(this.track.div);
     this.target.find('.slider').append(this.range.rangeDiv);
     this.target.find('.slider').append(this.thumbLeft.thumbDiv);
     this.target.find('.slider').append(this.thumbRight.thumbDiv);
