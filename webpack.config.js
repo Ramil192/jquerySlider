@@ -3,9 +3,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const images = require('file-loader');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 module.exports = {
+
   entry: {
     index: './src/index/index.js',
+  },
+  resolve: {
+    extensions: [".ts", ".tsx", ".js"]
   },
   output: {
     path: path.resolve(__dirname, 'docs'),
@@ -19,6 +24,11 @@ module.exports = {
         use: {
           loader: "babel-loader"
         }
+      },
+      {
+        test: /\.ts|\.tsx$/,
+        use: 'awesome-typescript-loader',
+        include: __dirname
       },
       {
         test: /\.scss$/,

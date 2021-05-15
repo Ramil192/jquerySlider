@@ -1,0 +1,77 @@
+.sliderN1{
+  display: flex;
+  flex-direction: column;
+  max-width: 320px;
+  &__items{
+    background-color: aqua;
+    display: flex;
+    flex: 0 1 100%;
+  }
+  
+  &__item{
+    display: flex;
+    margin: 10px;
+  }
+  &__text{
+    margin-right:15px;
+    width: 69px;
+  }
+  &__inputNumber{
+    max-width: 80px;
+  }
+  &__inputCheckbox{
+    margin-left: -20px;
+  }
+}
+
+.sliderN2{
+  display: flex;
+  flex-direction: column;
+  max-width: 320px;
+  &__items{
+    background-color: aqua;
+    display: flex;
+    flex: 0 1 100%;
+  }
+  
+  &__item{
+    display: flex;
+    margin: 10px;
+  }
+  &__text{
+    margin-right:15px;
+    width: 69px;
+  }
+  &__inputNumber{
+    max-width: 80px;
+  }
+  &__inputCheckbox{
+    margin-left: -20px;
+  }
+}
+
+.sliderN3{
+  display: flex;
+  flex-direction: column;
+  max-width: 320px;
+  &__items{
+    background-color: aqua;
+    display: flex;
+    flex: 0 1 100%;
+  }
+  
+  &__item{
+    display: flex;
+    margin: 10px;
+  }
+  &__text{
+    margin-right:15px;
+    width: 69px;
+  }
+  &__inputNumber{
+    max-width: 80px;
+  }
+  &__inputCheckbox{
+    margin-left: -20px;
+  }
+}

@@ -1,0 +1,25 @@
+mixin itemNumber(name,value,text)
+  div(class=`${name}__item`)
+    div(class=`${name}__text`)=text
+    input(class=`${name}__inputNumber` type="number", value=value)
+mixin itemChecked(name,flag,text)
+  div(class=`${name}__item`)
+    div(class=`${name}__text`)=text
+    input(class=`${name}__inputCheckbox` type="checkbox", checked=flag)
+
+mixin panel(className)
+  div(class=className) 
+    div(class=`${className}__plugin`)
+    div(class=`${className}__items`)
+      div(class=`${className}__itemLeft`)
+        +itemNumber(className,0,'Min value:')
+        +itemNumber(className,100,'Max value:')
+        +itemNumber(className,1,'Step value:')
+        +itemNumber(className,25,'Left value:')
+        +itemNumber(className,75,'Right value:')
+      div(class=`${className}__itemRight`)
+        +itemChecked(className,true,'Label:')
+        +itemChecked(className,true,'Scale:')
+        +itemChecked(className,false,'Double:')
+        +itemChecked(className,false,'Vertical:')
+div  

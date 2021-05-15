@@ -3,5 +3,5 @@ function importAll(resolve) {
 }
 
 importAll(
-    require.context('../', true, /\.(js|scss)$/)
+    require.context('../', true, /\.(js|ts|scss)$/)
 );
