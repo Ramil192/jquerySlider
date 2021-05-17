@@ -41,8 +41,8 @@ export default class View implements IView {
   constructor(target: any, model: IModel) {
     this.model = model;
     this.target = target;
-    this.inputRight = new InputRight(this.model.settings.min, this.model.settings.max, this.model.settings.step, model.settings.valueRight);
-    this.inputLeft = new InputLeft(this.model.settings.min, this.model.settings.max, this.model.settings.step, model.settings.valueLeft);
+    this.inputRight = new InputRight(this.model.settings.min, this.model.settings.max, this.model.settings.step, this.model.settings.valueRight);
+    this.inputLeft = new InputLeft(this.model.settings.min, this.model.settings.max, this.model.settings.step, this.model.settings.valueLeft);
     this.track = new Track();
     this.range = new Range();
     this.thumbLeft = new ThumbLeft();
@@ -72,22 +72,20 @@ export default class View implements IView {
     this.scale.divScale.append(`<span></span>`);
     this.scale.divScale.append(`<span></span>`);
 
-  }
-
-  render(): void {
-
     this.target.css({
       'position': 'relative',
       'transform-origin': 'bottom left',
       'margin': '32px 0px',
     });
 
+  }
+
+  render(): void {
     this.renderScale();
     this.renderVertical();
     this.renderText();
     this.renderThumbLeft();
     this.renderThumbRight();
-
   }
 
   renderVertical() {
@@ -125,20 +123,7 @@ export default class View implements IView {
 
   }
 
-  renderText() {
-    const { isLabel, isDouble } = this.model.settings
-
-    if (isLabel) {
-      this.textRight.textSpan.show();
-    } else {
-      this.textLeft.textSpan.hide();
-      this.textRight.textSpan.hide();
-    }
-
-    if (isDouble && isLabel) {
-      this.textLeft.textSpan.show();
-    }
-  }
+ 
 
   renderScale() {
     const { min, max, isScale } = this.model.settings
@@ -159,27 +144,39 @@ export default class View implements IView {
     });
   }
 
+  renderText() {
+    const { isLabel, isDouble } = this.model.settings
 
+    if (isLabel) {
+      this.textRight.textSpan.show();
+    } else {
+      this.textLeft.textSpan.hide();
+      this.textRight.textSpan.hide();
+    }
+
+    if (isDouble && isLabel) {
+      this.textLeft.textSpan.show();
+    }
+  }
 
   renderThumbLeft(): void {
-    const { isDouble,min } = this.model.settings;
+    const { isDouble,min,isLabel } = this.model.settings;
     const { valueLeft, percentageLeft } = this.model.state;
-
     if (isDouble) {
       this.thumbLeft.thumbDiv.css({ 'left': percentageLeft + '%' });
       this.range.rangeDiv.css({ 'left': percentageLeft + '%' });
       this.textLeft.textSpan.css({ 'right': (85 - percentageLeft) + '%' });
       this.textLeft.textSpan.html(valueLeft.toString());
-      this.textLeft.textSpan.show();
       this.thumbLeft.thumbDiv.show();
+      this.inputLeft.input.attr('value',valueLeft);
     } else {
       this.range.rangeDiv.css({ 'left': 0 + '%' });
-      this.textLeft.textSpan.hide();
       this.thumbLeft.thumbDiv.hide();
-
+      this.textLeft.textSpan.hide();
+      this.inputLeft.input.attr('value',min);
     }
-
   }
+  
   renderThumbRight(): void {
     const { isVertical } = this.model.settings;
     const { valueRight, percentageRight } = this.model.state;

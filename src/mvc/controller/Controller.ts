@@ -13,6 +13,7 @@ export default class Controller {
     const inputLeft = this.view.inputLeft.input;
     const inputRight: JQuery = this.view.inputRight.input;
     const scale = this.view.scale.divScale;
+    
     inputLeft.bind('input', () => {
       this.model.changeInputLeft(inputLeft, +inputRight.val()!);
       this.view.renderThumbLeft();
@@ -28,7 +29,7 @@ export default class Controller {
       this.view.renderThumbLeft();
       this.view.renderThumbRight();
     });
-    this.model.checkSettings();
+    
     this.view.init();
     this.view.render();
   }

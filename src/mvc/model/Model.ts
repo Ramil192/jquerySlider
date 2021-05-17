@@ -14,8 +14,7 @@ export default class Model implements IModel {
   }
 
   checkSettings() {
-    const { min, max, valueLeft, valueRight } = this.settings;
-
+    const { min, max, valueLeft, valueRight, isDouble } = this.settings;
     if (valueLeft > max) {
       this.settings.valueLeft = max;
     }
@@ -32,12 +31,17 @@ export default class Model implements IModel {
       this.settings.valueRight = min;
     }
 
-    this.state.valueLeft = this.settings.valueLeft;
-    this.state.valueRight = this.settings.valueRight;
-    this.state.percentageLeft = this.getPercentage(this.settings.valueLeft);
-    this.state.percentageRight = this.getPercentage(this.settings.valueRight);
+    if (!isDouble) {
+      this.settings.valueLeft = min - 1;
+    }
 
+    this.state.valueLeft = valueLeft;
+    this.state.valueRight = this.settings.valueRight;
+    this.state.percentageLeft = this.getPercentage(valueLeft);
+    this.state.percentageRight = this.getPercentage(this.settings.valueRight);
   }
+
+
 
   getPercentage(val: number): number {
     const { min, max } = this.settings;
@@ -91,49 +95,76 @@ export default class Model implements IModel {
     }
   };
 
-  setMin(min) {
-    this.settings.min = min;
-    this.state.percentageRight = this.getPercentage(this.settings.valueRight);
-    this.state.percentageLeft = this.getPercentage(this.settings.valueLeft);
-  }
+  // setMin(min) {
+  //   const { valueLeft, max } = this.settings;
+  //   if (min < max) {
+  //     this.settings.min = min;
+  //     this.setValueLeft(valueLeft);
+  //   }
+  // }
 
-  setMax(max) {
-    this.settings.max = max;
-    this.state.percentageRight = this.getPercentage(this.settings.valueRight);
-    this.state.percentageLeft = this.getPercentage(this.settings.valueLeft);
-  }
+  // setMax(max) {
+  //   const { valueRight, min } = this.settings;
+  //   if (max > min) {
+  //     this.settings.max = max;
+  //     this.setValueRight(valueRight);
+  //   }
+  // }
 
-  setStep(step) {
-    this.settings.step = step;
-  }
+  // setStep(step) {
+  //   this.settings.step = step;
+  // }
 
-  setValueLeft(value) {
-    this.state.valueLeft = value;
-    this.state.percentageLeft = this.getPercentage(value);
-  }
+  // setValueLeft(value) {
+  //   if (this.checkValueInput(value, true)) {
+  //     this.state.valueLeft = value;
+  //     this.state.percentageLeft = this.getPercentage(value);
+  //   }
+  // }
 
-  setValueRight(value) {
-    this.checkSettings();
-    this.state.valueRight = value;
-    this.state.percentageRight = this.getPercentage(value);
-  }
+  // setValueRight(value) {
+  //   if (this.checkValueInput(value, false)) {
+  //     this.state.valueRight = value;
+  //     this.state.percentageRight = this.getPercentage(value);
+  //   }
+  // }
+
+  // checkValueInput(targetValue: number, leftInput: boolean) {
+  //   const { min, max, isDouble } = this.settings;
+  //   let { valueLeft, valueRight } = this.state;
+  //   valueLeft = isDouble ? valueLeft : min;
+  //   console.log(min, max, valueLeft, valueRight);
+  //   if (leftInput) {
+  //     if (targetValue > max || targetValue < min || targetValue > valueRight) {
+  //       return false;
+  //     }
+  //   } else {
+  //     if (targetValue > max || targetValue < min || targetValue < valueLeft) {
+  //       return false;
+  //     }
+  //     console.log();
+  //   }
 
 
-  setIsLabel(flag) {
-    this.settings.isLabel = flag;
-  }
+  //   return true;
+  // }
 
-  setIsScale(flag) {
-    this.settings.isScale = flag;
-  }
 
-  setIsDouble(flag) {
-    this.settings.isDouble = flag;
-  }
+  // setIsLabel(flag) {
+  //   this.settings.isLabel = flag;
+  // }
 
-  setIsVertical(flag) {
-    this.settings.isVertical = flag;
-  }
+  // setIsScale(flag) {
+  //   this.settings.isScale = flag;
+  // }
+
+  // setIsDouble(flag) {
+  //   this.settings.isDouble = flag;
+  // }
+
+  // setIsVertical(flag) {
+  //   this.settings.isVertical = flag;
+  // }
 
 
 }
