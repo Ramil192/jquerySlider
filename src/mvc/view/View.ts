@@ -76,6 +76,7 @@ export default class View implements IView {
       'position': 'relative',
       'transform-origin': 'bottom left',
       'margin': '32px 0px',
+      'width': '100%'
     });
 
   }
@@ -84,6 +85,7 @@ export default class View implements IView {
     this.renderScale();
     this.renderVertical();
     this.renderText();
+    this.changeAttrInput();
     this.renderThumbLeft();
     this.renderThumbRight();
   }
@@ -94,10 +96,12 @@ export default class View implements IView {
     if (isVertical) {
       this.target.css({
         'transform': 'rotate(-90deg)',
+        'margin': '32px 30px 0px',
       });
 
       this.textLeft.textSpan.css({
-        'transform': 'rotate(90deg) translate(-5px,24px)',
+        'transform': 'rotate(90deg)',
+        'left': '4px'
       });
       this.textRight.textSpan.css({
         'transform': 'rotate(90deg) translate(-5px, -25px)',
@@ -108,11 +112,13 @@ export default class View implements IView {
     } else {
       this.target.css({
         'transform': 'rotate(0deg)',
+        'margin': '32px  0px',
+      });
+      this.textLeft.textSpan.css({
+        'transform': 'rotate(0deg) translate(-23px, 0px)',
+        'left': '-24px'
       });
 
-      this.textLeft.textSpan.css({
-        'transform': 'rotate(0deg) translate(-50px,0px)',
-      });
       this.textRight.textSpan.css({
         'transform': 'rotate(0deg) translate(0px, 0px)',
       });
@@ -123,20 +129,30 @@ export default class View implements IView {
 
   }
 
- 
+  changeAttrInput() {
+    const { min, max, step } = this.model.settings;
+
+    this.inputLeft.input.attr('min', min);
+    this.inputLeft.input.attr('max', max);
+    this.inputLeft.input.attr('step', step);
+
+    this.inputRight.input.attr('min', min);
+    this.inputRight.input.attr('max', max);
+    this.inputRight.input.attr('step', step);
+
+  }
 
   renderScale() {
     const { min, max, isScale } = this.model.settings
     let scaleNumber = Math.abs((min - max) / 4);
-
-    this.scale.divScale.children('span').each((i, e) => {
+    this.scale.divScale.children('span').each((index, e) => {
       if (isScale) {
-        if (i === 0) {
+        if (index === 0) {
           e.innerHTML = (min).toString();
-        } else if (i === 4) {
+        } else if (index === 4) {
           e.innerHTML = (max).toString();
         } else {
-          e.innerHTML = (min > 0 ? min - scaleNumber * i : min + scaleNumber * i).toString();
+          e.innerHTML = (+min + scaleNumber * index).toString();
         }
       } else {
         e.innerHTML = '';
@@ -160,29 +176,29 @@ export default class View implements IView {
   }
 
   renderThumbLeft(): void {
-    const { isDouble,min,isLabel } = this.model.settings;
+    const { isDouble, min } = this.model.settings;
     const { valueLeft, percentageLeft } = this.model.state;
     if (isDouble) {
       this.thumbLeft.thumbDiv.css({ 'left': percentageLeft + '%' });
       this.range.rangeDiv.css({ 'left': percentageLeft + '%' });
-      this.textLeft.textSpan.css({ 'right': (85 - percentageLeft) + '%' });
       this.textLeft.textSpan.html(valueLeft.toString());
       this.thumbLeft.thumbDiv.show();
-      this.inputLeft.input.attr('value',valueLeft);
+      this.inputLeft.input.attr('value', valueLeft);
+      this.textLeft.textSpan.css({ 'left':  percentageLeft + '%' });
     } else {
       this.range.rangeDiv.css({ 'left': 0 + '%' });
       this.thumbLeft.thumbDiv.hide();
       this.textLeft.textSpan.hide();
-      this.inputLeft.input.attr('value',min);
+      this.inputLeft.input.attr('value', min);
     }
   }
-  
+
   renderThumbRight(): void {
     const { isVertical } = this.model.settings;
     const { valueRight, percentageRight } = this.model.state;
     this.thumbRight.thumbDiv.css({ 'right': (100 - percentageRight) + '%' });
     this.range.rangeDiv.css({ 'right': (100 - percentageRight) + '%' });
-
+    this.inputRight.input.attr('value', valueRight);
     if (isVertical) {
       this.textRight.textSpan.css({ 'right': (97 - percentageRight) + '%' });
     } else {

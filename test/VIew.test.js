@@ -1,6 +1,7 @@
-const View = require('../src/mvc/view/View');
-const Model = require('../src/mvc/model/Model');
-const $ = require('jquery');
+import View  from'../src/mvc/view/View';
+import Model  from'../src/mvc/model/Model';
+import $ from 'jquery';
+global.$ = global.jQuery = $;
 
 describe('View', () => {
   const model = new Model({
@@ -53,8 +54,8 @@ describe('View', () => {
       expect(element.css('transform-origin')).toBe('bottom left');
 
       if (!isLabel) {
-        expect(view.textLeft.textSpan.css('opacity')).toBe('0');
-        expect(view.textRight.textSpan.css('opacity')).toBe('0');
+        expect(view.textLeft.textSpan.css('display')).toBe('none');
+        expect(view.textRight.textSpan.css('display')).toBe('none');
       }
 
       if (isScale) {
@@ -63,7 +64,7 @@ describe('View', () => {
 
       if (isVertical) {
         expect(element.css('transform')).toBe('rotate(-90deg)');
-        expect(view.textLeft.textSpan.css('transform')).toBe('rotate(90deg) translate(-5px,24px)');
+        expect(view.textLeft.textSpan.css('transform')).toBe('rotate(90deg)');
         expect(view.scale.divScale.children('span').css('transform')).toBe('rotate(90deg) translate(0px,3px)');
       }
       expect(view.renderThumbLeft).toBeDefined();

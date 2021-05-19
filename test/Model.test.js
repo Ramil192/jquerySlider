@@ -1,8 +1,8 @@
-const Model = require('../src/mvc/model/Model');
-const $ = require('jquery');
+import  Model from '../src/mvc/model/Model';
+import $ from 'jquery';
+global.$ = global.jQuery = $;
 
 describe('Model', () => {
-
   const model = new Model({
     min: 0,
     max: 100,
@@ -55,11 +55,11 @@ describe('Model', () => {
   describe('state change:', () => {
     test('input left ', () => {
       model.changeInputLeft(inputL, valueRight);
-      expect(model.state.valueLeft).toBe(inputL.val());
+      expect(model.state.valueLeft).toBe(+inputL.val());
     })
     test('input right ', () => {
       model.changeInputRight(inputR, valueLeft);
-      expect(model.state.valueRight).toBe(inputR.val());
+      expect(model.state.valueRight).toBe(+inputR.val());
     })
   })
   

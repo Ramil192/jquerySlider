@@ -1,7 +1,7 @@
 import View from './view/View'
 import Model from './model/Model'
 import Controller from './controller/Controller'
-
+import {IObj} from './model/interfaceForModel'
 
 (function ($) {
 
@@ -12,7 +12,7 @@ import Controller from './controller/Controller'
       max: 100,
       step: 1,
       valueLeft: 25,
-      valueRight: 90,
+      valueRight: 75,
       isVertical: false,
       isLabel: true,
       isScale: true,
@@ -20,6 +20,7 @@ import Controller from './controller/Controller'
     }, options);
 
     const model = new Model(settings)
+
     model.checkSettings();
     const view = new View($(this), model)
     const controller = new Controller(model, view)
@@ -28,61 +29,16 @@ import Controller from './controller/Controller'
       controller.init();
     }
 
-    $(this).data().setSettings = function (obj) {
-      model.settings={...model.settings,...obj}
-      model.checkSettings();
+    $(this).data().setSettings = function (obj:IObj) {
+
+      const prevLeft = model.settings.valueLeft;
+      const prevRight = model.settings.valueRight;
+
+      model.settings = { ...model.settings, ...obj }
+      model.checkSettings(prevLeft,prevRight);
       view.render();
     }
-    // $(this).data().setMin = function (min) {
-    //   model.setMin(min);
-    //   view.renderScale();
-    //   view.renderThumbRight();
-    //   view.renderThumbLeft();
-    // }
 
-    // $(this).data().setMax = function (max) {
-    //   model.setMax(max);
-    //   view.renderScale();
-    //   view.renderThumbRight();
-    //   view.renderThumbLeft();
-    // }
-
-    // $(this).data().setValueLeft = function (value) {
-    //   model.setValueLeft(value);
-    //   view.renderThumbLeft();
-    // }
-
-    // $(this).data().setValueRight = function (value) {
-    //   model.setValueRight(value);
-    //   view.renderThumbRight();
-    // }
-
-
-    // $(this).data().setStep = function (value) {
-    //   model.setStep(value);
-    //   view.inputRight.input.attr('step',value);
-    //   view.inputLeft.input.attr('step',value);
-    // }
-
-    // $(this).data().setIsLabel = function (flag) {
-    //   model.setIsLabel(flag);
-    //   view.renderText();
-    // }
-
-    // $(this).data().setIsScale = function (flag) {
-    //   model.setIsScale(flag);
-    //   view.renderScale();
-    // }
-
-    // $(this).data().setIsDouble = function (flag) {
-    //   model.setIsDouble(flag);
-    //   view.renderThumbLeft();
-    // }
-
-    // $(this).data().setIsVertical = function (flag) {
-    //   model.setIsVertical(flag);
-    //   view.renderVertical();
-    // }
 
     return this.each(main);
   };

@@ -1,4 +1,5 @@
 import { IInputRight } from './interfaceForView'
+import $ from 'jquery';
 
 export default  class InputRight implements IInputRight {
   input: JQuery

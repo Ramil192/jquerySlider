@@ -1,77 +1,88 @@
-.sliderN1{
+.sliderN1 {
   display: flex;
   flex-direction: column;
-  max-width: 320px;
-  &__items{
+  width: 320px;
+
+  &__panel {
+    margin-top: 320px;
+  }
+  &__items {
     background-color: aqua;
     display: flex;
     flex: 0 1 100%;
   }
-  
-  &__item{
+
+  &__item {
     display: flex;
     margin: 10px;
   }
-  &__text{
-    margin-right:15px;
+  &__text {
+    margin-right: 15px;
     width: 69px;
   }
-  &__inputNumber{
+  &__inputNumber {
     max-width: 80px;
   }
-  &__inputCheckbox{
+  &__inputCheckbox {
     margin-left: -20px;
   }
 }
 
-.sliderN2{
+.sliderN2 {
   display: flex;
   flex-direction: column;
   max-width: 320px;
-  &__items{
+  &__panel {
+    margin-top: 320px;
+  }
+  &__items {
     background-color: aqua;
     display: flex;
     flex: 0 1 100%;
   }
-  
-  &__item{
+
+  &__item {
     display: flex;
     margin: 10px;
   }
-  &__text{
-    margin-right:15px;
+  &__text {
+    margin-right: 15px;
     width: 69px;
   }
-  &__inputNumber{
+  &__inputNumber {
     max-width: 80px;
   }
-  &__inputCheckbox{
+  &__inputCheckbox {
     margin-left: -20px;
   }
 }
 
-.sliderN3{
+.sliderN3 {
   display: flex;
   flex-direction: column;
   max-width: 320px;
-  &__items{
+  margin-bottom: 50px;
+  &__panel{
+    margin-top: 320px;
+  }
+  &__items {
     background-color: aqua;
     display: flex;
     flex: 0 1 100%;
   }
-  
-  &__item{
+
+  &__item {
     display: flex;
     margin: 10px;
   }
-  &__text{
-    margin-right:15px;
+  &__text {
+    margin-right: 15px;
     width: 69px;
   }
-  &__inputNumber{
+  &__inputNumber {
     max-width: 80px;
   }
-  &__inputCheckbox{
+  &__inputCheckbox {
     margin-left: -20px;
   }
 }

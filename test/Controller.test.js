@@ -1,11 +1,10 @@
-const Model = require('../src/mvc/model/Model');
-const View = require('../src/mvc/view/View');
-const Controller = require('../src/mvc/controller/Controller');
-
-const $ = require('jquery');
+import Model from '../src/mvc/model/Model';
+import View from '../src/mvc/view/View';
+import Controller from '../src/mvc/controller/Controller';
+import $ from 'jquery';
+global.$ = global.jQuery = $;
 
 describe('controller', () => {
-
   const model = new Model({
     min: 0,
     max: 100,
@@ -22,12 +21,12 @@ describe('controller', () => {
 
   const view = new View(element, model);
   const controller = new Controller(model, view);
-  
-   describe('init():', () => {
-     test('defined', () => {
-       expect(controller.init).toBeDefined();
+
+  describe('init():', () => {
+    test('defined', () => {
+      expect(controller.init).toBeDefined();
     })
-     test('start', () => {
+    test('start', () => {
       controller.init();
       expect(view.init).toBeDefined();
       expect(view.render).toBeDefined();
