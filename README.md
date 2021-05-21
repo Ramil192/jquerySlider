@@ -73,4 +73,4 @@ controller знает о model и view
 
 # UML
 
-![](./uml/uml.jpg)
+![](./uml/uml.png)
