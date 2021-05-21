@@ -27,7 +27,7 @@ import { IModel } from '../model/interfaceForModel'
 export default class View implements IView {
 
   model: IModel
-  target: any
+  target: JQuery
   inputLeft: IInputLeft
   inputRight: IInputRight
   track: ITrack
@@ -38,7 +38,7 @@ export default class View implements IView {
   textRight: ITextRight
   scale: IScale
 
-  constructor(target: any, model: IModel) {
+  constructor(target: JQuery, model: IModel) {
     this.model = model;
     this.target = target;
     this.inputRight = new InputRight(this.model.settings.min, this.model.settings.max, this.model.settings.step, this.model.settings.valueRight);
@@ -90,7 +90,7 @@ export default class View implements IView {
     this.renderThumbRight();
   }
 
-  renderVertical() {
+  renderVertical():void {
     const { isVertical } = this.model.settings
 
     if (isVertical) {
@@ -129,7 +129,7 @@ export default class View implements IView {
 
   }
 
-  changeAttrInput() {
+  changeAttrInput():void {
     const { min, max, step } = this.model.settings;
 
     this.inputLeft.input.attr('min', min);
@@ -142,7 +142,7 @@ export default class View implements IView {
 
   }
 
-  renderScale() {
+  renderScale():void {
     const { min, max, isScale } = this.model.settings
     let scaleNumber = Math.abs((min - max) / 4);
     this.scale.divScale.children('span').each((index, e) => {
@@ -160,7 +160,7 @@ export default class View implements IView {
     });
   }
 
-  renderText() {
+  renderText():void {
     const { isLabel, isDouble } = this.model.settings
 
     if (isLabel) {

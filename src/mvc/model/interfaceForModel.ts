@@ -10,7 +10,7 @@ export interface ISettings {
   isDouble: boolean,
 }
 
-export interface IObj {
+export interface INewSettings {
   min?: number,
   max?: number,
   step?: number,

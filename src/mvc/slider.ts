@@ -1,7 +1,7 @@
 import View from './view/View'
 import Model from './model/Model'
 import Controller from './controller/Controller'
-import {IObj} from './model/interfaceForModel'
+import {INewSettings} from './model/interfaceForModel'
 
 (function ($) {
 
@@ -29,12 +29,12 @@ import {IObj} from './model/interfaceForModel'
       controller.init();
     }
 
-    $(this).data().setSettings = function (obj:IObj) {
+    $(this).data().setSettings = function (newSettings:INewSettings) {
 
       const prevLeft = model.settings.valueLeft;
       const prevRight = model.settings.valueRight;
 
-      model.settings = { ...model.settings, ...obj }
+      model.settings = { ...model.settings, ...newSettings }
       model.checkSettings(prevLeft,prevRight);
       view.render();
     }
