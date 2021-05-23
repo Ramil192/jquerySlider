@@ -1,18 +1,3 @@
-// {
-//     "compilerOptions": {
-//         "outDir": "./dist/",
-//         "sourceMap": true,
-//         "strictNullChecks": true,
-//         "module": "es6",
-//         "jsx": "react",
-//         "target": "es5",
-//         "allowJs": true,
-//         "moduleResolution": "node"
-//     },
-//     "include": [
-//         "./src/"
-//     ]
-// }
 {
     "compilerOptions": {
       "target": "esnext",
@@ -21,6 +6,7 @@
       "strict": true,
       "experimentalDecorators": true,
     },
+ 
     "exclude": [
       "node_modules",
       "dist"

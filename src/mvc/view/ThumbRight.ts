@@ -1,7 +1,7 @@
-import { IThumbRight } from './interfaceForView'
+import { IThumbRight } from './interfaceForView';
 
 export default class ThumbRight implements IThumbRight {
-  thumbDiv:JQuery
+  thumbDiv:JQuery;
   constructor() {
     this.thumbDiv = $('<div class="thumb right"></div>');
   }

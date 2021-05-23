@@ -1,8 +1,8 @@
-import { ISettings, IState, IModel } from './interfaceForModel'
+import { ISettings, IState, IModel } from './interfaceForModel';
 
 export default class Model implements IModel {
-  settings: ISettings
-  state: IState
+  settings: ISettings;
+  state: IState;
   constructor(settings: ISettings) {
     this.settings = settings;
     this.state = {
@@ -10,11 +10,13 @@ export default class Model implements IModel {
       valueRight: 0,
       percentageLeft: 0,
       percentageRight: 0,
-    }
+    };
   }
 
   checkSettings(prevLeft = 0, prevRight = 0) {
-    const { min, max, valueLeft, valueRight, isDouble } = this.settings;
+    const {
+      min, max, valueLeft, valueRight, isDouble,
+    } = this.settings;
 
     if (valueLeft > max) {
       this.settings.valueLeft = max;
@@ -31,7 +33,6 @@ export default class Model implements IModel {
     if (valueRight < min) {
       this.settings.valueRight = min;
     }
-
 
     if (!isDouble) {
       this.settings.valueLeft = min;
@@ -52,7 +53,6 @@ export default class Model implements IModel {
     this.state.valueRight = this.settings.valueRight;
     this.state.percentageLeft = this.getPercentage(this.settings.valueLeft);
     this.state.percentageRight = this.getPercentage(this.settings.valueRight);
-
   }
 
   getPercentage(val: number): number {
@@ -68,42 +68,41 @@ export default class Model implements IModel {
       this.state.percentageLeft = this.getPercentage(+_this.val()!);
       this.state.valueLeft = +_this.val()!;
       this.settings.valueLeft = +_this.val()!;
+    } else {
+      _this.attr({ min: min - 1 });
+      _this.val(min - 1);
     }
-    else {
-      _this.attr({ 'min': min - 1 });
-      _this.val(min - 1)
-    }
-  };
+  }
 
   changeInputRight(_this: JQuery, inputLeftValue: number): void {
-    _this.val(Math.max(+_this.val()!, inputLeftValue + 1))
+    _this.val(Math.max(+_this.val()!, inputLeftValue + 1));
 
     this.state.percentageRight = this.getPercentage(+_this.val()!);
     this.state.valueRight = +_this.val()!;
-    this.settings.valueRight=+_this.val()!;
-  };
+    this.settings.valueRight = +_this.val()!;
+  }
 
   scaleClick(innerHTML: number, inputLeft: JQuery, inputRight: JQuery): void {
-    let newText = innerHTML;
+    const newText = innerHTML;
 
     if (this.settings.isDouble) {
       if (+inputLeft.val()! > newText) {
         inputLeft.val(newText);
         this.changeInputLeft(inputLeft, +inputRight.val()!);
-      };
+      }
       if (+inputRight.val()! < newText) {
         inputRight.val(newText);
         this.changeInputRight(inputRight, +inputLeft.val()!);
-      };
+      }
     } else {
       if (+inputRight.val()! > newText) {
         inputRight.val(newText);
         this.changeInputRight(inputRight, +inputLeft.val()!);
-      };
+      }
       if (+inputRight.val()! < newText) {
         inputRight.val(newText);
         this.changeInputRight(inputRight, +inputLeft.val()!);
-      };
+      }
     }
-  };
+  }
 }

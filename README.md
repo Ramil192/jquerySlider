@@ -72,5 +72,5 @@ controller знает о model и view
  
 
 # UML
-
-![](./uml/uml.png)
+https://ibb.co/S0Xnc2T
+(./uml/uml.png)

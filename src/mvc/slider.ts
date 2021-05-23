@@ -1,13 +1,11 @@
-import View from './view/View'
-import Model from './model/Model'
-import Controller from './controller/Controller'
-import {INewSettings} from './model/interfaceForModel'
+import View from './view/View';
+import Model from './model/Model';
+import Controller from './controller/Controller';
+import { INewSettings } from './model/interfaceForModel';
 
 (function ($) {
-
   $.fn.pluginRange = function (options) {
-
-    let settings = $.extend({
+    const settings = $.extend({
       min: 0,
       max: 100,
       step: 1,
@@ -19,30 +17,25 @@ import {INewSettings} from './model/interfaceForModel'
       isDouble: true,
     }, options);
 
-    const model = new Model(settings)
+    const model = new Model(settings);
 
     model.checkSettings();
-    const view = new View($(this), model)
-    const controller = new Controller(model, view)
+    const view = new View($(this), model);
+    const controller = new Controller(model, view);
 
     function main() {
       controller.init();
     }
 
-    $(this).data().setSettings = function (newSettings:INewSettings) {
-
+    $(this).data().setSettings = function (newSettings:INewSettings):void {
       const prevLeft = model.settings.valueLeft;
       const prevRight = model.settings.valueRight;
 
-      model.settings = { ...model.settings, ...newSettings }
-      model.checkSettings(prevLeft,prevRight);
+      model.settings = { ...model.settings, ...newSettings };
+      model.checkSettings(prevLeft, prevRight);
       view.render();
-    }
-
+    };
 
     return this.each(main);
   };
-})(jQuery)
-
-
-
+}(jQuery));

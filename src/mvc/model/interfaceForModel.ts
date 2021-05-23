@@ -9,7 +9,9 @@ export interface ISettings {
   isScale: boolean,
   isDouble: boolean,
 }
-
+export interface MyType {
+  [key: string]: number | boolean;
+}
 export interface INewSettings {
   min?: number,
   max?: number,
@@ -36,5 +38,5 @@ export interface IModel {
   changeInputLeft(target: JQuery, val: number): void
   changeInputRight(target: JQuery, val: number): void
   scaleClick(innerHTML: number, inputLeft: JQuery, inputRight: JQuery): void
-  checkSettings(prevLeft?:number,prevRight?:number):void
+  checkSettings(prevLeft?:number, prevRight?:number):void
 }

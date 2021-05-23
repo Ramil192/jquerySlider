@@ -1,19 +1,20 @@
-import { IView } from '../view/interfaceForView'
-import { IModel } from '../model/interfaceForModel'
+import { IView } from '../view/interfaceForView';
+import { IModel } from '../model/interfaceForModel';
 
 export default class Controller {
-  view: IView
-  model: IModel
+  view: IView;
+  model: IModel;
 
   constructor(model: IModel, view: IView) {
     this.view = view;
     this.model = model;
   }
+
   init(): void {
     const inputLeft = this.view.inputLeft.input;
     const inputRight: JQuery = this.view.inputRight.input;
     const scale = this.view.scale.divScale;
-    
+
     inputLeft.bind('input', () => {
       this.model.changeInputLeft(inputLeft, +inputRight.val()!);
       this.view.renderThumbLeft();
@@ -29,7 +30,7 @@ export default class Controller {
       this.view.renderThumbLeft();
       this.view.renderThumbRight();
     });
-    
+
     this.view.init();
     this.view.render();
   }
