@@ -1,4 +1,4 @@
-import { ITrack } from './interfaceForView';
+import { ITrack } from './interface';
 
 export default class Track implements ITrack {
   div:JQuery;

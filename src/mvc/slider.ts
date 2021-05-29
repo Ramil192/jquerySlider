@@ -1,7 +1,7 @@
 import View from './view/View';
 import Model from './model/Model';
 import Controller from './controller/Controller';
-import { INewSettings } from './model/interfaceForModel';
+import { INewSettings } from './model/interfacel';
 
 (function ($) {
   $.fn.pluginRange = function (options) {

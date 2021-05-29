@@ -1,4 +1,4 @@
-import { IModel } from '../model/interfaceForModel';
+import { IModel } from '../model/interfacel';
 
 export interface IInputLeft {
   input: JQuery,

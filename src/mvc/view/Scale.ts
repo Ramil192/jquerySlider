@@ -1,4 +1,4 @@
-import { IScale } from './interfaceForView';
+import { IScale } from './interface';
 
 export default class Scale implements IScale {
   divScale:JQuery;

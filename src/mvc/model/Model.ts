@@ -1,4 +1,4 @@
-import { ISettings, IState, IModel } from './interfaceForModel';
+import { ISettings, IState, IModel } from './interfacel';
 
 export default class Model implements IModel {
   settings: ISettings;

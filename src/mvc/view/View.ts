@@ -8,7 +8,7 @@ import TextLeft from './TextLeft';
 import TextRight from './TextRight';
 import Scale from './Scale';
 
-import { IModel } from '../model/interfaceForModel';
+import { IModel } from '../model/interfacel';
 import {
   IInputLeft,
   IInputRight,
@@ -20,7 +20,7 @@ import {
   IThumbRight,
   ITrack,
   IView,
-} from './interfaceForView';
+} from './interface';
 
 export default class View implements IView {
   model: IModel;

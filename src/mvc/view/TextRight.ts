@@ -1,4 +1,4 @@
-import { ITextRight } from './interfaceForView';
+import { ITextRight } from './interface';
 
 export default class TextRight implements ITextRight {
   textSpan:JQuery;

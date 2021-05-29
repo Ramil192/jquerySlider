@@ -1,4 +1,4 @@
-import { IThumbRight } from './interfaceForView';
+import { IThumbRight } from './interface';
 
 export default class ThumbRight implements IThumbRight {
   thumbDiv:JQuery;

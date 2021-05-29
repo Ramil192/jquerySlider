@@ -1,4 +1,4 @@
-import { ITextLeft } from './interfaceForView';
+import { ITextLeft } from './interface';
 
 export default class TextLeft implements ITextLeft {
   textSpan:JQuery;

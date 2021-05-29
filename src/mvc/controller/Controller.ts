@@ -1,5 +1,5 @@
-import { IView } from '../view/interfaceForView';
-import { IModel } from '../model/interfaceForModel';
+import { IView } from '../view/interface';
+import { IModel } from '../model/interfacel';
 
 export default class Controller {
   view: IView;

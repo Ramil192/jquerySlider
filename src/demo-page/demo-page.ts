@@ -1,6 +1,6 @@
-import { MyType, INewSettings } from '../mvc/model/interfaceForModel';
+import { MyType, INewSettings } from '../mvc/model/interfacel';
 
-export default class DemoPage {
+export default class demoPage {
   className: string;
   leftValue: string[];
   rightValue: boolean[];
@@ -12,20 +12,20 @@ export default class DemoPage {
     this.className = className;
     this.leftValue = [];
     this.rightValue = [];
-    this.itemLeft = $(`.${className}__itemLeft`)!;
-    this.itemRight = $(`.${className}__itemRight`)!;
+    this.itemLeft = $(`.${className}__item-left`)!;
+    this.itemRight = $(`.${className}__item-right`)!;
     this.plug = $(`.${className}__plugin`).pluginRange(this.settingsObjInit());
   }
 
   settingsObjInit(): INewSettings {
     const settingObj: MyType = {};
 
-    document.querySelectorAll(`.${this.className}__inputNumber`).forEach((e) => {
+    document.querySelectorAll(`.${this.className}__input-number`).forEach((e) => {
       const key = (e as HTMLInputElement).dataset.key!;
       settingObj[key] = +(e as HTMLInputElement).value;
     });
 
-    document.querySelectorAll(`.${this.className}__inputCheckbox`).forEach((e) => {
+    document.querySelectorAll(`.${this.className}__input-checkbox`).forEach((e) => {
       const key = (e as HTMLInputElement).dataset.key!;
       settingObj[key] = (e as HTMLInputElement).checked;
     });
