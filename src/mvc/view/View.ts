@@ -176,7 +176,7 @@ export default class View implements IView {
       this.textLeft.textSpan.html(valueLeft.toString());
       this.thumbLeft.thumbDiv.show();
       this.inputLeft.input.attr('value', valueLeft);
-      this.textLeft.textSpan.css({ right: `${95-percentageLeft}%` });
+      this.textLeft.textSpan.css({ right: `${95 - percentageLeft}%` });
     } else {
       this.range.rangeDiv.css({ left: `${0}%` });
       this.thumbLeft.thumbDiv.hide();

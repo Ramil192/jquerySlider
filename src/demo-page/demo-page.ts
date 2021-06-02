@@ -1,6 +1,6 @@
 import { MyType, INewSettings } from '../mvc/model/interfacel';
 
-export default class demoPage {
+export default class DemoPage {
   className: string;
   leftValue: string[];
   rightValue: boolean[];
