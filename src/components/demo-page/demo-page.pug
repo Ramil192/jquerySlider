@@ -1,0 +1,30 @@
+include ../data-input/data-input.pug
+
+mixin demo-page(options = {})
+  - 
+    const { 
+      columenNumber = [
+        {value:-1000,text:'Min value:',dataName:'min'},
+        {value:100,text:'Max value:',dataName:'max'},
+        {value:1,text:'Step value:',dataName:'step'},
+        {value:-500,text:'Left value:',dataName:'valueLeft'},
+        {value:-175,text:'Right value:',dataName:'valueRight'},
+      ],
+      columenCheckbox = [
+        {isChecked:true,text:'Label:',dataName:'isLabel',isDisabled:false},
+        {isChecked:true,text:'Scale:',dataName:'isScale',isDisabled:false},
+        {isChecked:true,text:'Double:',dataName:'isDouble',isDisabled:false},
+        {isChecked:false,text:'Vertical:',dataName:'isVertical',isDisabled:true},
+      ]
+    } = options;
+
+
+  section.demo-page.js-demo-page 
+    div(class='demo-page__plugin js-demo-page__plugin')
+    div(class='demo-page__items')
+      div(class='demo-page__item')
+        -for(let {value,text,dataName} of columenNumber)
+          +data-input({dataName,value,text})
+      div(class='demo-page__item')
+        -for(let {isChecked,text,dataName,isDisabled} of columenCheckbox)
+          +data-input({dataName,text,isChecked,isCheckbox:true,isDisabled})

@@ -58,19 +58,21 @@ const slider = $(".js-some-container").pluginRange(settingsObj);
 # Методы
 
 
-| Метод       | Тип                        | Описание                                |
-| ------------|----------------------------|-----------------------------------------|
-| setSettings | (newSettings:INewSettings) |принимает новые данные и отрисовывает их |
+| Методы               | Тип                        | Описание                                |
+| ---------------------|----------------------------|-----------------------------------------|
+| setSettings          | (newSettings:INewSettings) |принимает новые данные и отрисовывает их |
+| synchronizationLeft  | (inputLeft:JQuery)         |принимает принимает внешний инпут        |
+| synchronizationRight | (inputRight:JQuery)        |принимает принимает внешний инпут        |
 
 
 # Архитектура
 
 Плагин реализован по схеме MVP, с пассивным view. Обмен данными между view и model.
 model не знает о view и controller 
-view знает о model и не знает о  controller 
+view не знает о model и controller 
 controller знает о model и view
  
 
 # UML
-https://ibb.co/S0Xnc2T
+https://ibb.co/ZH1dgzY
 (./uml/uml.png)

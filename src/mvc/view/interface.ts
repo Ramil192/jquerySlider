@@ -1,47 +1,56 @@
-import { IModel } from '../model/interfacel';
+export interface IRender {
+  isVertical: boolean,
+  min: number,
+  max: number,
+  step: number,
+  isScale: boolean,
+  isLabel: boolean,
+  isDouble: boolean,
+  valueLeft: number,
+  percentageLeft: number,
+  valueRight: number,
+  percentageRight: number,
+}
 
-export interface IInputLeft {
-  input: JQuery,
-}
-export interface IInputRight {
-  input: JQuery
-}
-export interface IRange {
-  rangeDiv: JQuery
-}
-export interface IScale {
-  divScale: JQuery
-}
-export interface ITextLeft {
-  textSpan: JQuery
-}
-export interface ITextRight {
-  textSpan: JQuery
-}
-export interface IThumbLeft {
-  thumbDiv: JQuery
-}
-export interface IThumbRight {
-  thumbDiv: JQuery
-}
-export interface ITrack {
-  div: JQuery
-}
 export interface IView {
-  model: IModel
   target: JQuery
-  inputLeft: IInputLeft
-  inputRight: IInputRight
-  track: ITrack
-  range: IRange
-  thumbLeft: IThumbLeft
-  thumbRight: IThumbRight
-  textLeft: ITextLeft
-  textRight: ITextRight
+  inputLeft: JQuery
+  inputRight: JQuery
   scale: IScale
-
+  slider: ISlider
+  synchronizationLeft?: JQuery;
+  synchronizationRight?: JQuery;
+  
   init(): void
-  render(): void
-  renderThumbLeft(): void
-  renderThumbRight(): void
+  render(modelDate: any): void
+  renderThumbLeft(isDouble: boolean, min: number, valueLeft: number, percentageLeft: number): void
+  renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void
+  changeAttrInput(min: number, max: number, step: number): void
+  setSynchronizationLeft(left: JQuery):void
+  setSynchronizationRight(right: JQuery):void
+}
+
+export interface IScale {
+  scale: JQuery
+  
+  insulation(): void
+  renderScale(min: number, max: number, isScale: boolean): void
+  verticalScale(isVertical: boolean): void
+}
+
+export interface ISlider {
+  slider: JQuery;
+  track: JQuery;
+  range: JQuery;
+  thumbLeft: JQuery;
+  thumbRight: JQuery;
+  textLeft: JQuery;
+  textRight: JQuery;
+
+  insulation(): void
+  renderText(isLabel: boolean, isDouble: boolean): void
+  doubleSlider(isDouble: boolean):void
+  renderThumbLeft(valueLeft: number, percentageLeft: number): void
+  renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void
+  verticalSlider(isVertical: boolean): void
 }

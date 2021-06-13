@@ -1,202 +1,122 @@
-import InputLeft from './InputLeft';
-import InputRight from './InputRight';
-import Track from './Track';
-import Range from './Range';
-import ThumbLeft from './ThumbLeft';
-import ThumbRight from './ThumbRight';
-import TextLeft from './TextLeft';
-import TextRight from './TextRight';
-import Scale from './Scale';
-
-import { IModel } from '../model/interfacel';
-import {
-  IInputLeft,
-  IInputRight,
-  IRange,
-  IScale,
-  ITextLeft,
-  ITextRight,
-  IThumbLeft,
-  IThumbRight,
-  ITrack,
-  IView,
-} from './interface';
+import { IView, IRender, IScale, ISlider} from './interface';
+import Scale from './subView/Scale'
+import Slider from './subView/Slider'
 
 export default class View implements IView {
-  model: IModel;
   target: JQuery;
-  inputLeft: IInputLeft;
-  inputRight: IInputRight;
-  track: ITrack;
-  range: IRange;
-  thumbLeft: IThumbLeft;
-  thumbRight: IThumbRight;
-  textLeft: ITextLeft;
-  textRight: ITextRight;
+  inputLeft: JQuery;
+  inputRight: JQuery;
   scale: IScale;
+  slider: ISlider;
+  synchronizationLeft?: JQuery;
+  synchronizationRight?: JQuery;
 
-  constructor(target: JQuery, model: IModel) {
-    this.model = model;
+  constructor(target: JQuery) {
     this.target = target;
-    this.inputRight = new InputRight(this.model.settings.min, this.model.settings.max, this.model.settings.step, this.model.settings.valueRight);
-    this.inputLeft = new InputLeft(this.model.settings.min, this.model.settings.max, this.model.settings.step, this.model.settings.valueLeft);
-    this.track = new Track();
-    this.range = new Range();
-    this.thumbLeft = new ThumbLeft();
-    this.thumbRight = new ThumbRight();
-    this.textLeft = new TextLeft();
-    this.textRight = new TextRight();
+    this.inputLeft = $('<input type="range" id="input-left">');
+    this.inputRight = $('<input type="range" id="input-right">');
     this.scale = new Scale();
+    this.slider = new Slider();
   }
 
   init(): void {
     this.target.append('<div class="multi-range-slider"></div>');
-    this.target.find('.multi-range-slider').append(this.inputLeft.input);
-    this.target.find('.multi-range-slider').append(this.inputRight.input);
-    this.target.find('.multi-range-slider').append('<div class="slider"></div>');
-    this.target.find('.slider').append(this.track.div);
-    this.target.find('.slider').append(this.range.rangeDiv);
-    this.target.find('.slider').append(this.thumbLeft.thumbDiv);
-    this.target.find('.slider').append(this.thumbRight.thumbDiv);
-    this.target.find('.slider').append(this.textLeft.textSpan);
-    this.target.find('.slider').append(this.textRight.textSpan);
-    this.target.find('.slider').append(this.scale.divScale);
-
-    this.scale.divScale.append('<span></span>');
-    this.scale.divScale.append('<span></span>');
-    this.scale.divScale.append('<span></span>');
-    this.scale.divScale.append('<span></span>');
-    this.scale.divScale.append('<span></span>');
+    this.target.find('.multi-range-slider').append(this.inputLeft);
+    this.target.find('.multi-range-slider').append(this.inputRight);
+    this.target.find('.multi-range-slider').append(this.slider.slider);
+    this.slider.slider.append(this.scale.scale);
 
     this.target.css({
-      position: 'relative',
-      'transform-origin': 'bottom left',
+      transformOrigin: 'bottom left',
       margin: '32px 0px',
       width: '100%',
     });
   }
 
-  render(): void {
-    this.renderScale();
-    this.renderVertical();
-    this.renderText();
-    this.changeAttrInput();
-    this.renderThumbLeft();
-    this.renderThumbRight();
+  render(modelDate: IRender): void {
+    const {
+      isVertical,
+      min,
+      max,
+      step,
+      isScale,
+      isLabel,
+      isDouble,
+      valueLeft,
+      percentageLeft,
+      valueRight,
+      percentageRight,
+    } = modelDate;
+
+    this.renderVertical(isVertical);
+    this.changeAttrInput(min, max, step);
+
+    this.scale.renderScale(min, max, isScale);
+
+    this.slider.doubleSlider(isDouble);
+    this.slider.renderText(isLabel, isDouble);
+
+    this.renderThumbLeft(isDouble, min, valueLeft, percentageLeft);
+    this.renderThumbRight(isVertical, valueRight, percentageRight);
   }
 
-  renderVertical(): void {
-    const { isVertical } = this.model.settings;
+  renderVertical(isVertical: boolean): void {
+
+    this.slider.verticalSlider(isVertical);
+    this.scale.verticalScale(isVertical);
 
     if (isVertical) {
       this.target.css({
         transform: 'rotate(-90deg)',
         margin: '32px 30px 0px',
       });
-
-      this.textLeft.textSpan.css({
-        transform: 'rotate(90deg) translate(-5px, -25px)',
-
-      });
-      this.textRight.textSpan.css({
-        transform: 'rotate(90deg) translate(-5px, -25px)',
-      });
-      this.scale.divScale.children('span').css({
-        transform: 'rotate(90deg) translate(0px,3px)',
-      });
     } else {
       this.target.css({
         transform: 'rotate(0deg)',
         margin: '32px  0px',
       });
-      this.textLeft.textSpan.css({
-        transform: 'rotate(0deg) translate(-23px, 0px)',
-      });
-
-      this.textRight.textSpan.css({
-        transform: 'rotate(0deg) translate(0px, 0px)',
-      });
-      this.scale.divScale.children('span').css({
-        transform: 'rotate(0deg) translate(0px,0px)',
-      });
     }
   }
 
-  changeAttrInput(): void {
-    const { min, max, step } = this.model.settings;
+  changeAttrInput(min: number, max: number, step: number): void {
+    this.inputLeft.attr('min', min);
+    this.inputLeft.attr('max', max);
+    this.inputLeft.attr('step', step);
 
-    this.inputLeft.input.attr('min', min);
-    this.inputLeft.input.attr('max', max);
-    this.inputLeft.input.attr('step', step);
-
-    this.inputRight.input.attr('min', min);
-    this.inputRight.input.attr('max', max);
-    this.inputRight.input.attr('step', step);
+    this.inputRight.attr('min', min);
+    this.inputRight.attr('max', max);
+    this.inputRight.attr('step', step);
   }
 
-  renderScale(): void {
-    const { min, max, isScale } = this.model.settings;
-    const scaleNumber = Math.abs((min - max) / 4);
-    this.scale.divScale.children('span').each((index, e) => {
-      if (isScale) {
-        if (index === 0) {
-          e.innerHTML = (min).toString();
-        } else if (index === 4) {
-          e.innerHTML = (max).toString();
-        } else {
-          e.innerHTML = (+min + scaleNumber * index).toString();
-        }
-      } else {
-        e.innerHTML = '';
-      }
-    });
+
+  setSynchronizationLeft(left: JQuery) {
+    this.synchronizationLeft = left;
+  }
+  setSynchronizationRight(right: JQuery) {
+    this.synchronizationRight = right;
   }
 
-  renderText(): void {
-    const { isLabel, isDouble } = this.model.settings;
-
-    if (isLabel) {
-      this.textRight.textSpan.show();
-    } else {
-      this.textLeft.textSpan.hide();
-      this.textRight.textSpan.hide();
-    }
-
-    if (isDouble && isLabel) {
-      this.textLeft.textSpan.show();
-    }
-  }
-
-  renderThumbLeft(): void {
-    const { isDouble, min } = this.model.settings;
-    const { valueLeft, percentageLeft } = this.model.state;
+  renderThumbLeft(isDouble: boolean, min: number, valueLeft: number, percentageLeft: number): void {
+    this.slider.renderThumbLeft(valueLeft, percentageLeft)
     if (isDouble) {
-      this.thumbLeft.thumbDiv.css({ left: `${percentageLeft}%` });
-      this.range.rangeDiv.css({ left: `${percentageLeft}%` });
-      this.textLeft.textSpan.html(valueLeft.toString());
-      this.thumbLeft.thumbDiv.show();
-      this.inputLeft.input.attr('value', valueLeft);
-      this.textLeft.textSpan.css({ right: `${95 - percentageLeft}%` });
+      this.inputLeft.attr('value', valueLeft);
     } else {
-      this.range.rangeDiv.css({ left: `${0}%` });
-      this.thumbLeft.thumbDiv.hide();
-      this.textLeft.textSpan.hide();
-      this.inputLeft.input.attr('value', min);
+      this.inputLeft.attr('value', min);
+    }
+
+    if (this.synchronizationLeft) {
+      this.synchronizationLeft.val(valueLeft);
     }
   }
 
-  renderThumbRight(): void {
-    const { isVertical } = this.model.settings;
-    const { valueRight, percentageRight } = this.model.state;
-    this.thumbRight.thumbDiv.css({ right: `${100 - percentageRight}%` });
-    this.range.rangeDiv.css({ right: `${100 - percentageRight}%` });
-    this.inputRight.input.attr('value', valueRight);
-    if (isVertical) {
-      this.textRight.textSpan.css({ right: `${97 - percentageRight}%` });
-    } else {
-      this.textRight.textSpan.css({ right: `${101 - percentageRight}%` });
-    }
+  renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void {
+    
+    this.slider.renderThumbRight(isVertical, valueRight, percentageRight)
+    this.inputRight.attr('value', valueRight);
 
-    this.textRight.textSpan.html(valueRight.toString());
+    if (this.synchronizationRight) {
+      this.synchronizationRight.val(valueRight);
+    }
   }
+
 }

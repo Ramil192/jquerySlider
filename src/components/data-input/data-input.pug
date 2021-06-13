@@ -1,0 +1,17 @@
+mixin data-input(options = {})
+  -
+    const {
+      isCheckbox = false,
+      isChecked = false,
+      dataName = '',
+      text='',
+      value = 0,
+      isDisabled=false,
+    } = options;
+
+  div(class=`data-input`)
+    div(class=`data-input__text`)=text
+    if(isCheckbox)
+      input(class=`data-input__input js-data-input__input` type="checkbox", checked=isChecked data-key=dataName disabled=isDisabled)
+    else
+      input(class=`data-input__input js-data-input__input` type="number", value=value data-key=dataName)

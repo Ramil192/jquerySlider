@@ -11,27 +11,44 @@ export default class Controller {
   }
 
   init(): void {
-    const inputLeft = this.view.inputLeft.input;
-    const inputRight: JQuery = this.view.inputRight.input;
-    const scale = this.view.scale.divScale;
+    const { inputLeft,inputRight } = this.view;
+    const { scale } = this.view.scale;
 
     inputLeft.bind('input', () => {
       this.model.changeInputLeft(inputLeft, +inputRight.val()!);
-      this.view.renderThumbLeft();
+      this.view.renderThumbLeft(
+        this.model.settings.isDouble,
+        this.model.settings.min,
+        this.model.state.valueLeft,
+        this.model.state.percentageLeft,
+      );
     });
 
     inputRight.bind('input', () => {
       this.model.changeInputRight(inputRight, +inputLeft.val()!);
-      this.view.renderThumbRight();
+      this.view.renderThumbRight(
+        this.model.settings.isVertical,
+        this.model.state.valueRight,
+        this.model.state.percentageRight,
+      );
     });
 
     scale.bind('click', (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>) => {
       this.model.scaleClick(+e.target.innerHTML, inputLeft, inputRight);
-      this.view.renderThumbLeft();
-      this.view.renderThumbRight();
+      this.view.renderThumbLeft(
+        this.model.settings.isDouble,
+        this.model.settings.min,
+        this.model.state.valueLeft,
+        this.model.state.percentageLeft,
+      );
+      this.view.renderThumbRight(
+        this.model.settings.isVertical,
+        this.model.state.valueRight,
+        this.model.state.percentageRight,
+      );
     });
 
     this.view.init();
-    this.view.render();
+    this.view.render({ ...this.model.settings, ...this.model.state });
   }
 }

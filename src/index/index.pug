@@ -1,43 +1,48 @@
 doctype html
-html(lang="en")
+html
   head
-    meta(charset="UTF-8")
-    meta(http-equiv="X-UA-Compatible", content="IE=edge")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js")  
-    title pluginRange  
+    meta(charset = 'utf-8')
+    meta(name='viewport' content="initial-scale=1.0, width=device-width")
+    title slider
+    link(href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
+    link(rel="apple-touch-icon" sizes="180x180" href="./favicons/apple-touch-icon.png")
+    link(rel="icon" type="image/png" sizes="32x32" href="./favicons/favicon-32x32.png")
+    link(rel="icon" type="image/png" sizes="16x16" href="./favicons/favicon-16x16.png")
+    link(rel="manifest" href="./favicons/site.webmanifest")
+    link(rel="mask-icon" href="./favicons/safari-pinned-tab.svg" color="#5bbad5")
+    meta(name="msapplication-TileColor" content="#da532c")
+    meta(name="theme-color" content="#ffffff")
   body
-    include ../demo-page/slider-panel.pug
-     +panel()
-     +panel({
-      className:'slider-n2',
-      leftList : [
-        {value:100,text:'Min value:',dataName:'min'},
-        {value:500,text:'Max value:',dataName:'max'},
-        {value:1,text:'Step value:',dataName:'step'},
-        {value:100,text:'Left value:',dataName:'valueLeft'},
-        {value:300,text:'Right value:',dataName:'valueRight'},
-      ],
-      rightList : [
-        {isChecked:true,text:'Label:',dataName:'isLabel'},
-        {isChecked:true,text:'Scale:',dataName:'isScale'},
-        {isChecked:true,text:'Double:',dataName:'isDouble'},
-        {isChecked:false,text:'Vertical:',dataName:'isVertical'},
-      ]
-     })
-     +panel({
-      className:'slider-n3',
-      leftList : [
-        {value:0,text:'Min value:',dataName:'min'},
-        {value:100,text:'Max value:',dataName:'max'},
-        {value:1,text:'Step value:',dataName:'step'},
-        {value:25,text:'Left value:',dataName:'valueLeft'},
-        {value:75,text:'Right value:',dataName:'valueRight'},
-      ],
-      rightList : [
-        {isChecked:true,text:'Label:',dataName:'isLabel'},
-        {isChecked:true,text:'Scale:',dataName:'isScale'},
-        {isChecked:true,text:'Double:',dataName:'isDouble'},
-        {isChecked:true,text:'Vertical:',dataName:'isVertical'},
-      ]
-     })
+    div.wraper
+      include ../components/demo-page/demo-page.pug
+      +demo-page()
+      +demo-page({
+        columenNumber : [
+          {value:100,text:'Min value:',dataName:'min'},
+          {value:500,text:'Max value:',dataName:'max'},
+          {value:1,text:'Step value:',dataName:'step'},
+          {value:100,text:'Left value:',dataName:'valueLeft'},
+          {value:300,text:'Right value:',dataName:'valueRight'},
+        ],
+        columenCheckbox : [
+          {isChecked:true,text:'Label:',dataName:'isLabel'},
+          {isChecked:true,text:'Scale:',dataName:'isScale'},
+          {isChecked:true,text:'Double:',dataName:'isDouble'},
+          {isChecked:false,text:'Vertical:',dataName:'isVertical',isDisabled:true},
+        ]
+      })
+      +demo-page({
+        columenNumber : [
+          {value:0,text:'Min value:',dataName:'min'},
+          {value:100,text:'Max value:',dataName:'max'},
+          {value:1,text:'Step value:',dataName:'step'},
+          {value:25,text:'Left value:',dataName:'valueLeft'},
+          {value:75,text:'Right value:',dataName:'valueRight'},
+        ],
+        columenCheckbox : [
+          {isChecked:true,text:'Label:',dataName:'isLabel'},
+          {isChecked:true,text:'Scale:',dataName:'isScale'},
+          {isChecked:true,text:'Double:',dataName:'isDouble'},
+          {isChecked:true,text:'Vertical:',dataName:'isVertical'},
+        ]
+      })
