@@ -1,4 +1,5 @@
 import { IScale } from '../interface';
+
 class Scale implements IScale {
   scale: JQuery;
   constructor() {
@@ -42,6 +43,5 @@ class Scale implements IScale {
       });
     }
   }
-
 }
-export default Scale
+export default Scale;

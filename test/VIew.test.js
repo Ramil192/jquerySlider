@@ -1,10 +1,10 @@
-import View  from'../src/mvc/view/View';
-import Model  from'../src/mvc/model/Model';
+import View from '../src/mvc/view/View';
+import Model from '../src/mvc/model/Model';
 import $ from 'jquery';
 global.$ = global.jQuery = $;
 
 describe('View', () => {
-  const model = new Model({
+  const settings = {
     min: 0,
     max: 100,
     step: 1,
@@ -14,17 +14,15 @@ describe('View', () => {
     isLabel: false,
     isScale: true,
     isDouble: true,
-  })
+  }
+  const model = new Model({ ...settings })
+
+  model.checkSettings();
 
   const element = $('<div class = "test"></div>')
-  const view = new View(element, model);
-  const { isLabel, isScale, isVertical } = model.settings;
+  const view = new View(element);
 
   describe('init() :', () => {
-
-    test('defined', () => {
-      expect(view.init).toBeDefined();
-    })
 
     test('get elements', () => {
       view.init();
@@ -43,63 +41,49 @@ describe('View', () => {
 
   })
 
-  describe('render () :', () => {
-    test('defined', () => {
-      expect(view.render).toBeDefined();
-    })
-    test('start', () => {
-      view.render();
-
-      expect(element.css('position')).toBe('relative');
-      expect(element.css('transform-origin')).toBe('bottom left');
-
-      if (!isLabel) {
-        expect(view.textLeft.textSpan.css('display')).toBe('none');
-        expect(view.textRight.textSpan.css('display')).toBe('none');
-      }
-
-      if (isScale) {
-        expect(view.scale.divScale.find('span').length).toBe(5);
-      }
-
-      if (isVertical) {
-        expect(element.css('transform')).toBe('rotate(-90deg)');
-        expect(view.textLeft.textSpan.css('transform')).toBe('rotate(90deg)');
-        expect(view.scale.divScale.children('span').css('transform')).toBe('rotate(90deg) translate(0px,3px)');
-      }
-      expect(view.renderThumbLeft).toBeDefined();
-      expect(view.renderThumbRight).toBeDefined();
-    })
+  describe('renderVertical() isVertical=true', () => {
+    view.renderVertical(true);
+    expect(view.target.css('transform')).toEqual('rotate(-90deg)');
+    expect(view.target.css('margin')).toEqual('32px 30px 0px');
   })
 
-  describe('renderThumbLeft () :', () => {
+  describe('setSynchronizationLeft() ', () => {
+    const element = $('<input>').attr('type', 'number');
 
-    test('defined', () => {
-      expect(view.renderThumbLeft).toBeDefined();
-    })
+    view.setSynchronizationLeft(element);
+    expect(view.synchronizationLeft).toEqual(element);
 
-    test('start', () => {
+  })
 
-      view.renderThumbLeft();
-      expect(view.textLeft.textSpan.text()).toBe(model.state.valueLeft + '');
-
+  describe('setSynchronizationRight() ', () => {
+    const element = $('<input>').attr('type', 'number');
+    
+    view.setSynchronizationRight(element);
+    expect(view.synchronizationRight).toEqual(element);
+    
+  })
+  
+  describe('renderThumbLeft() ', () => {
+    
+    test('renderThumbLeft() isDouble = false', () => {
       model.settings.isDouble = false;
-
-      view.renderThumbLeft();
-      expect(view.textLeft.textSpan.css('display')).toBe('none');
-      expect(view.thumbLeft.thumbDiv.css('display')).toBe('none');
-
+      const {isDouble,min,valueLeft}=model.settings
+      const {percentageLeft}=model.state
+      view.renderThumbLeft(isDouble,min,valueLeft,percentageLeft);
+      expect(view.inputLeft.attr('value')).toEqual(min+'');
     })
+    
   })
-
-  describe('renderThumbRight() :', () => {
-    test('defined', () => {
-      expect(view.renderThumbRight).toBeDefined();
+  describe('renderThumbRight() ', () => {
+    
+    test('renderThumbRight() isDouble = false', () => {
+      view.synchronizationRight = $('<input>').attr({type: 'number'});
+      const {isVertical,valueRight}=model.settings
+      const {percentageRight}=model.state
+      view.renderThumbRight(isVertical,valueRight,percentageRight);
+      expect(view.synchronizationRight.val()).toEqual(valueRight+'');
     })
 
-    test('start', () => {
-      view.renderThumbRight();
-      expect(view.textRight.textSpan.text()).toBe(model.state.valueRight + '');
-    })
   })
+  
 })

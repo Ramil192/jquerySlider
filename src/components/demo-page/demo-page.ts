@@ -53,10 +53,8 @@ export default class DemoPage {
   }
 
   bindEventListeners() {
-    this.columnNumber.bind('keydown', (e: JQuery.KeyDownEvent<HTMLElement, undefined, HTMLElement, HTMLElement>) => {
-      if (e.keyCode === 13) {
-        this.plugin.data().setSettings({ [(e.target as HTMLInputElement).dataset.key!]: (e.target as HTMLInputElement).value });
-      }
+    this.columnNumber.bind('input', (e: JQuery.TriggeredEvent<HTMLElement, undefined, HTMLElement, HTMLElement>) => {
+      this.plugin.data().setSettings({ [(e.target as HTMLInputElement).dataset.key!]: +(e.target as HTMLInputElement).value });
     });
 
     this.columnCheckbox.bind('input', (e: JQuery.TriggeredEvent<HTMLElement, undefined, HTMLElement, HTMLElement>) => {

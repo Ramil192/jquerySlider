@@ -35,8 +35,8 @@ export interface IModel {
   settings: ISettings
   state: IState
   getPercentage(val: number): number
-  changeInputLeft(target: JQuery, val: number): void
-  changeInputRight(target: JQuery, val: number): void
-  scaleClick(innerHTML: number, inputLeft: JQuery, inputRight: JQuery): void
+  setStateForLeftInput(valueLeft: number): void
+  setStateForRightInput(valueRight: number): void
+  setStateForInput(innerHTML: number): void
   checkSettings(prevLeft?:number, prevRight?:number):void
 }

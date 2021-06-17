@@ -20,7 +20,7 @@ export interface IView {
   slider: ISlider
   synchronizationLeft?: JQuery;
   synchronizationRight?: JQuery;
-  
+
   init(): void
   render(modelDate: any): void
   renderThumbLeft(isDouble: boolean, min: number, valueLeft: number, percentageLeft: number): void
@@ -32,7 +32,7 @@ export interface IView {
 
 export interface IScale {
   scale: JQuery
-  
+
   insulation(): void
   renderScale(min: number, max: number, isScale: boolean): void
   verticalScale(isVertical: boolean): void

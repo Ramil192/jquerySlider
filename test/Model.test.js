@@ -1,71 +1,117 @@
-import  Model from '../src/mvc/model/Model';
+import Model from '../src/mvc/model/Model';
 import $ from 'jquery';
 global.$ = global.jQuery = $;
 
 describe('Model', () => {
-  const model = new Model({
+
+  const settings = {
     min: 0,
     max: 100,
     step: 1,
-    valueLeft: 0,
+    valueLeft: 25,
     valueRight: 75,
     isVertical: false,
     isLabel: true,
     isScale: true,
     isDouble: true,
+  }
+
+  const model = new Model({ ...settings });
+
+  const { min,
+    max,
+    step,
+    valueLeft,
+    valueRight,
+    isVertical,
+    isLabel,
+    isScale,
+    isDouble } = settings;
+
+  const outerState = {
+    valueLeft: valueLeft,
+    valueRight: valueRight,
+    percentageLeft: 25,
+    percentageRight: 75,
+  }
+
+  describe('checkSettings', () => {
+
+    afterEach(() => {
+      model.settings = { ...settings };
+    });
+
+    test('check settings', () => {
+      expect(model.settings).toEqual(settings)
+    });
+
+    test('check state', () => {
+      model.checkSettings();
+      expect(model.state).toEqual(outerState)
+    });
+
+    test('min >= max ', () => {
+      model.settings.min = 101;
+      model.checkSettings();
+      expect(model.settings.min).toEqual(model.settings.max - 1)
+
+      model.settings.min = -5;
+      model.settings.max = -10;
+      model.checkSettings();
+      expect(model.settings.min).toEqual(model.settings.max + 1)
+    });
+
+    test('valueLeft >= valueRight ', () => {
+
+      model.settings.valueLeft = 76;
+      model.checkSettings(75);
+      expect(model.settings.valueRight).toEqual(model.settings.valueLeft)
+
+      model.settings.valueLeft = 76;
+      model.checkSettings(76);
+      expect(model.settings.valueLeft).toEqual(model.settings.valueRight)
+    });
+
+    test('isDouble', () => {
+
+      model.settings.isDouble = false;
+      model.checkSettings();
+      expect(model.settings.valueLeft).toEqual(model.settings.min)
+
+    });
+
   });
 
-  const { min, max, step, valueLeft, valueRight, isVertical, isLabel, isScale, isDouble } = model.settings;
+  describe('setState', () => {
 
-
-  const inputL = $(`<input type="range" id="input-left" min=${min} max=${max} value=${valueLeft} step=${step}>`);
-  const inputR = $(`<input type="range" id="input-left" min=${min} max=${max} value=${valueRight} step=${step}>`);
-
-  describe('constructor', () => {
-    test('check valueLeft', () => {
-      expect(valueLeft).toBeGreaterThanOrEqual(min)
-      expect(valueLeft).toBeLessThanOrEqual(max)
-    });
-    test('check valueRight', () => {
-      expect(valueRight).toBeGreaterThanOrEqual(min)
-      expect(valueRight).toBeLessThanOrEqual(max)
-    });
-  });
-
-  describe('getPercentage :', () => {
-    test('to be defined', () => {
-      expect(model.getPercentage).toBeDefined();
-    });
-    
-    test('get valueLeft', () => {
-      expect(model.getPercentage(valueLeft)).toBeGreaterThanOrEqual(0);
-      expect(model.getPercentage(valueLeft)).toBeLessThanOrEqual(100);
-    });
-    test('get valueRight', () => {
-      expect(model.getPercentage(valueRight)).toBeGreaterThanOrEqual(0);
-      expect(model.getPercentage(valueRight)).toBeLessThanOrEqual(100);
-    });
-    test('getPercentage(value) return value', () => {
-      expect(model.getPercentage(50)).not.toBeUndefined();
-      expect(model.getPercentage(50)).not.toBeNull();
-    });
-    
-  });
-  
-  describe('state change:', () => {
-    test('input left ', () => {
-      model.changeInputLeft(inputL, valueRight);
-      expect(model.state.valueLeft).toBe(+inputL.val());
+    test('setStateForLeftInput', () => {
+      const value = 30
+      model.setStateForLeftInput(value);
+      expect(model.state.valueLeft).toBe(value)
     })
-    test('input right ', () => {
-      model.changeInputRight(inputR, valueLeft);
-      expect(model.state.valueRight).toBe(+inputR.val());
+
+    test('setStateForRightInput', () => {
+      const value = 60
+      model.setStateForRightInput(value);
+      expect(model.state.valueRight).toBe(value)
     })
-  })
-  
-  describe('scaleClick :', () => {
-    expect(model.scaleClick).toBeDefined();
-    // не знаю как получить event как аргумент для функций  scaleClick(event )
+
+    test('setStateForInput', () => {
+      let valueScale = 20
+      model.setStateForInput(valueScale);
+      expect(model.settings.valueLeft).toBe(valueScale)
+
+      valueScale = 80
+      model.setStateForInput(valueScale);
+      expect(model.settings.valueRight).toBe(valueScale);
+    })
+
+    test('setStateForInput isDouble = false', () => {
+      model.settings.isDouble = false
+      const valueScale = 50
+      model.setStateForInput(valueScale);
+      expect(model.settings.valueRight).toBe(valueScale)
+    })
   })
 })
 

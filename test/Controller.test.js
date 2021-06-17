@@ -9,7 +9,7 @@ describe('controller', () => {
     min: 0,
     max: 100,
     step: 1,
-    valueLeft: 0,
+    valueLeft: 25,
     valueRight: 75,
     isVertical: false,
     isLabel: true,
@@ -17,20 +17,36 @@ describe('controller', () => {
     isDouble: true,
   });
 
+  model.checkSettings();
+  
   const element = $('<div class = "test"></div>')
-
-  const view = new View(element, model);
+  const view = new View(element);
+  
   const controller = new Controller(model, view);
 
   describe('init():', () => {
-    test('defined', () => {
-      expect(controller.init).toBeDefined();
-    })
-    test('start', () => {
-      controller.init();
-      expect(view.init).toBeDefined();
-      expect(view.render).toBeDefined();
-    })
-  })
 
+    controller.init();
+
+    test('inputLeft', () => {
+      const input = $.Event('input');
+      view.inputLeft.trigger(input);
+      console.log(view.inputLeft.val());
+      expect(model.settings.valueLeft).toBe(25);
+    })
+    
+    test('inputRight', () => {
+      const input = $.Event('input');
+      view.inputRight.trigger(input);
+      console.log(view.inputRight.val());
+      expect(model.settings.valueRight).toBe(75);
+    })
+    test('scaleClick', () => {
+      const click = $.Event('click');
+      view.scale.scale.trigger(click);
+      expect(model.settings.valueLeft).toBe(25);
+      expect(model.settings.valueRight).toBe(75);
+    })
+
+  })
 })

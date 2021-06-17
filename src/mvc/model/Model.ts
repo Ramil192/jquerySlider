@@ -13,40 +13,45 @@ export default class Model implements IModel {
     };
   }
 
-  checkSettings(prevLeft = 0, prevRight = 0) {
+  checkSettings(prevLeft = 25, prevRight = 75) {
     const {
       min, max, valueLeft, valueRight, isDouble,
     } = this.settings;
 
-    if (valueLeft > max) {
-      this.settings.valueLeft = max;
+    if (min >= max) {
+      if (min >= 0) {
+        this.settings.min = max - 1;
+      } else {
+        this.settings.min = max + 1;
+      }
     }
 
-    if (valueLeft < min) {
-      this.settings.valueLeft = min;
+    if (this.settings.valueLeft >= valueRight) {
+      if (prevLeft !== valueLeft) {
+        this.settings.valueRight = this.settings.valueLeft;
+      } else {
+        this.settings.valueLeft = this.settings.valueRight;
+      }
     }
 
-    if (valueRight > max) {
-      this.settings.valueRight = max;
+    if (this.settings.min > valueLeft) {
+      this.settings.valueLeft = this.settings.min;
     }
 
-    if (valueRight < min) {
-      this.settings.valueRight = min;
+    if (this.settings.min > valueRight) {
+      this.settings.valueRight = this.settings.min;
+    }
+
+    if (this.settings.max < valueLeft) {
+      this.settings.valueLeft = this.settings.max;
+    }
+
+    if (this.settings.max < valueRight) {
+      this.settings.valueRight = this.settings.max;
     }
 
     if (!isDouble) {
-      this.settings.valueLeft = min;
-    }
-    if (min > max) {
-      this.settings.max = +min + 1;
-    }
-
-    if (valueLeft > valueRight) {
-      this.settings.valueLeft = prevLeft;
-    }
-
-    if (valueRight < valueLeft) {
-      this.settings.valueRight = prevRight;
+      this.settings.valueLeft = this.settings.min;
     }
 
     this.state.valueLeft = this.settings.valueLeft;
@@ -60,49 +65,34 @@ export default class Model implements IModel {
     return Math.abs(((val - min) / (max - min)) * 100);
   }
 
-  changeInputLeft(_this: JQuery, inputRightValue: number): void {
-    const { min } = this.settings;
-    if (this.settings.isDouble) {
-      _this.val(Math.min(+_this.val()!, inputRightValue - 1));
+  setStateForLeftInput(valueLeft: number): void {
+    const newValue = Math.min(valueLeft, this.state.valueRight - 1);
 
-      this.state.percentageLeft = this.getPercentage(+_this.val()!);
-      this.state.valueLeft = +_this.val()!;
-      this.settings.valueLeft = +_this.val()!;
-    } else {
-      _this.attr({ min: min - 1 });
-      _this.val(min - 1);
-    }
+    this.state.percentageLeft = this.getPercentage(newValue);
+    this.state.valueLeft = newValue;
+    this.settings.valueLeft = newValue;
   }
 
-  changeInputRight(_this: JQuery, inputLeftValue: number): void {
-    _this.val(Math.max(+_this.val()!, inputLeftValue + 1));
+  setStateForRightInput(valueRight: number): void {
+    const newValue = Math.max(valueRight, this.state.valueLeft + 1);
 
-    this.state.percentageRight = this.getPercentage(+_this.val()!);
-    this.state.valueRight = +_this.val()!;
-    this.settings.valueRight = +_this.val()!;
+    this.state.percentageRight = this.getPercentage(newValue);
+    this.state.valueRight = newValue;
+    this.settings.valueRight = newValue;
   }
 
-  scaleClick(innerHTML: number, inputLeft: JQuery, inputRight: JQuery): void {
-    const newText = innerHTML;
+  setStateForInput(value: number): void {
+    const scaleValue = value;
 
     if (this.settings.isDouble) {
-      if (+inputLeft.val()! > newText) {
-        inputLeft.val(newText);
-        this.changeInputLeft(inputLeft, +inputRight.val()!);
+      if (this.state.valueLeft > scaleValue) {
+        this.setStateForLeftInput(scaleValue);
       }
-      if (+inputRight.val()! < newText) {
-        inputRight.val(newText);
-        this.changeInputRight(inputRight, +inputLeft.val()!);
+      if (this.state.valueRight < scaleValue) {
+        this.setStateForRightInput(scaleValue);
       }
     } else {
-      if (+inputRight.val()! > newText) {
-        inputRight.val(newText);
-        this.changeInputRight(inputRight, +inputLeft.val()!);
-      }
-      if (+inputRight.val()! < newText) {
-        inputRight.val(newText);
-        this.changeInputRight(inputRight, +inputLeft.val()!);
-      }
+      this.setStateForRightInput(scaleValue);
     }
   }
 }

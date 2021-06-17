@@ -1,7 +1,6 @@
 import { ISlider } from '../interface';
 
- class  Slider implements ISlider {
-
+class Slider implements ISlider {
   slider: JQuery;
   track: JQuery;
   range: JQuery;
@@ -23,12 +22,12 @@ import { ISlider } from '../interface';
   }
 
   insulation() {
-    this.slider.append(this.track)
-    this.slider.append(this.range)
-    this.slider.append(this.thumbLeft)
-    this.slider.append(this.thumbRight)
-    this.slider.append(this.textLeft)
-    this.slider.append(this.textRight)
+    this.slider.append(this.track);
+    this.slider.append(this.range);
+    this.slider.append(this.thumbLeft);
+    this.slider.append(this.thumbRight);
+    this.slider.append(this.textLeft);
+    this.slider.append(this.textRight);
   }
 
   renderText(isLabel: boolean, isDouble: boolean): void {
@@ -44,9 +43,8 @@ import { ISlider } from '../interface';
     }
   }
 
-  verticalSlider(isVertical: boolean){
-    if(isVertical){
-
+  verticalSlider(isVertical: boolean) {
+    if (isVertical) {
       this.textLeft.css({
         transform: 'rotate(90deg) translate(-5px, -25px)',
       });
@@ -54,9 +52,7 @@ import { ISlider } from '../interface';
       this.textRight.css({
         transform: 'rotate(90deg) translate(-5px, -25px)',
       });
-    }
-    else{
-
+    } else {
       this.textLeft.css({
         transform: 'rotate(0deg) translate(-23px, 0px)',
       });
@@ -78,11 +74,11 @@ import { ISlider } from '../interface';
     }
   }
 
-  renderThumbLeft( valueLeft: number, percentageLeft: number): void {
+  renderThumbLeft(valueLeft: number, percentageLeft: number): void {
     this.thumbLeft.css({ left: `${percentageLeft}%` });
     this.range.css({ left: `${percentageLeft}%` });
     this.textLeft.css({ right: `${95 - percentageLeft}%` });
-    this.textLeft.html(valueLeft.toString());
+    this.textLeft.html(`${valueLeft}`);
   }
 
   renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void {
@@ -93,8 +89,8 @@ import { ISlider } from '../interface';
     } else {
       this.textRight.css({ right: `${101 - percentageRight}%` });
     }
-    this.textRight.html(valueRight.toString());
+    this.textRight.html(`${valueRight}`);
   }
 }
 
-export default Slider
+export default Slider;

@@ -1,6 +1,8 @@
-import { IView, IRender, IScale, ISlider} from './interface';
-import Scale from './subView/Scale'
-import Slider from './subView/Slider'
+import {
+  IView, IRender, IScale, ISlider,
+} from './interface';
+import Scale from './subView/Scale';
+import Slider from './subView/Slider';
 
 export default class View implements IView {
   target: JQuery;
@@ -61,7 +63,6 @@ export default class View implements IView {
   }
 
   renderVertical(isVertical: boolean): void {
-
     this.slider.verticalSlider(isVertical);
     this.scale.verticalScale(isVertical);
 
@@ -88,7 +89,6 @@ export default class View implements IView {
     this.inputRight.attr('step', step);
   }
 
-
   setSynchronizationLeft(left: JQuery) {
     this.synchronizationLeft = left;
   }
@@ -97,7 +97,8 @@ export default class View implements IView {
   }
 
   renderThumbLeft(isDouble: boolean, min: number, valueLeft: number, percentageLeft: number): void {
-    this.slider.renderThumbLeft(valueLeft, percentageLeft)
+    this.slider.renderThumbLeft(valueLeft, percentageLeft);
+
     if (isDouble) {
       this.inputLeft.attr('value', valueLeft);
     } else {
@@ -110,13 +111,11 @@ export default class View implements IView {
   }
 
   renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void {
-    
-    this.slider.renderThumbRight(isVertical, valueRight, percentageRight)
+    this.slider.renderThumbRight(isVertical, valueRight, percentageRight);
     this.inputRight.attr('value', valueRight);
 
     if (this.synchronizationRight) {
       this.synchronizationRight.val(valueRight);
     }
   }
-
 }

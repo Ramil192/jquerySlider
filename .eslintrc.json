@@ -23,7 +23,8 @@
     "temp.js",
     "tests/**/*.ts",
     "webpack.config.js",
-    "index.js"
+    "index.js",
+    "favicons.js"
   ],
   "rules": {
     "@typescript-eslint/lines-between-class-members": 0,
