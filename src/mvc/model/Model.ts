@@ -1,4 +1,4 @@
-import { ISettings, IState, IModel } from './interfacel';
+import { ISettings, IState, IModel } from './interface';
 
 export default class Model implements IModel {
   settings: ISettings;
@@ -13,7 +13,7 @@ export default class Model implements IModel {
     };
   }
 
-  checkSettings(prevLeft = 25, prevRight = 75) {
+  checkSettings(prevLeft = 25): void {
     const {
       min, max, valueLeft, valueRight, isDouble,
     } = this.settings;

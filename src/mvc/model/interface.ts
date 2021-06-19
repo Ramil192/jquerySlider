@@ -38,5 +38,5 @@ export interface IModel {
   setStateForLeftInput(valueLeft: number): void
   setStateForRightInput(valueRight: number): void
   setStateForInput(innerHTML: number): void
-  checkSettings(prevLeft?:number, prevRight?:number):void
+  checkSettings(prevLeft?:number):void
 }

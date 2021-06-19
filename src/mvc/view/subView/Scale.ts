@@ -7,7 +7,7 @@ class Scale implements IScale {
     this.insulation();
   }
 
-  insulation() {
+  insulation(): void {
     this.scale.append('<span></span>');
     this.scale.append('<span></span>');
     this.scale.append('<span></span>');
@@ -32,7 +32,7 @@ class Scale implements IScale {
     });
   }
 
-  verticalScale(isVertical: boolean) {
+  verticalScale(isVertical: boolean): void {
     if (isVertical) {
       this.scale.children('span').css({
         transform: 'rotate(90deg)',

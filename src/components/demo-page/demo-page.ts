@@ -24,7 +24,7 @@ export default class DemoPage {
     this.render();
   }
 
-  render() {
+  render(): void {
     this.synchronizationLeft();
     this.synchronizationRight();
     this.bindEventListeners();
@@ -33,8 +33,10 @@ export default class DemoPage {
     const settingObj: MyType = {};
 
     this.columnNumber.each((i, e) => {
-      const key = (e as HTMLInputElement).dataset.key!;
-      settingObj[key] = +(e as HTMLInputElement).value;
+      if ((e as HTMLInputElement).dataset.key !== undefined) {
+        const key = (e as HTMLInputElement).dataset.key!;
+        settingObj[key] = +(e as HTMLInputElement).value;
+      }
     });
 
     this.columnCheckbox.each((i, e) => {
@@ -45,14 +47,14 @@ export default class DemoPage {
     return settingObj;
   }
 
-  synchronizationLeft() {
+  synchronizationLeft(): void {
     this.plugin.data().synchronizationLeft(this.valueLeft);
   }
-  synchronizationRight() {
+  synchronizationRight(): void {
     this.plugin.data().synchronizationRight(this.valueRight);
   }
 
-  bindEventListeners() {
+  bindEventListeners(): void {
     this.columnNumber.bind('input', (e: JQuery.TriggeredEvent<HTMLElement, undefined, HTMLElement, HTMLElement>) => {
       this.plugin.data().setSettings({ [(e.target as HTMLInputElement).dataset.key!]: +(e.target as HTMLInputElement).value });
     });
@@ -62,6 +64,7 @@ export default class DemoPage {
     });
   }
 }
-$(($) => {
+
+$(() => {
   document.querySelectorAll('.js-demo-page').forEach((e) => new DemoPage(e));
 });

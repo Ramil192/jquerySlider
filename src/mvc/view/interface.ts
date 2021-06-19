@@ -22,7 +22,7 @@ export interface IView {
   synchronizationRight?: JQuery;
 
   init(): void
-  render(modelDate: any): void
+  render(modelDate: IRender): void
   renderThumbLeft(isDouble: boolean, min: number, valueLeft: number, percentageLeft: number): void
   renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void
   changeAttrInput(min: number, max: number, step: number): void

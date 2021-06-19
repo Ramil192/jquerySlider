@@ -1,7 +1,7 @@
 import View from './view/View';
 import Model from './model/Model';
 import Controller from './controller/Controller';
-import { INewSettings } from './model/interfacel';
+import { INewSettings } from './model/interface';
 
 (function ($) {
   $.fn.pluginRange = function (options) {
@@ -29,9 +29,9 @@ import { INewSettings } from './model/interfacel';
 
     $(this).data().setSettings = function (newSettings:INewSettings):void {
       const prevLeft = model.settings.valueLeft;
-      const prevRight = model.settings.valueRight;
+
       model.settings = { ...model.settings, ...newSettings };
-      model.checkSettings(prevLeft, prevRight);
+      model.checkSettings(prevLeft);
       view.render({ ...model.settings, ...model.state });
     };
 

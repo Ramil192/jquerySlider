@@ -21,7 +21,7 @@ class Slider implements ISlider {
     this.insulation();
   }
 
-  insulation() {
+  insulation(): void {
     this.slider.append(this.track);
     this.slider.append(this.range);
     this.slider.append(this.thumbLeft);
@@ -43,7 +43,7 @@ class Slider implements ISlider {
     }
   }
 
-  verticalSlider(isVertical: boolean) {
+  verticalSlider(isVertical: boolean): void {
     if (isVertical) {
       this.textLeft.css({
         transform: 'rotate(90deg) translate(-5px, -25px)',
@@ -63,7 +63,7 @@ class Slider implements ISlider {
     }
   }
 
-  doubleSlider(isDouble: boolean) {
+  doubleSlider(isDouble: boolean): void {
     if (isDouble) {
       this.thumbLeft.show();
       this.textLeft.show();

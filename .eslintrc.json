@@ -28,6 +28,8 @@
   ],
   "rules": {
     "@typescript-eslint/lines-between-class-members": 0,
+    "@typescript-eslint/no-non-null-assertion":0,
+    "func-names":0,
     "linebreak-style": "off",
     "max-len": 0,
     "no-param-reassign": 0,

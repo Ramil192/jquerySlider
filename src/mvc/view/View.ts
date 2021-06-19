@@ -89,10 +89,10 @@ export default class View implements IView {
     this.inputRight.attr('step', step);
   }
 
-  setSynchronizationLeft(left: JQuery) {
+  setSynchronizationLeft(left: JQuery): void {
     this.synchronizationLeft = left;
   }
-  setSynchronizationRight(right: JQuery) {
+  setSynchronizationRight(right: JQuery): void {
     this.synchronizationRight = right;
   }
 

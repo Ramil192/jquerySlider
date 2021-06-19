@@ -1,5 +1,5 @@
 import { IView } from '../view/interface';
-import { IModel } from '../model/interfacel';
+import { IModel } from '../model/interface';
 
 export interface IController {
   view: IView
