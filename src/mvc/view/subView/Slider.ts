@@ -84,11 +84,13 @@ class Slider implements ISlider {
   renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void {
     this.thumbRight.css({ right: `${100 - percentageRight}%` });
     this.range.css({ right: `${100 - percentageRight}%` });
+
     if (isVertical) {
       this.textRight.css({ right: `${97 - percentageRight}%` });
     } else {
       this.textRight.css({ right: `${101 - percentageRight}%` });
     }
+
     this.textRight.html(`${valueRight}`);
   }
 }

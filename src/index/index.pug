@@ -13,18 +13,18 @@ html
     meta(name="msapplication-TileColor" content="#da532c")
     meta(name="theme-color" content="#ffffff")
   body
-    div.wraper
+    div.wrapper
       include ../components/demo-page/demo-page.pug
       +demo-page()
       +demo-page({
-        columenNumber : [
+        columnNumber : [
           {value:-10,text:'Min value:',dataName:'min'},
           {value:10,text:'Max value:',dataName:'max'},
           {value:1,text:'Step value:',dataName:'step'},
           {value:0,text:'Left value:',dataName:'valueLeft'},
           {value:10,text:'Right value:',dataName:'valueRight'},
         ],
-        columenCheckbox : [
+        columnCheckbox : [
           {isChecked:true,text:'Label:',dataName:'isLabel'},
           {isChecked:true,text:'Scale:',dataName:'isScale'},
           {isChecked:true,text:'Double:',dataName:'isDouble'},
@@ -32,14 +32,14 @@ html
         ]
       })
       +demo-page({
-        columenNumber : [
+        columnNumber : [
           {value:0,text:'Min value:',dataName:'min'},
           {value:100,text:'Max value:',dataName:'max'},
           {value:1,text:'Step value:',dataName:'step'},
           {value:25,text:'Left value:',dataName:'valueLeft'},
           {value:75,text:'Right value:',dataName:'valueRight'},
         ],
-        columenCheckbox : [
+        columnCheckbox : [
           {isChecked:true,text:'Label:',dataName:'isLabel'},
           {isChecked:true,text:'Scale:',dataName:'isScale'},
           {isChecked:true,text:'Double:',dataName:'isDouble'},

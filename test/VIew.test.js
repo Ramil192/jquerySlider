@@ -26,6 +26,7 @@ describe('View', () => {
 
     test('get elements', () => {
       view.init();
+
       expect(element.find('.multi-range-slider')).toHaveLength(1);
       expect(element.find('#input-left')).toHaveLength(1);
       expect(element.find('#input-right')).toHaveLength(1);
@@ -43,6 +44,7 @@ describe('View', () => {
 
   describe('renderVertical() isVertical=true', () => {
     view.renderVertical(true);
+
     expect(view.target.css('transform')).toEqual('rotate(-90deg)');
     expect(view.target.css('margin')).toEqual('32px 30px 0px');
   })
@@ -67,8 +69,10 @@ describe('View', () => {
     
     test('renderThumbLeft() isDouble = false', () => {
       model.settings.isDouble = false;
+
       const {isDouble,min,valueLeft}=model.settings
       const {percentageLeft}=model.state
+
       view.renderThumbLeft(isDouble,min,valueLeft,percentageLeft);
       expect(view.inputLeft.attr('value')).toEqual(min+'');
     })
@@ -78,8 +82,10 @@ describe('View', () => {
     
     test('renderThumbRight() isDouble = false', () => {
       view.synchronizationRight = $('<input>').attr({type: 'number'});
+
       const {isVertical,valueRight}=model.settings
       const {percentageRight}=model.state
+      
       view.renderThumbRight(isVertical,valueRight,percentageRight);
       expect(view.synchronizationRight.val()).toEqual(valueRight+'');
     })

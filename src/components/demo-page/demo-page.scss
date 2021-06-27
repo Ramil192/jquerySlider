@@ -4,9 +4,11 @@
   max-width: 320px;
   margin: 100px auto;
   background-color: aqua;
+
   &:nth-child(2){
     margin-bottom: 300px;
   }
+
   &__items {
     display: flex;
     justify-content: space-between;
@@ -15,4 +17,5 @@
   &__item {
     flex: 0 1 50%;
   }
+  
 }

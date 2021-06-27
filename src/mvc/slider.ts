@@ -38,6 +38,7 @@ import { INewSettings } from './model/interface';
     $(this).data().synchronizationLeft = function (inputLeft:JQuery):void {
       view.setSynchronizationLeft(inputLeft);
     };
+
     $(this).data().synchronizationRight = function (inputRight:JQuery):void {
       view.setSynchronizationRight(inputRight);
     };

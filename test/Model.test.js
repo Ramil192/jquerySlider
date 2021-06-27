@@ -18,15 +18,10 @@ describe('Model', () => {
 
   const model = new Model({ ...settings });
 
-  const { min,
-    max,
-    step,
+  const {
     valueLeft,
     valueRight,
-    isVertical,
-    isLabel,
-    isScale,
-    isDouble } = settings;
+  } = settings;
 
   const outerState = {
     valueLeft: valueLeft,
@@ -62,7 +57,6 @@ describe('Model', () => {
     });
 
     test('valueLeft >= valueRight ', () => {
-
       model.settings.valueLeft = 76;
       model.checkSettings(75);
       expect(model.settings.valueRight).toEqual(model.settings.valueLeft)
@@ -73,8 +67,8 @@ describe('Model', () => {
     });
 
     test('isDouble', () => {
-
       model.settings.isDouble = false;
+
       model.checkSettings();
       expect(model.settings.valueLeft).toEqual(model.settings.min)
 
@@ -83,15 +77,16 @@ describe('Model', () => {
   });
 
   describe('setState', () => {
-
     test('setStateForLeftInput', () => {
       const value = 30
+
       model.setStateForLeftInput(value);
       expect(model.state.valueLeft).toBe(value)
     })
 
     test('setStateForRightInput', () => {
       const value = 60
+
       model.setStateForRightInput(value);
       expect(model.state.valueRight).toBe(value)
     })
@@ -109,9 +104,11 @@ describe('Model', () => {
     test('setStateForInput isDouble = false', () => {
       model.settings.isDouble = false
       const valueScale = 50
+
       model.setStateForInput(valueScale);
       expect(model.settings.valueRight).toBe(valueScale)
     })
+
   })
 })
 

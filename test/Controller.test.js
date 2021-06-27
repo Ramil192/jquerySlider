@@ -41,6 +41,7 @@ describe('controller', () => {
       console.log(view.inputRight.val());
       expect(model.settings.valueRight).toBe(75);
     })
+    
     test('scaleClick', () => {
       const click = $.Event('click');
       view.scale.scale.trigger(click);

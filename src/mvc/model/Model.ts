@@ -3,6 +3,7 @@ import { ISettings, IState, IModel } from './interface';
 export default class Model implements IModel {
   settings: ISettings;
   state: IState;
+
   constructor(settings: ISettings) {
     this.settings = settings;
     this.state = {

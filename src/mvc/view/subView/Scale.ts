@@ -2,6 +2,7 @@ import { IScale } from '../interface';
 
 class Scale implements IScale {
   scale: JQuery;
+
   constructor() {
     this.scale = $('<div class="scale"></div>');
     this.insulation();
@@ -17,6 +18,7 @@ class Scale implements IScale {
 
   renderScale(min: number, max: number, isScale: boolean): void {
     const scaleNumber = Math.abs((min - max) / 4);
+
     this.scale.children('span').each((index, e) => {
       if (isScale) {
         if (index === 0) {
@@ -44,4 +46,5 @@ class Scale implements IScale {
     }
   }
 }
+
 export default Scale;
