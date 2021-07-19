@@ -68,6 +68,4 @@ class DemoPage {
 
 export default DemoPage;
 
-$(() => {
-  document.querySelectorAll('.js-demo-page').forEach((e) => new DemoPage(e));
-});
+

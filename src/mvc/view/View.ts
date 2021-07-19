@@ -89,7 +89,6 @@ export default class View implements IView {
     this.inputRight.attr('max', max);
     this.inputRight.attr('step', step);
     this.inputRight.val(valueRight);
-    console.log(this.inputLeft.attr('min', min));
   }
 
   setSynchronizationLeft(left: JQuery): void {
