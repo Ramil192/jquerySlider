@@ -3,15 +3,25 @@
   flex-direction: column;
   max-width: 320px;
   margin: 100px auto;
-  background-color: aqua;
-
+  border: 1px solid black;
+  
   &:nth-child(2){
     margin-bottom: 300px;
+  }
+  
+  &__head {
+    height: 320px;
+    position: relative;
+  }
+  &__plugin {
+    position: absolute;
+    bottom: 0;
   }
 
   &__items {
     display: flex;
     justify-content: space-between;
+    background-color: aqua;
   }
 
   &__item {

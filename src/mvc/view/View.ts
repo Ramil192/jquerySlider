@@ -69,7 +69,7 @@ export default class View implements IView {
     if (isVertical) {
       this.target.css({
         transform: 'rotate(-90deg)',
-        margin: '32px 30px 0px',
+        margin: '32px 52px 0px',
       });
     } else {
       this.target.css({

@@ -11,20 +11,22 @@ mixin demo-page(options = {})
         {value:-175,text:'Right value:',dataName:'valueRight'},
       ],
       columnCheckbox = [
-        {isChecked:true,text:'Label:',dataName:'isLabel',isDisabled:false},
-        {isChecked:true,text:'Scale:',dataName:'isScale',isDisabled:false},
-        {isChecked:true,text:'Double:',dataName:'isDouble',isDisabled:false},
-        {isChecked:false,text:'Vertical:',dataName:'isVertical',isDisabled:true},
+        {isChecked:true,text:'Label:',dataName:'isLabel'},
+        {isChecked:true,text:'Scale:',dataName:'isScale'},
+        {isChecked:true,text:'Double:',dataName:'isDouble'},
+        {isChecked:false,text:'Vertical:',dataName:'isVertical'},
       ]
     } = options;
 
 
   section.demo-page.js-demo-page 
-    div(class='demo-page__plugin js-demo-page__plugin')
+    div(class="demo-page__head")
+      div(class='demo-page__plugin js-demo-page__plugin')
+
     div(class='demo-page__items')
       div(class='demo-page__item')
         -for(let {value,text,dataName} of columnNumber)
           +data-input({dataName,value,text})
       div(class='demo-page__item')
-        -for(let {isChecked,text,dataName,isDisabled} of columnCheckbox)
-          +data-input({dataName,text,isChecked,isCheckbox:true,isDisabled})
+        -for(let {isChecked,text,dataName,} of columnCheckbox)
+          +data-input({dataName,text,isChecked,isCheckbox:true,})
