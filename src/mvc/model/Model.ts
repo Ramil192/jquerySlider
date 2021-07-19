@@ -84,14 +84,17 @@ export default class Model implements IModel {
 
   setStateForInput(value: number): void {
     const scaleValue = value;
-
+    const isRightLess = this.state.valueRight < scaleValue;
+    const isRightNearer = Math.abs(scaleValue-this.state.valueRight) < Math.abs(scaleValue-this.state.valueLeft);
+    const isNewRightValue = isRightLess || isRightNearer;
+    
     if (this.settings.isDouble) {
-      if (this.state.valueLeft > scaleValue) {
+      if (isNewRightValue) {
+        this.setStateForRightInput(scaleValue);
+      } else {
         this.setStateForLeftInput(scaleValue);
       }
-      if (this.state.valueRight < scaleValue) {
-        this.setStateForRightInput(scaleValue);
-      }
+
     } else {
       this.setStateForRightInput(scaleValue);
     }

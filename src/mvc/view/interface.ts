@@ -25,7 +25,7 @@ export interface IView {
   render(modelDate: IRender): void
   renderThumbLeft(isDouble: boolean, min: number, valueLeft: number, percentageLeft: number): void
   renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void
-  changeAttrInput(min: number, max: number, step: number): void
+  changeAttrInput(min: number, max: number, step: number,valueLeft: number,valueRight: number): void
   setSynchronizationLeft(left: JQuery):void
   setSynchronizationRight(right: JQuery):void
 }

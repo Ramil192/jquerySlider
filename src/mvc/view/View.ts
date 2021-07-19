@@ -51,7 +51,7 @@ export default class View implements IView {
     } = modelDate;
 
     this.renderVertical(isVertical);
-    this.changeAttrInput(min, max, step);
+    this.changeAttrInput(min, max, step,valueLeft,valueRight);
 
     this.scale.renderScale(min, max, isScale);
 
@@ -79,14 +79,17 @@ export default class View implements IView {
     }
   }
 
-  changeAttrInput(min: number, max: number, step: number): void {
+  changeAttrInput(min: number, max: number, step: number,valueLeft: number,valueRight: number): void {
     this.inputLeft.attr('min', min);
     this.inputLeft.attr('max', max);
     this.inputLeft.attr('step', step);
-
+    this.inputLeft.val(valueLeft);
+    
     this.inputRight.attr('min', min);
     this.inputRight.attr('max', max);
     this.inputRight.attr('step', step);
+    this.inputRight.val(valueRight);
+    console.log(this.inputLeft.attr('min', min));
   }
 
   setSynchronizationLeft(left: JQuery): void {

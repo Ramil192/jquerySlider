@@ -1,7 +1,7 @@
 import { MyType, INewSettings } from './interface';
 import 'jquery';
 
-export default class DemoPage {
+class DemoPage {
   outerContainerElement: JQuery;
   leftValue: string[];
   rightValue: boolean[];
@@ -64,6 +64,9 @@ export default class DemoPage {
     });
   }
 }
+
+
+export default DemoPage;
 
 $(() => {
   document.querySelectorAll('.js-demo-page').forEach((e) => new DemoPage(e));
