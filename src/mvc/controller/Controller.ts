@@ -2,15 +2,15 @@ import { IView } from '../view/interface';
 import { IModel } from '../model/interface';
 
 export default class Controller {
-  view: IView;
-  model: IModel;
+  private view: IView;
+  private model: IModel;
 
   constructor(model: IModel, view: IView) {
     this.model = model;
     this.view = view;
   }
 
-  init(): void {
+  public init(): void {
     const { inputLeft, inputRight } = this.view;
     const { scale } = this.view.scale;
 

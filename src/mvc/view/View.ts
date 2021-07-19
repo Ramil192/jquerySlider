@@ -5,29 +5,28 @@ import Scale from './subView/Scale';
 import Slider from './subView/Slider';
 
 export default class View implements IView {
-  target: JQuery;
-  inputLeft: JQuery;
-  inputRight: JQuery;
-  scale: IScale;
-  slider: ISlider;
-  synchronizationLeft?: JQuery;
-  synchronizationRight?: JQuery;
+  public target: JQuery;
+  public inputLeft: JQuery;
+  public inputRight: JQuery;
+  public scale: IScale;
+  public slider: ISlider;
+  public synchronizationLeft?: JQuery;
+  public synchronizationRight?: JQuery;
 
   constructor(target: JQuery) {
     this.target = target;
     this.inputLeft = $('<input type="range" id="input-left">');
     this.inputRight = $('<input type="range" id="input-right">');
-    this.scale = new Scale();
+    this.scale = new Scale(); 
     this.slider = new Slider();
   }
 
-  init(): void {
+  public init(): void {
     this.target.append('<div class="multi-range-slider"></div>');
     this.target.find('.multi-range-slider').append(this.inputLeft);
     this.target.find('.multi-range-slider').append(this.inputRight);
     this.target.find('.multi-range-slider').append(this.slider.slider);
     this.slider.slider.append(this.scale.scale);
-
     this.target.css({
       transformOrigin: 'bottom left',
       margin: '32px 0px',
@@ -35,7 +34,7 @@ export default class View implements IView {
     });
   }
 
-  render(modelDate: IRender): void {
+  public render(modelDate: IRender): void {
     const {
       isVertical,
       min,
@@ -62,7 +61,7 @@ export default class View implements IView {
     this.renderThumbRight(isVertical, valueRight, percentageRight);
   }
 
-  renderVertical(isVertical: boolean): void {
+  public renderVertical(isVertical: boolean): void {
     this.slider.verticalSlider(isVertical);
     this.scale.verticalScale(isVertical);
 
@@ -79,7 +78,7 @@ export default class View implements IView {
     }
   }
 
-  changeAttrInput(min: number, max: number, step: number,valueLeft: number,valueRight: number): void {
+  private changeAttrInput(min: number, max: number, step: number,valueLeft: number,valueRight: number): void {
     this.inputLeft.attr('min', min);
     this.inputLeft.attr('max', max);
     this.inputLeft.attr('step', step);
@@ -91,14 +90,15 @@ export default class View implements IView {
     this.inputRight.val(valueRight);
   }
 
-  setSynchronizationLeft(left: JQuery): void {
+  public setSynchronizationLeft(left: JQuery): void {
     this.synchronizationLeft = left;
   }
-  setSynchronizationRight(right: JQuery): void {
+
+  public setSynchronizationRight(right: JQuery): void {
     this.synchronizationRight = right;
   }
 
-  renderThumbLeft(isDouble: boolean, min: number, valueLeft: number, percentageLeft: number): void {
+  public renderThumbLeft(isDouble: boolean, min: number, valueLeft: number, percentageLeft: number): void {
     this.slider.renderThumbLeft(valueLeft, percentageLeft);
 
     if (isDouble) {
@@ -112,7 +112,7 @@ export default class View implements IView {
     }
   }
 
-  renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void {
+  public renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void {
     this.slider.renderThumbRight(isVertical, valueRight, percentageRight);
     this.inputRight.attr('value', valueRight);
 

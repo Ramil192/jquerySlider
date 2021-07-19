@@ -1,13 +1,13 @@
 import { ISlider } from '../interface';
 
-class Slider implements ISlider {
-  slider: JQuery;
-  track: JQuery;
-  range: JQuery;
-  thumbLeft: JQuery;
-  thumbRight: JQuery;
-  textLeft: JQuery;
-  textRight: JQuery;
+class Slider implements ISlider{
+  public slider: JQuery;
+  public track: JQuery;
+  public range: JQuery;
+  public thumbLeft: JQuery;
+  public thumbRight: JQuery;
+  public textLeft: JQuery;
+  public textRight: JQuery;
 
   constructor() {
     this.slider = $('<div class="slider"></div>');
@@ -21,7 +21,7 @@ class Slider implements ISlider {
     this.insulation();
   }
 
-  insulation(): void {
+  private insulation(): void {
     this.slider.append(this.track);
     this.slider.append(this.range);
     this.slider.append(this.thumbLeft);
@@ -30,7 +30,7 @@ class Slider implements ISlider {
     this.slider.append(this.textRight);
   }
 
-  renderText(isLabel: boolean, isDouble: boolean): void {
+  public renderText(isLabel: boolean, isDouble: boolean): void {
     if (isLabel) {
       this.textRight.show();
     } else {
@@ -43,7 +43,7 @@ class Slider implements ISlider {
     }
   }
 
-  verticalSlider(isVertical: boolean): void {
+  public verticalSlider(isVertical: boolean): void {
     if (isVertical) {
       this.textLeft.css({
         transform: 'rotate(90deg) translate(-5px, -25px)',
@@ -63,7 +63,7 @@ class Slider implements ISlider {
     }
   }
 
-  doubleSlider(isDouble: boolean): void {
+  public doubleSlider(isDouble: boolean): void {
     if (isDouble) {
       this.thumbLeft.show();
       this.textLeft.show();
@@ -74,14 +74,14 @@ class Slider implements ISlider {
     }
   }
 
-  renderThumbLeft(valueLeft: number, percentageLeft: number): void {
+  public renderThumbLeft(valueLeft: number, percentageLeft: number): void {
     this.thumbLeft.css({ left: `${percentageLeft}%` });
     this.range.css({ left: `${percentageLeft}%` });
     this.textLeft.css({ right: `${95 - percentageLeft}%` });
     this.textLeft.html(`${valueLeft}`);
   }
 
-  renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void {
+  public renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void {
     this.thumbRight.css({ right: `${100 - percentageRight}%` });
     this.range.css({ right: `${100 - percentageRight}%` });
 

@@ -1,14 +1,14 @@
 import { IScale } from '../interface';
 
 class Scale implements IScale {
-  scale: JQuery;
+  public scale: JQuery;
 
   constructor() {
     this.scale = $('<div class="scale"></div>');
     this.insulation();
   }
 
-  insulation(): void {
+  private insulation(): void {
     this.scale.append('<span></span>');
     this.scale.append('<span></span>');
     this.scale.append('<span></span>');
@@ -16,7 +16,7 @@ class Scale implements IScale {
     this.scale.append('<span></span>');
   }
 
-  renderScale(min: number, max: number, isScale: boolean): void {
+  public renderScale(min: number, max: number, isScale: boolean): void {
     const scaleNumber = Math.abs((min - max) / 4);
 
     this.scale.children('span').each((index, e) => {
@@ -34,7 +34,7 @@ class Scale implements IScale {
     });
   }
 
-  verticalScale(isVertical: boolean): void {
+  public verticalScale(isVertical: boolean): void {
     if (isVertical) {
       this.scale.children('span').css({
         transform: 'rotate(90deg)',

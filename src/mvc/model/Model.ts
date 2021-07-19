@@ -1,8 +1,8 @@
 import { ISettings, IState, IModel } from './interface';
 
 export default class Model implements IModel {
-  settings: ISettings;
-  state: IState;
+  public settings: ISettings;
+  public state: IState;
 
   constructor(settings: ISettings) {
     this.settings = settings;
@@ -14,7 +14,7 @@ export default class Model implements IModel {
     };
   }
 
-  checkSettings(prevLeft = 25): void {
+  public checkSettings(prevLeft = 25): void {
     const {
       min, max, valueLeft, valueRight, isDouble,
     } = this.settings;
@@ -61,12 +61,12 @@ export default class Model implements IModel {
     this.state.percentageRight = this.getPercentage(this.settings.valueRight);
   }
 
-  getPercentage(val: number): number {
+  private getPercentage(val: number): number {
     const { min, max } = this.settings;
     return Math.abs(((val - min) / (max - min)) * 100);
   }
 
-  setStateForLeftInput(valueLeft: number): void {
+  public setStateForLeftInput(valueLeft: number): void {
     const newValue = Math.min(valueLeft, this.state.valueRight - 1);
 
     this.state.percentageLeft = this.getPercentage(newValue);
@@ -74,7 +74,7 @@ export default class Model implements IModel {
     this.settings.valueLeft = newValue;
   }
 
-  setStateForRightInput(valueRight: number): void {
+  public setStateForRightInput(valueRight: number): void {
     const newValue = Math.max(valueRight, this.state.valueLeft + 1);
 
     this.state.percentageRight = this.getPercentage(newValue);
@@ -82,7 +82,7 @@ export default class Model implements IModel {
     this.settings.valueRight = newValue;
   }
 
-  setStateForInput(value: number): void {
+  public setStateForInput(value: number): void {
     const scaleValue = value;
     const isRightLess = this.state.valueRight < scaleValue;
     const isRightNearer = Math.abs(scaleValue-this.state.valueRight) < Math.abs(scaleValue-this.state.valueLeft);

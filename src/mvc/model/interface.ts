@@ -34,7 +34,7 @@ export interface IState {
 export interface IModel {
   settings: ISettings
   state: IState
-  getPercentage(val: number): number
+
   setStateForLeftInput(valueLeft: number): void
   setStateForRightInput(valueRight: number): void
   setStateForInput(innerHTML: number): void

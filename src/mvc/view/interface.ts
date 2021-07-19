@@ -25,7 +25,6 @@ export interface IView {
   render(modelDate: IRender): void
   renderThumbLeft(isDouble: boolean, min: number, valueLeft: number, percentageLeft: number): void
   renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void
-  changeAttrInput(min: number, max: number, step: number,valueLeft: number,valueRight: number): void
   setSynchronizationLeft(left: JQuery):void
   setSynchronizationRight(right: JQuery):void
 }
@@ -33,7 +32,6 @@ export interface IView {
 export interface IScale {
   scale: JQuery
 
-  insulation(): void
   renderScale(min: number, max: number, isScale: boolean): void
   verticalScale(isVertical: boolean): void
 }
@@ -47,7 +45,6 @@ export interface ISlider {
   textLeft: JQuery;
   textRight: JQuery;
 
-  insulation(): void
   renderText(isLabel: boolean, isDouble: boolean): void
   doubleSlider(isDouble: boolean):void
   renderThumbLeft(valueLeft: number, percentageLeft: number): void
