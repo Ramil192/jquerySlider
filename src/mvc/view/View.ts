@@ -15,8 +15,8 @@ export default class View implements IView {
 
   constructor(target: JQuery) {
     this.target = target;
-    this.inputLeft = $('<input class="range-slider__input-left" type="range" id="input-left">');
-    this.inputRight = $('<input class="range-slider__input-right" type="range" id="input-right">');
+    this.inputLeft = $('<input class="range-slider__input-left" type="range">');
+    this.inputRight = $('<input class="range-slider__input-right" type="range">');
     this.scale = new Scale();
     this.slider = new Slider();
   }

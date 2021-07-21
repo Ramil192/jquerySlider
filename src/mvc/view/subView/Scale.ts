@@ -8,22 +8,22 @@ class Scale implements IScale {
     this.insulation();
   }
 
-  public renderScale(min: number, max: number, isScale: boolean): void {
+  public renderScale(min: number, max: number, isScaleShow: boolean): void {
     const scaleNumber = Math.abs((min - max) / 4);
 
     this.scale.children('span').each((index, e) => {
-      if (isScale) {
-        if (index === 0) {
-          e.innerHTML = (min).toString();
-        } else if (index === 4) {
-          e.innerHTML = (max).toString();
-        } else {
-          e.innerHTML = (+min + scaleNumber * index).toString();
-        }
+      if (isScaleShow) {
+        e.innerHTML = (min + scaleNumber * index).toString();
       } else {
         e.innerHTML = '';
       }
     });
+
+    const lastElement = this.scale.children('span').length - 1;
+    const firstElement = 0;
+    
+    this.scale.children('span')[firstElement].innerHTML = (min).toString();
+    this.scale.children('span')[lastElement].innerHTML = (max).toString();
   }
 
   public verticalScale(isVertical: boolean): void {

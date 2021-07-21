@@ -50,8 +50,8 @@
   transform: translate(15px, -12px);
 }
 
-#input-left,
-#input-right {
+.range-slider__input-left,
+.range-slider__input-right {
   position: absolute;
   pointer-events: none;
   z-index: 2;
