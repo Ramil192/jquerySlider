@@ -8,14 +8,6 @@ class Scale implements IScale {
     this.insulation();
   }
 
-  private insulation(): void {
-    this.scale.append('<span></span>');
-    this.scale.append('<span></span>');
-    this.scale.append('<span></span>');
-    this.scale.append('<span></span>');
-    this.scale.append('<span></span>');
-  }
-
   public renderScale(min: number, max: number, isScale: boolean): void {
     const scaleNumber = Math.abs((min - max) / 4);
 
@@ -44,6 +36,14 @@ class Scale implements IScale {
         transform: 'rotate(0deg)',
       });
     }
+  }
+
+  private insulation(): void {
+    this.scale.append('<span></span>');
+    this.scale.append('<span></span>');
+    this.scale.append('<span></span>');
+    this.scale.append('<span></span>');
+    this.scale.append('<span></span>');
   }
 }
 

@@ -61,11 +61,6 @@ export default class Model implements IModel {
     this.state.percentageRight = this.getPercentage(this.settings.valueRight);
   }
 
-  private getPercentage(val: number): number {
-    const { min, max } = this.settings;
-    return Math.abs(((val - min) / (max - min)) * 100);
-  }
-
   public setStateForLeftInput(valueLeft: number): void {
     const newValue = Math.min(valueLeft, this.state.valueRight - 1);
 
@@ -98,5 +93,10 @@ export default class Model implements IModel {
     } else {
       this.setStateForRightInput(scaleValue);
     }
+  }
+
+  private getPercentage(val: number): number {
+    const { min, max } = this.settings;
+    return Math.abs(((val - min) / (max - min)) * 100);
   }
 }

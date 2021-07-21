@@ -21,15 +21,6 @@ class Slider implements ISlider{
     this.insulation();
   }
 
-  private insulation(): void {
-    this.slider.append(this.track);
-    this.slider.append(this.range);
-    this.slider.append(this.thumbLeft);
-    this.slider.append(this.thumbRight);
-    this.slider.append(this.textLeft);
-    this.slider.append(this.textRight);
-  }
-
   public renderText(isLabel: boolean, isDouble: boolean): void {
     if (isLabel) {
       this.textRight.show();
@@ -93,6 +84,16 @@ class Slider implements ISlider{
 
     this.textRight.html(`${valueRight}`);
   }
+
+  private insulation(): void {
+    this.slider.append(this.track);
+    this.slider.append(this.range);
+    this.slider.append(this.thumbLeft);
+    this.slider.append(this.thumbRight);
+    this.slider.append(this.textLeft);
+    this.slider.append(this.textRight);
+  }
+
 }
 
 export default Slider;

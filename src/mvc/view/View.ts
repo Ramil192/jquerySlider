@@ -78,18 +78,6 @@ export default class View implements IView {
     }
   }
 
-  private changeAttrInput(min: number, max: number, step: number,valueLeft: number,valueRight: number): void {
-    this.inputLeft.attr('min', min);
-    this.inputLeft.attr('max', max);
-    this.inputLeft.attr('step', step);
-    this.inputLeft.val(valueLeft);
-    
-    this.inputRight.attr('min', min);
-    this.inputRight.attr('max', max);
-    this.inputRight.attr('step', step);
-    this.inputRight.val(valueRight);
-  }
-
   public setSynchronizationLeft(left: JQuery): void {
     this.synchronizationLeft = left;
   }
@@ -119,5 +107,17 @@ export default class View implements IView {
     if (this.synchronizationRight) {
       this.synchronizationRight.val(valueRight);
     }
+  }
+
+  private changeAttrInput(min: number, max: number, step: number,valueLeft: number,valueRight: number): void {
+    this.inputLeft.attr('min', min);
+    this.inputLeft.attr('max', max);
+    this.inputLeft.attr('step', step);
+    this.inputLeft.val(valueLeft);
+    
+    this.inputRight.attr('min', min);
+    this.inputRight.attr('max', max);
+    this.inputRight.attr('step', step);
+    this.inputRight.val(valueRight);
   }
 }
