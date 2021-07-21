@@ -29,6 +29,7 @@ export interface IState {
   valueRight: number
   percentageLeft: number
   percentageRight: number
+  newMax:number
 }
 
 export interface IModel {

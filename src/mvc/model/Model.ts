@@ -11,6 +11,7 @@ export default class Model implements IModel {
       valueRight: 0,
       percentageLeft: 0,
       percentageRight: 0,
+      newMax: 0,
     };
   }
 
@@ -18,6 +19,8 @@ export default class Model implements IModel {
     const {
       min, max, valueLeft, valueRight, isDouble,
     } = this.settings;
+
+    this.checkStep();
 
     if (min >= max) {
       if (min >= 0) {
@@ -43,22 +46,34 @@ export default class Model implements IModel {
       this.settings.valueRight = this.settings.min;
     }
 
-    if (this.settings.max < valueLeft) {
-      this.settings.valueLeft = this.settings.max;
+    if (this.state.newMax < valueLeft) {
+      this.settings.valueLeft = this.state.newMax;
     }
 
-    if (this.settings.max < valueRight) {
-      this.settings.valueRight = this.settings.max;
+    if (this.state.newMax < valueRight) {
+      this.settings.valueRight = this.state.newMax;
     }
 
     if (!isDouble) {
       this.settings.valueLeft = this.settings.min;
     }
 
+
+
     this.state.valueLeft = this.settings.valueLeft;
     this.state.valueRight = this.settings.valueRight;
     this.state.percentageLeft = this.getPercentage(this.settings.valueLeft);
     this.state.percentageRight = this.getPercentage(this.settings.valueRight);
+  
+    console.log(this.settings);
+  }
+
+  private checkStep() {
+    this.state.newMax = this.settings.max;
+    for (; (this.state.newMax % this.settings.step);) {
+      this.state.newMax += 1;
+    }
+
   }
 
   public setStateForLeftInput(valueLeft: number): void {
@@ -75,14 +90,15 @@ export default class Model implements IModel {
     this.state.percentageRight = this.getPercentage(newValue);
     this.state.valueRight = newValue;
     this.settings.valueRight = newValue;
+
   }
 
   public setStateForInput(value: number): void {
     const scaleValue = value;
     const isRightLess = this.state.valueRight < scaleValue;
-    const isRightNearer = Math.abs(scaleValue-this.state.valueRight) < Math.abs(scaleValue-this.state.valueLeft);
+    const isRightNearer = Math.abs(scaleValue - this.state.valueRight) < Math.abs(scaleValue - this.state.valueLeft);
     const isNewRightValue = isRightLess || isRightNearer;
-    
+
     if (this.settings.isDouble) {
       if (isNewRightValue) {
         this.setStateForRightInput(scaleValue);
@@ -96,7 +112,8 @@ export default class Model implements IModel {
   }
 
   private getPercentage(val: number): number {
-    const { min, max } = this.settings;
-    return Math.abs(((val - min) / (max - min)) * 100);
+    const { min} = this.settings;
+    const { newMax} = this.state;
+    return Math.abs(((val - min) / (newMax - min)) * 100);
   }
 }

@@ -17,7 +17,7 @@ export default class View implements IView {
     this.target = target;
     this.inputLeft = $('<input type="range" id="input-left">');
     this.inputRight = $('<input type="range" id="input-right">');
-    this.scale = new Scale(); 
+    this.scale = new Scale();
     this.slider = new Slider();
   }
 
@@ -35,10 +35,11 @@ export default class View implements IView {
   }
 
   public render(modelDate: IRender): void {
+    console.log('render');
     const {
       isVertical,
       min,
-      max,
+      newMax,
       step,
       isScale,
       isLabel,
@@ -50,9 +51,9 @@ export default class View implements IView {
     } = modelDate;
 
     this.renderVertical(isVertical);
-    this.changeAttrInput(min, max, step,valueLeft,valueRight);
+    this.changeAttrInput(min, newMax, step, valueLeft, valueRight);
 
-    this.scale.renderScale(min, max, isScale);
+    this.scale.renderScale(min, newMax, isScale);
 
     this.slider.doubleSlider(isDouble);
     this.slider.renderText(isLabel, isDouble);
@@ -90,9 +91,9 @@ export default class View implements IView {
     this.slider.renderThumbLeft(valueLeft, percentageLeft);
 
     if (isDouble) {
-      this.inputLeft.attr('value', valueLeft);
+      this.inputLeft.val(valueLeft);
     } else {
-      this.inputLeft.attr('value', min);
+      this.inputLeft.val(min - 1);
     }
 
     if (this.synchronizationLeft) {
@@ -102,19 +103,19 @@ export default class View implements IView {
 
   public renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void {
     this.slider.renderThumbRight(isVertical, valueRight, percentageRight);
-    this.inputRight.attr('value', valueRight);
+    this.inputRight.val(valueRight);
 
     if (this.synchronizationRight) {
       this.synchronizationRight.val(valueRight);
     }
   }
 
-  private changeAttrInput(min: number, max: number, step: number,valueLeft: number,valueRight: number): void {
+  private changeAttrInput(min: number, max: number, step: number, valueLeft: number, valueRight: number): void {
     this.inputLeft.attr('min', min);
     this.inputLeft.attr('max', max);
     this.inputLeft.attr('step', step);
     this.inputLeft.val(valueLeft);
-    
+
     this.inputRight.attr('min', min);
     this.inputRight.attr('max', max);
     this.inputRight.attr('step', step);

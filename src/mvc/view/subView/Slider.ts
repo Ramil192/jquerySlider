@@ -1,6 +1,6 @@
 import { ISlider } from '../interface';
 
-class Slider implements ISlider{
+class Slider implements ISlider {
   public slider: JQuery;
   public track: JQuery;
   public range: JQuery;

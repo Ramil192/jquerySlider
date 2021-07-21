@@ -1,7 +1,7 @@
 export interface IRender {
   isVertical: boolean,
   min: number,
-  max: number,
+  newMax: number,
   step: number,
   isScale: boolean,
   isLabel: boolean,
@@ -20,6 +20,7 @@ export interface IView {
   slider: ISlider
   synchronizationLeft?: JQuery;
   synchronizationRight?: JQuery;
+  
 
   init(): void
   render(modelDate: IRender): void

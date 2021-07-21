@@ -12,10 +12,11 @@ export default class Controller {
 
   public init(): void {
     const { inputLeft, inputRight } = this.view;
+
     const { scale } = this.view.scale;
 
     inputLeft.bind('input', (e) => {
-      this.model.setStateForLeftInput(+(<HTMLInputElement>e.target).value);
+      this.model.setStateForLeftInput(parseInt((<HTMLInputElement>e.target).value, 10));
 
       this.view.renderThumbLeft(
         this.model.settings.isDouble,
@@ -26,7 +27,7 @@ export default class Controller {
     });
 
     inputRight.bind('input', (e) => {
-      this.model.setStateForRightInput(+(<HTMLInputElement>e.target).value);
+      this.model.setStateForRightInput(parseInt((<HTMLInputElement>e.target).value, 10));
 
       this.view.renderThumbRight(
         this.model.settings.isVertical,
@@ -51,6 +52,7 @@ export default class Controller {
         this.model.state.percentageRight,
       );
     });
+
 
     this.view.init();
     this.view.render({ ...this.model.settings, ...this.model.state });
