@@ -12,7 +12,7 @@ describe('Scale', () => {
 
     scale.renderScale(min, max, isScale)
 
-    expect(scale.scale[0].innerHTML).toBe('<span></span><span></span><span></span><span></span><span></span>');
+    expect(scale.scale[0].innerHTML).toBe('<span class="range-slider__scale-item"></span><span class="range-slider__scale-item"></span><span class="range-slider__scale-item"></span><span class="range-slider__scale-item"></span><span class="range-slider__scale-item"></span>');
 
   })
 })

@@ -10,13 +10,13 @@ class Slider implements ISlider {
   public textRight: JQuery;
 
   constructor() {
-    this.slider = $('<div class="slider"></div>');
-    this.track = $('<div class="track"></div>');
-    this.range = $('<div class="range"></div>');
-    this.thumbLeft = $('<div class="thumb left"></div>');
-    this.thumbRight = $('<div class="thumb right"></div>');
-    this.textLeft = $('<span class="text left"></span>');
-    this.textRight = $('<span class="text right"></span>');
+    this.slider = $('<div class="range-slider__body"></div>');
+    this.track = $('<div class="range-slider__body-track"></div>');
+    this.range = $('<div class="range-slider__body-range"></div>');
+    this.thumbLeft = $('<div class="range-slider__body-thumb-left"></div>');
+    this.thumbRight = $('<div class="range-slider__body-thumb-right"></div>');
+    this.textLeft = $('<span class="range-slider__body-text-left"></span>');
+    this.textRight = $('<span class="range-slider__body-text-right"></span>');
 
     this.insulation();
   }

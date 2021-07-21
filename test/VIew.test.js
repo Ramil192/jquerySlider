@@ -27,17 +27,17 @@ describe('View', () => {
     test('get elements', () => {
       view.init();
 
-      expect(element.find('.multi-range-slider')).toHaveLength(1);
-      expect(element.find('#input-left')).toHaveLength(1);
-      expect(element.find('#input-right')).toHaveLength(1);
-      expect(element.find('.slider')).toHaveLength(1);
-      expect(element.find('.track')).toHaveLength(1);
-      expect(element.find('.range')).toHaveLength(1);
-      expect(element.find('.thumb.left')).toHaveLength(1);
-      expect(element.find('.thumb.right')).toHaveLength(1);
-      expect(element.find('.text.left')).toHaveLength(1);
-      expect(element.find('.text.right')).toHaveLength(1);
-      expect(element.find('.scale')).toHaveLength(1);
+      expect(element.find('.range-slider')).toHaveLength(1);
+      expect(element.find('.range-slider__input-left')).toHaveLength(1);
+      expect(element.find('.range-slider__input-right')).toHaveLength(1);
+      expect(element.find('.range-slider__body')).toHaveLength(1);
+      expect(element.find('.range-slider__body-track')).toHaveLength(1);
+      expect(element.find('.range-slider__body-range')).toHaveLength(1);
+      expect(element.find('.range-slider__body-thumb-left')).toHaveLength(1);
+      expect(element.find('.range-slider__body-thumb-right')).toHaveLength(1);
+      expect(element.find('.range-slider__body-text-left')).toHaveLength(1);
+      expect(element.find('.range-slider__body-text-right')).toHaveLength(1);
+      expect(element.find('.range-slider__scale')).toHaveLength(1);
     })
 
   })

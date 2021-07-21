@@ -4,7 +4,7 @@ class Scale implements IScale {
   public scale: JQuery;
 
   constructor() {
-    this.scale = $('<div class="scale"></div>');
+    this.scale = $('<div class="range-slider__scale"></div>');
     this.insulation();
   }
 
@@ -39,11 +39,11 @@ class Scale implements IScale {
   }
 
   private insulation(): void {
-    this.scale.append('<span></span>');
-    this.scale.append('<span></span>');
-    this.scale.append('<span></span>');
-    this.scale.append('<span></span>');
-    this.scale.append('<span></span>');
+    this.scale.append('<span class="range-slider__scale-item"></span>');
+    this.scale.append('<span class="range-slider__scale-item"></span>');
+    this.scale.append('<span class="range-slider__scale-item"></span>');
+    this.scale.append('<span class="range-slider__scale-item"></span>');
+    this.scale.append('<span class="range-slider__scale-item"></span>');
   }
 }
 

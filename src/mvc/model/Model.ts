@@ -64,8 +64,7 @@ export default class Model implements IModel {
     this.state.valueRight = this.settings.valueRight;
     this.state.percentageLeft = this.getPercentage(this.settings.valueLeft);
     this.state.percentageRight = this.getPercentage(this.settings.valueRight);
-  
-    console.log(this.settings);
+
   }
 
   private checkStep() {

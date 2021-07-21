@@ -15,17 +15,17 @@ export default class View implements IView {
 
   constructor(target: JQuery) {
     this.target = target;
-    this.inputLeft = $('<input type="range" id="input-left">');
-    this.inputRight = $('<input type="range" id="input-right">');
+    this.inputLeft = $('<input class="range-slider__input-left" type="range" id="input-left">');
+    this.inputRight = $('<input class="range-slider__input-right" type="range" id="input-right">');
     this.scale = new Scale();
     this.slider = new Slider();
   }
 
   public init(): void {
-    this.target.append('<div class="multi-range-slider"></div>');
-    this.target.find('.multi-range-slider').append(this.inputLeft);
-    this.target.find('.multi-range-slider').append(this.inputRight);
-    this.target.find('.multi-range-slider').append(this.slider.slider);
+    this.target.append('<div class="range-slider"></div>');
+    this.target.find('.range-slider').append(this.inputLeft);
+    this.target.find('.range-slider').append(this.inputRight);
+    this.target.find('.range-slider').append(this.slider.slider);
     this.slider.slider.append(this.scale.scale);
     this.target.css({
       transformOrigin: 'bottom left',
@@ -35,7 +35,6 @@ export default class View implements IView {
   }
 
   public render(modelDate: IRender): void {
-    console.log('render');
     const {
       isVertical,
       min,
