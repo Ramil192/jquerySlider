@@ -1,3 +1,5 @@
+import {ISettings,IState} from '../model/interface'
+
 export interface IRender {
   isVertical: boolean,
   min: number,
@@ -21,9 +23,7 @@ export interface IView {
   synchronizationLeft?: JQuery;
   synchronizationRight?: JQuery;
   
-
-  init(): void
-  render(modelDate: IRender): void
+  render(settings: ISettings,state: IState): void
   renderThumbLeft(isDouble: boolean, min: number, valueLeft: number, percentageLeft: number): void
   renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void
   setSynchronizationLeft(left: JQuery):void

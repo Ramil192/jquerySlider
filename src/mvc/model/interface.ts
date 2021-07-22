@@ -1,3 +1,5 @@
+import { IObserver } from '../observer/interface'
+
 export interface ISettings {
   min: number,
   max: number,
@@ -8,6 +10,7 @@ export interface ISettings {
   isLabel: boolean,
   isScale: boolean,
   isDouble: boolean,
+  [key: string]: boolean | number
 }
 export interface MyType {
   [key: string]: number | boolean;
@@ -29,15 +32,16 @@ export interface IState {
   valueRight: number
   percentageLeft: number
   percentageRight: number
-  newMax:number
+  newMax: number
 }
 
 export interface IModel {
   settings: ISettings
   state: IState
-
+  observer: IObserver;
+  getSettings(): void
   setStateForLeftInput(valueLeft: number): void
   setStateForRightInput(valueRight: number): void
   setStateForInput(innerHTML: number): void
-  checkSettings(prevLeft?:number):void
+  checkSettings(prevLeft?: number): void
 }

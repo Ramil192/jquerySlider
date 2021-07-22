@@ -1,8 +1,11 @@
 import { ISettings, IState, IModel } from './interface';
+import { IObserver } from '../observer/interface';
+import Observer from '../observer/Observer'
 
 export default class Model implements IModel {
   public settings: ISettings;
   public state: IState;
+  public observer: IObserver;
 
   constructor(settings: ISettings) {
     this.settings = settings;
@@ -13,13 +16,16 @@ export default class Model implements IModel {
       percentageRight: 0,
       newMax: 0,
     };
+    this.observer = new Observer();
+    
   }
-
+  public getSettings(){
+    return this.settings;
+  }
   public checkSettings(prevLeft = 25): void {
     const {
       min, max, valueLeft, valueRight, isDouble,
     } = this.settings;
-
     this.checkStep();
 
     if (min >= max) {
@@ -58,13 +64,13 @@ export default class Model implements IModel {
       this.settings.valueLeft = this.settings.min;
     }
 
-
-
     this.state.valueLeft = this.settings.valueLeft;
     this.state.valueRight = this.settings.valueRight;
     this.state.percentageLeft = this.getPercentage(this.settings.valueLeft);
     this.state.percentageRight = this.getPercentage(this.settings.valueRight);
 
+
+    this.observer.callAllObserver();
   }
 
   private checkStep() {
@@ -81,6 +87,8 @@ export default class Model implements IModel {
     this.state.percentageLeft = this.getPercentage(newValue);
     this.state.valueLeft = newValue;
     this.settings.valueLeft = newValue;
+
+    this.observer.callAllObserver();
   }
 
   public setStateForRightInput(valueRight: number): void {
@@ -90,6 +98,7 @@ export default class Model implements IModel {
     this.state.valueRight = newValue;
     this.settings.valueRight = newValue;
 
+    this.observer.callAllObserver();
   }
 
   public setStateForInput(value: number): void {
@@ -108,11 +117,13 @@ export default class Model implements IModel {
     } else {
       this.setStateForRightInput(scaleValue);
     }
+
+    this.observer.callAllObserver();
   }
 
   private getPercentage(val: number): number {
-    const { min} = this.settings;
-    const { newMax} = this.state;
+    const { min } = this.settings;
+    const { newMax } = this.state;
     return Math.abs(((val - min) / (newMax - min)) * 100);
   }
 }

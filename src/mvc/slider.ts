@@ -18,28 +18,32 @@ import { INewSettings } from './model/interface';
     }, options);
 
     const model = new Model(settings);
-    model.checkSettings();
 
     const view = new View($(this));
+
     const controller = new Controller(model, view);
 
     function main() {
       controller.init();
     }
 
-    $(this).data().setSettings = function (newSettings:INewSettings):void {
-      const prevLeft = model.settings.valueLeft;
+    $(this).data().setSettings = function (newSettings: INewSettings): void {
 
-      model.settings = { ...model.settings, ...newSettings };
+      const arr: Array<[string, number]> = Object.entries(newSettings);
+      
+      arr.forEach(([key, value]) => {
+        model.settings[key] = value;
+      });
+      
+      const prevLeft = model.settings.valueLeft;
       model.checkSettings(prevLeft);
-      view.render({ ...model.settings, ...model.state });
     };
 
-    $(this).data().synchronizationLeft = function (inputLeft:JQuery):void {
+    $(this).data().synchronizationLeft = function (inputLeft: JQuery): void {
       view.setSynchronizationLeft(inputLeft);
     };
 
-    $(this).data().synchronizationRight = function (inputRight:JQuery):void {
+    $(this).data().synchronizationRight = function (inputRight: JQuery): void {
       view.setSynchronizationRight(inputRight);
     };
 

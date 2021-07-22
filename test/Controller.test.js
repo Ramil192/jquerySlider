@@ -31,14 +31,12 @@ describe('controller', () => {
     test('inputLeft', () => {
       const input = $.Event('input');
       view.inputLeft.trigger(input);
-      console.log(view.inputLeft.val());
       expect(model.settings.valueLeft).toBe(25);
     })
     
     test('inputRight', () => {
       const input = $.Event('input');
       view.inputRight.trigger(input);
-      console.log(view.inputRight.val());
       expect(model.settings.valueRight).toBe(75);
     })
     

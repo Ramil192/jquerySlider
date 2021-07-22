@@ -1,6 +1,9 @@
 import {
   IView, IRender, IScale, ISlider,
 } from './interface';
+import {
+  ISettings, IState
+} from '../model/interface';
 import Scale from './subView/Scale';
 import Slider from './subView/Slider';
 
@@ -19,9 +22,11 @@ export default class View implements IView {
     this.inputRight = $('<input class="range-slider__input-right" type="range">');
     this.scale = new Scale();
     this.slider = new Slider();
+
+    this.init();
   }
 
-  public init(): void {
+  private init(): void {
     this.target.append('<div class="range-slider"></div>');
     this.target.find('.range-slider').append(this.inputLeft);
     this.target.find('.range-slider').append(this.inputRight);
@@ -33,21 +38,23 @@ export default class View implements IView {
       width: '100%',
     });
   }
-
-  public render(modelDate: IRender): void {
+  
+  public render(settings: ISettings, state: IState): void {
     const {
       isVertical,
       min,
-      newMax,
       step,
       isScale,
       isLabel,
       isDouble,
+    } = settings;
+    const {
+      newMax,
       valueLeft,
       percentageLeft,
       valueRight,
       percentageRight,
-    } = modelDate;
+    } = state;
 
     this.renderVertical(isVertical);
     this.changeAttrInput(min, newMax, step, valueLeft, valueRight);
