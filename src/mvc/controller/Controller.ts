@@ -1,8 +1,8 @@
-import { IView } from '../view/interface';
-import { IModel } from '../model/interface';
-import { IObserver } from '../observer/interface';
+import { IView } from '../View/interface';
+import { IModel } from '../Model/interface';
+import { IObserver } from '../Observer/interface';
 
-import Observer from '../observer/Observer'
+import Observer from '../Observer/Observer'
 
 
 export default class Controller {

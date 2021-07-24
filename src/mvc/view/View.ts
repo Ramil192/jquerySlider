@@ -1,9 +1,9 @@
 import { IView, IScale, ISlider, } from './interface';
-import { IObserver } from '../observer/interface';
-import { ISettings, IState } from '../model/interface';
+import { IObserver } from '../Observer/interface';
+import { ISettings, IState } from '../Model/interface';
 
-import Scale from './subView/Scale';
-import Slider from './subView/Slider';
+import Scale from './SubView/Scale';
+import Slider from './SubView/Slider';
 
 export default class View implements IView {
   public target: JQuery;
@@ -72,7 +72,7 @@ export default class View implements IView {
     this.renderThumbLeft(isDouble, min, valueLeft, percentageLeft);
     this.renderThumbRight(isVertical, valueRight, percentageRight);
 
-    console.log('renderView');
+
   }
 
   public renderVertical(isVertical: boolean): void {

@@ -1,5 +1,5 @@
-import { ISettings, IState } from '../model/interface'
-import { IObserver } from '../observer/interface'
+import { ISettings, IState } from '../Model/interface'
+import { IObserver } from '../Observer/interface'
 
 export interface IView {
   target: JQuery

@@ -1,4 +1,4 @@
-import { IObserver } from '../observer/interface'
+import { IObserver } from '../Observer/interface'
 
 export interface ISettings {
   min: number,

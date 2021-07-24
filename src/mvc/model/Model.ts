@@ -1,5 +1,5 @@
 import { ISettings, IState, IModel } from './interface';
-import { IObserver } from '../observer/interface';
+import { IObserver } from '../Observer/interface';
 
 export default class Model implements IModel {
   public settings: ISettings;
@@ -73,7 +73,6 @@ export default class Model implements IModel {
   }
 
   public setStateForLeftInput(valueLeft: number): void {
-    console.log(valueLeft);
     const newValue = Math.min(valueLeft, this.state.valueRight - 1);
 
     this.state.percentageLeft = this.getPercentage(newValue);
@@ -84,8 +83,6 @@ export default class Model implements IModel {
   }
 
   public setStateForRightInput(valueRight: number): void {
-    console.log(valueRight);
-
     const newValue = Math.max(valueRight, this.state.valueLeft + 1);
 
     this.state.percentageRight = this.getPercentage(newValue);
