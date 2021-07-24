@@ -1,37 +1,33 @@
 import { IView } from '../view/interface';
 import { IModel } from '../model/interface';
+import { IObserver } from '../observer/interface';
 
+import Observer from '../observer/Observer'
 
 
 export default class Controller {
   private view: IView;
   private model: IModel;
+  observerControllerModel: IObserver;
+  observerControllerView: IObserver;
 
   constructor(model: IModel, view: IView) {
     this.model = model;
     this.view = view;
+    this.observerControllerModel = new Observer();
+    this.observerControllerView = new Observer();
   }
 
-  
+
   public init(): void {
-    const { inputLeft, inputRight } = this.view;
-    const { scale } = this.view.scale;
-    
-    this.model.observer.addObserver(this.view.render.bind(this.view,this.model.settings,this.model.state))
-
-    
-    inputLeft.bind('input', (e) => {
-      this.model.setStateForLeftInput(parseInt((<HTMLInputElement>e.target).value, 10));
-    });
-
-    inputRight.bind('input', (e) => {
-      this.model.setStateForRightInput(parseInt((<HTMLInputElement>e.target).value, 10));
-    });
-
-    scale.bind('click', (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>) => {
-      this.model.setStateForInput(+e.target.innerHTML);
-    });
-    
+    const mainRenderView = this.view.render.bind(this.view, this.model.settings, this.model.state);
+    this.observerControllerView.addObserver(mainRenderView);
+    this.model.setObserver(this.observerControllerView);
     this.model.checkSettings();
+
+    // тут не получается с  parseInt так как TS ругается что может val() может быть undefined 
+    this.observerControllerModel.addObserver(()=>this.model.setStateForRightInput(+this.view.inputRight.val()!));
+    this.observerControllerModel.addObserver(()=>this.model.setStateForLeftInput(+this.view.inputLeft.val()!));
+    this.view.setObserver(this.observerControllerModel);
   }
 }

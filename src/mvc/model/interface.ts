@@ -38,8 +38,9 @@ export interface IState {
 export interface IModel {
   settings: ISettings
   state: IState
-  observer: IObserver;
-  getSettings(): void
+  observerControllerView?: IObserver;
+  
+  setObserver(observer:IObserver):void
   setStateForLeftInput(valueLeft: number): void
   setStateForRightInput(valueRight: number): void
   setStateForInput(innerHTML: number): void

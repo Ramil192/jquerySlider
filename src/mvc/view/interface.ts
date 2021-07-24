@@ -1,18 +1,5 @@
-import {ISettings,IState} from '../model/interface'
-
-export interface IRender {
-  isVertical: boolean,
-  min: number,
-  newMax: number,
-  step: number,
-  isScale: boolean,
-  isLabel: boolean,
-  isDouble: boolean,
-  valueLeft: number,
-  percentageLeft: number,
-  valueRight: number,
-  percentageRight: number,
-}
+import { ISettings, IState } from '../model/interface'
+import { IObserver } from '../observer/interface'
 
 export interface IView {
   target: JQuery
@@ -22,12 +9,14 @@ export interface IView {
   slider: ISlider
   synchronizationLeft?: JQuery;
   synchronizationRight?: JQuery;
-  
-  render(settings: ISettings,state: IState): void
+  observerControllerModel?: IObserver;
+
+  setObserver(observer:IObserver):void
+  render(settings: ISettings, state: IState): void
   renderThumbLeft(isDouble: boolean, min: number, valueLeft: number, percentageLeft: number): void
   renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void
-  setSynchronizationLeft(left: JQuery):void
-  setSynchronizationRight(right: JQuery):void
+  setSynchronizationLeft(left: JQuery): void
+  setSynchronizationRight(right: JQuery): void
 }
 
 export interface IScale {
@@ -47,7 +36,7 @@ export interface ISlider {
   textRight: JQuery;
 
   renderText(isLabel: boolean, isDouble: boolean): void
-  doubleSlider(isDouble: boolean):void
+  doubleSlider(isDouble: boolean): void
   renderThumbLeft(valueLeft: number, percentageLeft: number): void
   renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void
   verticalSlider(isVertical: boolean): void

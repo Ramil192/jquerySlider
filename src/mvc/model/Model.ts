@@ -1,11 +1,10 @@
 import { ISettings, IState, IModel } from './interface';
 import { IObserver } from '../observer/interface';
-import Observer from '../observer/Observer'
 
 export default class Model implements IModel {
   public settings: ISettings;
   public state: IState;
-  public observer: IObserver;
+  public observerControllerView?: IObserver;
 
   constructor(settings: ISettings) {
     this.settings = settings;
@@ -16,12 +15,13 @@ export default class Model implements IModel {
       percentageRight: 0,
       newMax: 0,
     };
-    this.observer = new Observer();
-    
+
   }
-  public getSettings(){
-    return this.settings;
+
+  public setObserver(observer: IObserver) {
+    this.observerControllerView = observer;
   }
+
   public checkSettings(prevLeft = 25): void {
     const {
       min, max, valueLeft, valueRight, isDouble,
@@ -69,39 +69,34 @@ export default class Model implements IModel {
     this.state.percentageLeft = this.getPercentage(this.settings.valueLeft);
     this.state.percentageRight = this.getPercentage(this.settings.valueRight);
 
-
-    this.observer.callAllObserver();
-  }
-
-  private checkStep() {
-    this.state.newMax = this.settings.max;
-    for (; (this.state.newMax % this.settings.step);) {
-      this.state.newMax += 1;
-    }
-
+    this.callObserver();
   }
 
   public setStateForLeftInput(valueLeft: number): void {
+    console.log(valueLeft);
     const newValue = Math.min(valueLeft, this.state.valueRight - 1);
 
     this.state.percentageLeft = this.getPercentage(newValue);
     this.state.valueLeft = newValue;
     this.settings.valueLeft = newValue;
 
-    this.observer.callAllObserver();
+    this.callObserver();
   }
 
   public setStateForRightInput(valueRight: number): void {
+    console.log(valueRight);
+
     const newValue = Math.max(valueRight, this.state.valueLeft + 1);
 
     this.state.percentageRight = this.getPercentage(newValue);
     this.state.valueRight = newValue;
     this.settings.valueRight = newValue;
 
-    this.observer.callAllObserver();
+    //this.callObserver()
   }
 
   public setStateForInput(value: number): void {
+    
     const scaleValue = value;
     const isRightLess = this.state.valueRight < scaleValue;
     const isRightNearer = Math.abs(scaleValue - this.state.valueRight) < Math.abs(scaleValue - this.state.valueLeft);
@@ -118,12 +113,25 @@ export default class Model implements IModel {
       this.setStateForRightInput(scaleValue);
     }
 
-    this.observer.callAllObserver();
+    this.callObserver()
   }
 
   private getPercentage(val: number): number {
     const { min } = this.settings;
     const { newMax } = this.state;
     return Math.abs(((val - min) / (newMax - min)) * 100);
+  }
+
+  private checkStep() {
+    this.state.newMax = this.settings.max;
+    for (; (this.state.newMax % this.settings.step);) {
+      this.state.newMax += 1;
+    }
+  }
+
+  private callObserver() {
+    if (typeof this.observerControllerView !== "undefined") {
+      this.observerControllerView.callAllObserver();
+    }
   }
 }

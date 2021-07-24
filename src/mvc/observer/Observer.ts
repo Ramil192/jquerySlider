@@ -15,6 +15,7 @@ class Observer implements IObserver {
   };
 
   public callAllObserver(): void {
+    console.log('callAllObserver ' );  
     this.observers.forEach(observer => observer());
   };
 

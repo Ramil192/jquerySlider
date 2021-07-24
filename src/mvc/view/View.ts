@@ -1,9 +1,7 @@
-import {
-  IView, IRender, IScale, ISlider,
-} from './interface';
-import {
-  ISettings, IState
-} from '../model/interface';
+import { IView, IScale, ISlider, } from './interface';
+import { IObserver } from '../observer/interface';
+import { ISettings, IState } from '../model/interface';
+
 import Scale from './subView/Scale';
 import Slider from './subView/Slider';
 
@@ -13,8 +11,10 @@ export default class View implements IView {
   public inputRight: JQuery;
   public scale: IScale;
   public slider: ISlider;
+
   public synchronizationLeft?: JQuery;
   public synchronizationRight?: JQuery;
+  public observerControllerModel?: IObserver;
 
   constructor(target: JQuery) {
     this.target = target;
@@ -24,6 +24,11 @@ export default class View implements IView {
     this.slider = new Slider();
 
     this.init();
+    this.setEventHandlers()
+  }
+
+  public setObserver(observer: IObserver) {
+    this.observerControllerModel = observer;
   }
 
   private init(): void {
@@ -38,7 +43,7 @@ export default class View implements IView {
       width: '100%',
     });
   }
-  
+
   public render(settings: ISettings, state: IState): void {
     const {
       isVertical,
@@ -66,6 +71,8 @@ export default class View implements IView {
 
     this.renderThumbLeft(isDouble, min, valueLeft, percentageLeft);
     this.renderThumbRight(isVertical, valueRight, percentageRight);
+
+    console.log('renderView');
   }
 
   public renderVertical(isVertical: boolean): void {
@@ -127,4 +134,25 @@ export default class View implements IView {
     this.inputRight.attr('step', step);
     this.inputRight.val(valueRight);
   }
+
+  private callObserver() {
+    if (typeof this.observerControllerModel !== "undefined") {
+      this.observerControllerModel.callAllObserver();
+    }
+  }
+
+  private handlerInputLeft = () => {
+    this.callObserver();
+  }
+
+  private handlerInputRight = () => {
+    this.callObserver();
+  }
+
+  private setEventHandlers() {
+    this.inputLeft.on('input', this.handlerInputLeft);
+    this.inputRight.on('input', this.handlerInputRight);
+  }
+
+
 }
