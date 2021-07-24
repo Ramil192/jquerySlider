@@ -60,7 +60,10 @@
   -webkit-appearance: none;
   top: -10px;
   left: -6px;
-  opacity: 0;
+  opacity: 0.1;
+}
+.range-slider__input-left{
+  left: -12px;
 }
 
 input[type="range"]::-webkit-slider-thumb {

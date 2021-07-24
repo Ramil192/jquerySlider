@@ -88,8 +88,6 @@ export default class Model implements IModel {
     this.state.percentageRight = this.getPercentage(newValue);
     this.state.valueRight = newValue;
     this.settings.valueRight = newValue;
-
-    //this.callObserver()
   }
 
   public setStateForInput(value: number): void {
@@ -122,7 +120,7 @@ export default class Model implements IModel {
   private checkStep() {
     this.state.newMax = this.settings.max;
     for (; (this.state.newMax % this.settings.step);) {
-      this.state.newMax += 1;
+      this.state.newMax -= 1;
     }
   }
 
