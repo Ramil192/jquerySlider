@@ -1,4 +1,4 @@
-import { IObserver } from '../Observer/interface'
+import { IObserver } from '../Observer/interface';
 
 export interface ISettings {
   min: number,
@@ -39,7 +39,7 @@ export interface IModel {
   settings: ISettings
   state: IState
   observerControllerView?: IObserver;
-  
+
   setObserver(observer:IObserver):void
   setStateForLeftInput(valueLeft: number): void
   setStateForRightInput(valueRight: number): void

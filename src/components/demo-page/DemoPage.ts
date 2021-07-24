@@ -65,7 +65,4 @@ class DemoPage {
   }
 }
 
-
 export default DemoPage;
-
-

@@ -6,6 +6,8 @@ export interface IController {
   view: IView
   model: IModel
   observerControllerModel: IObserver;
-  observerControllerView: IObserver ;
+  observerControllerModelScale: IObserver;
+  observerControllerView: IObserver;
+
   init(): void
 }

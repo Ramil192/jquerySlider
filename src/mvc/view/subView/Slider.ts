@@ -93,7 +93,6 @@ class Slider implements ISlider {
     this.slider.append(this.textLeft);
     this.slider.append(this.textRight);
   }
-
 }
 
 export default Slider;

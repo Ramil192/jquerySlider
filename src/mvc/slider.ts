@@ -28,13 +28,12 @@ import { INewSettings } from './Model/interface';
     }
 
     $(this).data().setSettings = function (newSettings: INewSettings): void {
-
       const arr: Array<[string, number]> = Object.entries(newSettings);
-      
+
       arr.forEach(([key, value]) => {
         model.settings[key] = value;
       });
-      
+
       const prevLeft = model.settings.valueLeft;
       model.checkSettings(prevLeft);
     };

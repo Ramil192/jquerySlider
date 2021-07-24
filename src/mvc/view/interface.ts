@@ -1,5 +1,5 @@
-import { ISettings, IState } from '../Model/interface'
-import { IObserver } from '../Observer/interface'
+import { ISettings, IState } from '../Model/interface';
+import { IObserver } from '../Observer/interface';
 
 export interface IView {
   target: JQuery
@@ -10,20 +10,23 @@ export interface IView {
   synchronizationLeft?: JQuery;
   synchronizationRight?: JQuery;
   observerControllerModel?: IObserver;
+  scaleValue:number;
 
-  setObserver(observer:IObserver):void
-  render(settings: ISettings, state: IState): void
-  renderThumbLeft(isDouble: boolean, min: number, valueLeft: number, percentageLeft: number): void
-  renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void
-  setSynchronizationLeft(left: JQuery): void
-  setSynchronizationRight(right: JQuery): void
+  doubleSlider(isDouble:boolean):void;
+  setObserver(observer:IObserver):void;
+  setObserverScale(observerScale:IObserver):void;
+  render(settings: ISettings, state: IState): void;
+  renderThumbLeft(isDouble: boolean, min: number, valueLeft: number, percentageLeft: number): void;
+  renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void;
+  setSynchronizationLeft(left: JQuery): void;
+  setSynchronizationRight(right: JQuery): void;
 }
 
 export interface IScale {
   scale: JQuery
 
-  renderScale(min: number, max: number, isScale: boolean): void
-  verticalScale(isVertical: boolean): void
+  renderScale(min: number, max: number, isScale: boolean): void;
+  verticalScale(isVertical: boolean): void;
 }
 
 export interface ISlider {
@@ -35,9 +38,9 @@ export interface ISlider {
   textLeft: JQuery;
   textRight: JQuery;
 
-  renderText(isLabel: boolean, isDouble: boolean): void
-  doubleSlider(isDouble: boolean): void
-  renderThumbLeft(valueLeft: number, percentageLeft: number): void
-  renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void
-  verticalSlider(isVertical: boolean): void
+  renderText(isLabel: boolean, isDouble: boolean): void;
+  doubleSlider(isDouble: boolean): void;
+  renderThumbLeft(valueLeft: number, percentageLeft: number): void;
+  renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void;
+  verticalSlider(isVertical: boolean): void;
 }

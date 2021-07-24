@@ -1,4 +1,4 @@
-import { IView, IScale, ISlider, } from './interface';
+import { IView, IScale, ISlider } from './interface';
 import { IObserver } from '../Observer/interface';
 import { ISettings, IState } from '../Model/interface';
 
@@ -11,10 +11,12 @@ export default class View implements IView {
   public inputRight: JQuery;
   public scale: IScale;
   public slider: ISlider;
+  public scaleValue: number;
 
   public synchronizationLeft?: JQuery;
   public synchronizationRight?: JQuery;
   public observerControllerModel?: IObserver;
+  public observerControllerModelScale?: IObserver;
 
   constructor(target: JQuery) {
     this.target = target;
@@ -22,13 +24,17 @@ export default class View implements IView {
     this.inputRight = $('<input class="range-slider__input-right" type="range">');
     this.scale = new Scale();
     this.slider = new Slider();
-
+    this.scaleValue = 0;
     this.init();
-    this.setEventHandlers()
+    this.setEventHandlers();
   }
 
   public setObserver(observer: IObserver) {
     this.observerControllerModel = observer;
+  }
+
+  public setObserverScale(observer: IObserver) {
+    this.observerControllerModelScale = observer;
   }
 
   private init(): void {
@@ -66,13 +72,12 @@ export default class View implements IView {
 
     this.scale.renderScale(min, newMax, isScale);
 
-    this.slider.doubleSlider(isDouble);
+    this.doubleSlider(isDouble);
+
     this.slider.renderText(isLabel, isDouble);
 
     this.renderThumbLeft(isDouble, min, valueLeft, percentageLeft);
     this.renderThumbRight(isVertical, valueRight, percentageRight);
-
-
   }
 
   public renderVertical(isVertical: boolean): void {
@@ -90,6 +95,15 @@ export default class View implements IView {
         margin: '32px  0px',
       });
     }
+  }
+
+  public doubleSlider(isDouble: boolean) {
+    if (isDouble) {
+      this.inputRight.css({ pointerEvents: 'none' });
+    } else {
+      this.inputRight.css({ pointerEvents: 'all' });
+    }
+    this.slider.doubleSlider(isDouble);
   }
 
   public setSynchronizationLeft(left: JQuery): void {
@@ -136,23 +150,33 @@ export default class View implements IView {
   }
 
   private callObserver() {
-    if (typeof this.observerControllerModel !== "undefined") {
+    if (typeof this.observerControllerModel !== 'undefined') {
       this.observerControllerModel.callAllObserver();
+    }
+  }
+
+  private callObserverScale() {
+    if (typeof this.observerControllerModelScale !== 'undefined') {
+      this.observerControllerModelScale.callAllObserver();
     }
   }
 
   private handlerInputLeft = () => {
     this.callObserver();
-  }
+  };
 
   private handlerInputRight = () => {
     this.callObserver();
-  }
+  };
+
+  private handlerScaleClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>) => {
+    this.scaleValue = parseInt(e.target.innerHTML, 10);
+    this.callObserverScale();
+  };
 
   private setEventHandlers() {
     this.inputLeft.on('input', this.handlerInputLeft);
     this.inputRight.on('input', this.handlerInputRight);
+    this.scale.scale.on('click', this.handlerScaleClick);
   }
-
-
 }

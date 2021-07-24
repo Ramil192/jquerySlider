@@ -15,7 +15,6 @@ export default class Model implements IModel {
       percentageRight: 0,
       newMax: 0,
     };
-
   }
 
   public setObserver(observer: IObserver) {
@@ -73,13 +72,14 @@ export default class Model implements IModel {
   }
 
   public setStateForLeftInput(valueLeft: number): void {
+    console.log(valueLeft);
     const newValue = Math.min(valueLeft, this.state.valueRight - 1);
 
     this.state.percentageLeft = this.getPercentage(newValue);
     this.state.valueLeft = newValue;
     this.settings.valueLeft = newValue;
 
-    this.callObserver();
+    // this.callObserver();
   }
 
   public setStateForRightInput(valueRight: number): void {
@@ -88,10 +88,11 @@ export default class Model implements IModel {
     this.state.percentageRight = this.getPercentage(newValue);
     this.state.valueRight = newValue;
     this.settings.valueRight = newValue;
+
+    this.callObserver();
   }
 
   public setStateForInput(value: number): void {
-    
     const scaleValue = value;
     const isRightLess = this.state.valueRight < scaleValue;
     const isRightNearer = Math.abs(scaleValue - this.state.valueRight) < Math.abs(scaleValue - this.state.valueLeft);
@@ -103,12 +104,11 @@ export default class Model implements IModel {
       } else {
         this.setStateForLeftInput(scaleValue);
       }
-
     } else {
       this.setStateForRightInput(scaleValue);
     }
 
-    this.callObserver()
+    this.callObserver();
   }
 
   private getPercentage(val: number): number {
@@ -125,7 +125,7 @@ export default class Model implements IModel {
   }
 
   private callObserver() {
-    if (typeof this.observerControllerView !== "undefined") {
+    if (typeof this.observerControllerView !== 'undefined') {
       this.observerControllerView.callAllObserver();
     }
   }
