@@ -11,12 +11,12 @@ export default class View implements IView {
   public inputRight: JQuery;
   public scale: IScale;
   public slider: ISlider;
-  public scaleValue: number;
 
   public synchronizationLeft?: JQuery;
   public synchronizationRight?: JQuery;
   public observerControllerModel?: IObserver;
   public observerControllerModelScale?: IObserver;
+  public observerControllerModelTrack?: IObserver;
 
   constructor(target: JQuery) {
     this.target = target;
@@ -24,7 +24,7 @@ export default class View implements IView {
     this.inputRight = $('<input class="range-slider__input-right" type="range">');
     this.scale = new Scale();
     this.slider = new Slider();
-    this.scaleValue = 0;
+
     this.init();
     this.setEventHandlers();
   }
@@ -35,6 +35,10 @@ export default class View implements IView {
 
   public setObserverScale(observer: IObserver) {
     this.observerControllerModelScale = observer;
+  }
+
+  public setObserverTrack(observer: IObserver) {
+    this.observerControllerModelTrack = observer;
   }
 
   private init(): void {
@@ -155,9 +159,15 @@ export default class View implements IView {
     }
   }
 
-  private callObserverScale() {
+  private callObserverScale(obj:{value:number}) {
     if (typeof this.observerControllerModelScale !== 'undefined') {
-      this.observerControllerModelScale.callAllObserver();
+      this.observerControllerModelScale.callAllObserver(obj);
+    }
+  }
+  
+  private callObserverTrack(obj:{width:number,trackX:number}) {
+    if (typeof this.observerControllerModelTrack !== 'undefined') {
+      this.observerControllerModelTrack.callAllObserver(obj);
     }
   }
 
@@ -170,13 +180,17 @@ export default class View implements IView {
   };
 
   private handlerScaleClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>) => {
-    this.scaleValue = parseInt(e.target.innerHTML, 10);
-    this.callObserverScale();
+    this.callObserverScale({value:parseInt(e.target.innerHTML, 10)});
+  };
+
+  private handlerTrackClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>) => {
+    this.callObserverTrack({width:this.slider.trackClick.width()!,trackX: e.offsetX});
   };
 
   private setEventHandlers() {
     this.inputLeft.on('input', this.handlerInputLeft);
     this.inputRight.on('input', this.handlerInputRight);
     this.scale.scale.on('click', this.handlerScaleClick);
+    this.slider.trackClick.on('click',this.handlerTrackClick);
   }
 }

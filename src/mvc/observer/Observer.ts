@@ -14,8 +14,8 @@ class Observer implements IObserver {
     this.observers = this.observers.filter((item) => item !== observer);
   }
 
-  public callAllObserver(): void {
-    this.observers.forEach((observer) => observer());
+  public callAllObserver(obj?:{[key:string]:number}): void {
+    this.observers.forEach((observer) => observer(obj));
   }
 }
 

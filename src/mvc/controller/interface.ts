@@ -7,6 +7,7 @@ export interface IController {
   model: IModel
   observerControllerModel: IObserver;
   observerControllerModelScale: IObserver;
+  observerControllerModelTrack: IObserver;
   observerControllerView: IObserver;
 
   init(): void

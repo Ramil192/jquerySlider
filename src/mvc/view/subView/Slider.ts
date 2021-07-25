@@ -3,6 +3,7 @@ import { ISlider } from '../interface';
 class Slider implements ISlider {
   public slider: JQuery;
   public track: JQuery;
+  public trackClick: JQuery;
   public range: JQuery;
   public thumbLeft: JQuery;
   public thumbRight: JQuery;
@@ -12,6 +13,7 @@ class Slider implements ISlider {
   constructor() {
     this.slider = $('<div class="range-slider__body"></div>');
     this.track = $('<div class="range-slider__body-track"></div>');
+    this.trackClick = $('<div class="range-slider__body-track-click"></div>');
     this.range = $('<div class="range-slider__body-range"></div>');
     this.thumbLeft = $('<div class="range-slider__body-thumb-left"></div>');
     this.thumbRight = $('<div class="range-slider__body-thumb-right"></div>');
@@ -87,6 +89,7 @@ class Slider implements ISlider {
 
   private insulation(): void {
     this.slider.append(this.track);
+    this.slider.append(this.trackClick);
     this.slider.append(this.range);
     this.slider.append(this.thumbLeft);
     this.slider.append(this.thumbRight);

@@ -5,7 +5,7 @@
   margin: 0px 15px;
 }
 
-.range-slider__body-track {
+.range-slider__body-track,.range-slider__body-track-click  {
   position: absolute;
   z-index: 1;
   left: 0;
@@ -15,6 +15,10 @@
   border-radius: 5px;
   background-color: #c6aee7;
   width: 100%;
+}
+.range-slider__body-track-click {
+  z-index: 4;
+  background-color: transparent;
 }
 
 .range-slider__body-range {

@@ -72,7 +72,6 @@ export default class Model implements IModel {
   }
 
   public setStateForLeftInput(valueLeft: number): void {
-    console.log(valueLeft);
     const newValue = Math.min(valueLeft, this.state.valueRight - 1);
 
     this.state.percentageLeft = this.getPercentage(newValue);
@@ -92,20 +91,29 @@ export default class Model implements IModel {
     this.callObserver();
   }
 
-  public setStateForInput(value: number): void {
-    const scaleValue = value;
-    const isRightLess = this.state.valueRight < scaleValue;
-    const isRightNearer = Math.abs(scaleValue - this.state.valueRight) < Math.abs(scaleValue - this.state.valueLeft);
+  public getValueClickTrack(obj:{width:number, trackX:number}) {
+    const  {width, trackX} = obj;
+    const clickPercentTrack: number = ((100 / width) * trackX);
+    const formulaClickTrack: number = (clickPercentTrack * (this.state.newMax - this.settings.min) / 100) + this.settings.min;
+    const valueClickTrack: number = Math.ceil(formulaClickTrack);
+
+    this.setStateForInput({value:valueClickTrack});
+  }
+
+  public setStateForInput(obj:{value: number}): void {
+    const {value} = obj;
+    const isRightLess = this.state.valueRight < value;
+    const isRightNearer = Math.abs(value - this.state.valueRight) < Math.abs(value - this.state.valueLeft);
     const isNewRightValue = isRightLess || isRightNearer;
 
     if (this.settings.isDouble) {
       if (isNewRightValue) {
-        this.setStateForRightInput(scaleValue);
+        this.setStateForRightInput(value);
       } else {
-        this.setStateForLeftInput(scaleValue);
+        this.setStateForLeftInput(value);
       }
     } else {
-      this.setStateForRightInput(scaleValue);
+      this.setStateForRightInput(value);
     }
 
     this.callObserver();

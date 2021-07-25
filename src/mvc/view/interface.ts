@@ -10,11 +10,12 @@ export interface IView {
   synchronizationLeft?: JQuery;
   synchronizationRight?: JQuery;
   observerControllerModel?: IObserver;
-  scaleValue:number;
+  observerControllerModelTrack?: IObserver;
 
   doubleSlider(isDouble:boolean):void;
   setObserver(observer:IObserver):void;
   setObserverScale(observerScale:IObserver):void;
+  setObserverTrack(observerTrack:IObserver):void;
   render(settings: ISettings, state: IState): void;
   renderThumbLeft(isDouble: boolean, min: number, valueLeft: number, percentageLeft: number): void;
   renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void;
@@ -32,6 +33,7 @@ export interface IScale {
 export interface ISlider {
   slider: JQuery;
   track: JQuery;
+  trackClick: JQuery;
   range: JQuery;
   thumbLeft: JQuery;
   thumbRight: JQuery;
