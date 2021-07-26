@@ -78,8 +78,6 @@ export default class Model implements IModel {
     this.state.percentageLeft = this.getPercentage(newValue);
     this.state.valueLeft = newValue;
     this.settings.valueLeft = newValue;
-
-    // this.callObserver();
   }
 
   public setStateForRightInput(obj: { valueLeft?: number, valueRight: number }): void {
@@ -95,7 +93,7 @@ export default class Model implements IModel {
 
   public getValueClickTrack(obj: { width: number, trackX: number }) {
     const { width, trackX } = obj;
-    const clickPercentTrack: number = ((100 / width) * trackX);
+    const clickPercentTrack: number = ((100 / (width+12)) * trackX);
     const formulaClickTrack: number = (clickPercentTrack * (this.state.newMax - this.settings.min) / 100) + this.settings.min;
     const valueClickTrack: number = Math.ceil(formulaClickTrack);
 

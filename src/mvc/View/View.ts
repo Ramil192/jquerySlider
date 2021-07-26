@@ -197,10 +197,29 @@ export default class View implements IView {
     this.callObserverTrack({ width: this.slider.trackClick.width()!, trackX: e.offsetX });
   };
 
+  private handlerTextLeftMouseenter = () => {
+    this.inputLeft.css({ left: '-20px', top: '-24px' });
+  }
+
+  private handlerThumbLeftMouseenter = () => {
+    this.inputLeft.css({ left: '1px', top: '-2px' });
+  }
+  private handlerTextRightMouseenter = () => {
+    this.inputRight.css({ left: '-15px', top: '-24px' });
+  }
+
+  private handlerThumbRightMouseenter = () => {
+    this.inputRight.css({ left: '1px', top: '-2px' });
+  }
+
   private setEventHandlers() {
     this.inputLeft.on('input', this.handlerInputLeft);
     this.inputRight.on('input', this.handlerInputRight);
     this.scale.scale.on('click', this.handlerScaleClick);
     this.slider.trackClick.on('click', this.handlerTrackClick);
+    this.slider.textLeft.on('mouseenter', this.handlerTextLeftMouseenter);
+    this.slider.thumbLeft.on('mouseenter', this.handlerThumbLeftMouseenter);
+    this.slider.textRight.on('mouseenter', this.handlerTextRightMouseenter);
+    this.slider.thumbRight.on('mouseenter', this.handlerThumbRightMouseenter);
   }
 }

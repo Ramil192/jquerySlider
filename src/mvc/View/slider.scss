@@ -64,16 +64,33 @@
   -webkit-appearance: none;
   top: -10px;
   left: -6px;
-  opacity: 0;
-}
-.range-slider__input-left{
-  left: -12px;
+  opacity: 0.1;
 }
 
-input[type="range"]::-webkit-slider-thumb {
+.range-slider__input-left{
+  left: 1px;
+  top: -2px;
+}
+
+.range-slider__input-right{
+  left: 1px;
+  top: -2px;
+}
+
+input[class="range-slider__input-left"]::-webkit-slider-thumb {
   pointer-events: all;
-  width: 40px;
-  height: 50px;
+  width: 30px;
+  height: 20px;
+  border-radius: 0;
+  border: 0px none;
+  background-color: red;
+  -webkit-appearance: none;
+}
+
+input[class="range-slider__input-right"]::-webkit-slider-thumb {
+  pointer-events: all;
+  width: 30px;
+  height: 20px;
   border-radius: 0;
   border: 0px none;
   background-color: red;
@@ -88,6 +105,7 @@ input[type="range"]::-webkit-slider-thumb {
   top: -30px;
   color: #fff;
   font-size: 10px;
+  cursor: pointer;
 }
 
 .range-slider__body-text-right {
