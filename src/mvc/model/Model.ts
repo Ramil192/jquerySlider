@@ -71,7 +71,8 @@ export default class Model implements IModel {
     this.callObserver();
   }
 
-  public setStateForLeftInput(valueLeft: number): void {
+  public setStateForLeftInput(obj: { valueLeft: number, valueRight?: number }): void {
+    const { valueLeft } = obj;
     const newValue = Math.min(valueLeft, this.state.valueRight - 1);
 
     this.state.percentageLeft = this.getPercentage(newValue);
@@ -81,7 +82,8 @@ export default class Model implements IModel {
     // this.callObserver();
   }
 
-  public setStateForRightInput(valueRight: number): void {
+  public setStateForRightInput(obj: { valueLeft?: number, valueRight: number }): void {
+    const { valueRight } = obj;
     const newValue = Math.max(valueRight, this.state.valueLeft + 1);
 
     this.state.percentageRight = this.getPercentage(newValue);
@@ -91,29 +93,29 @@ export default class Model implements IModel {
     this.callObserver();
   }
 
-  public getValueClickTrack(obj:{width:number, trackX:number}) {
-    const  {width, trackX} = obj;
+  public getValueClickTrack(obj: { width: number, trackX: number }) {
+    const { width, trackX } = obj;
     const clickPercentTrack: number = ((100 / width) * trackX);
     const formulaClickTrack: number = (clickPercentTrack * (this.state.newMax - this.settings.min) / 100) + this.settings.min;
     const valueClickTrack: number = Math.ceil(formulaClickTrack);
 
-    this.setStateForInput({value:valueClickTrack});
+    this.setStateForInput({ value: valueClickTrack });
   }
 
-  public setStateForInput(obj:{value: number}): void {
-    const {value} = obj;
+  public setStateForInput(obj: { value: number }): void {
+    const { value } = obj;
     const isRightLess = this.state.valueRight < value;
     const isRightNearer = Math.abs(value - this.state.valueRight) < Math.abs(value - this.state.valueLeft);
     const isNewRightValue = isRightLess || isRightNearer;
 
     if (this.settings.isDouble) {
       if (isNewRightValue) {
-        this.setStateForRightInput(value);
+        this.setStateForRightInput({ valueRight: value });
       } else {
-        this.setStateForLeftInput(value);
+        this.setStateForLeftInput({ valueLeft: value });
       }
     } else {
-      this.setStateForRightInput(value);
+      this.setStateForRightInput({ valueRight: value });
     }
 
     this.callObserver();

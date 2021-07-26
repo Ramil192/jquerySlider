@@ -153,44 +153,54 @@ export default class View implements IView {
     this.inputRight.val(valueRight);
   }
 
-  private callObserver() {
+  private callObserver(obj: { valueLeft: number, valueRight: number, }) {
     if (typeof this.observerControllerModel !== 'undefined') {
-      this.observerControllerModel.callAllObserver();
+      this.observerControllerModel.callAllObserver(obj);
     }
   }
 
-  private callObserverScale(obj:{value:number}) {
+  private callObserverScale(obj: { value: number }) {
     if (typeof this.observerControllerModelScale !== 'undefined') {
       this.observerControllerModelScale.callAllObserver(obj);
     }
   }
-  
-  private callObserverTrack(obj:{width:number,trackX:number}) {
+
+  private callObserverTrack(obj: { width: number, trackX: number }) {
     if (typeof this.observerControllerModelTrack !== 'undefined') {
       this.observerControllerModelTrack.callAllObserver(obj);
     }
   }
 
+
+  private getInputsValue() {
+    const valueLeft: number = parseInt(this.inputLeft.val()!.toString(), 10);
+    const valueRight: number = parseInt(this.inputRight.val()!.toString(), 10);
+    return {
+      valueLeft,
+      valueRight
+    }
+  }
+
   private handlerInputLeft = () => {
-    this.callObserver();
+    this.callObserver(this.getInputsValue());
   };
 
   private handlerInputRight = () => {
-    this.callObserver();
+    this.callObserver(this.getInputsValue());
   };
 
   private handlerScaleClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>) => {
-    this.callObserverScale({value:parseInt(e.target.innerHTML, 10)});
+    this.callObserverScale({ value: parseInt(e.target.innerHTML, 10) });
   };
 
   private handlerTrackClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>) => {
-    this.callObserverTrack({width:this.slider.trackClick.width()!,trackX: e.offsetX});
+    this.callObserverTrack({ width: this.slider.trackClick.width()!, trackX: e.offsetX });
   };
 
   private setEventHandlers() {
     this.inputLeft.on('input', this.handlerInputLeft);
     this.inputRight.on('input', this.handlerInputRight);
     this.scale.scale.on('click', this.handlerScaleClick);
-    this.slider.trackClick.on('click',this.handlerTrackClick);
+    this.slider.trackClick.on('click', this.handlerTrackClick);
   }
 }

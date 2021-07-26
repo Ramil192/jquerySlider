@@ -17,7 +17,7 @@ export default class Controller {
     this.model = model;
     this.view = view;
     this.observerControllerModel = new Observer();
-    this.observerControllerModelScale = new Observer(); 
+    this.observerControllerModelScale = new Observer();
     this.observerControllerModelTrack = new Observer();
     this.observerControllerView = new Observer();
   }
@@ -28,13 +28,15 @@ export default class Controller {
     this.model.setObserver(this.observerControllerView);
     this.model.checkSettings();
 
-    // тут не получается с  parseInt так как TS ругается что val()  может быть undefined
-    this.observerControllerModel.addObserver(() => this.model.setStateForLeftInput(+this.view.inputLeft.val()!));
-    this.observerControllerModel.addObserver(() => this.model.setStateForRightInput(+this.view.inputRight.val()!));
-    this.observerControllerModelScale.addObserver(this.model.setStateForInput.bind(this.model));
-    this.observerControllerModelTrack.addObserver(this.model.getValueClickTrack.bind(this.model));
+    this.observerControllerModel.addObserver(this.model.setStateForLeftInput.bind(this.model));
+    this.observerControllerModel.addObserver(this.model.setStateForRightInput.bind(this.model));
     this.view.setObserver(this.observerControllerModel);
+
+    this.observerControllerModelScale.addObserver(this.model.setStateForInput.bind(this.model));
     this.view.setObserverScale(this.observerControllerModelScale);
+
+    this.observerControllerModelTrack.addObserver(this.model.getValueClickTrack.bind(this.model));
     this.view.setObserverTrack(this.observerControllerModelTrack);
+    
   }
 }

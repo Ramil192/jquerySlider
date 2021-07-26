@@ -40,10 +40,10 @@ export interface IModel {
   state: IState
   observerControllerView?: IObserver;
 
-  setObserver(observer:IObserver):void
-  setStateForLeftInput(valueLeft: number): void
-  setStateForRightInput(valueRight: number): void
-  getValueClickTrack(obj:{width:number, trackX:number}):void
-  setStateForInput(obj:{value: number}): void
+  setObserver(observer: IObserver): void
+  setStateForLeftInput(obj: { valueLeft: number, valueRight?: number }): void
+  setStateForRightInput(obj: { valueLeft?: number, valueRight: number }): void
+  getValueClickTrack(obj: { width: number, trackX: number }): void
+  setStateForInput(obj: { value: number }): void
   checkSettings(prevLeft?: number): void
 }
