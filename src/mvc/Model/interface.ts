@@ -33,8 +33,10 @@ export interface IState {
   percentageLeft: number
   percentageRight: number
   newStepInputValue: number
-  penultimate: number
+  penultimateValue: number
   isPenultimate: boolean
+  isPenultimateValue: boolean
+  
 }
 
 export interface IModel {

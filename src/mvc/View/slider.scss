@@ -45,7 +45,7 @@
 
 .range-slider__body-thumb-right {
   position: absolute;
-  z-index: 3;
+  z-index: 1;
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -64,17 +64,19 @@
   -webkit-appearance: none;
   top: -10px;
   left: -6px;
-  opacity: 0;
+  opacity: 0.1;
 }
 
 .range-slider__input-left{
   left: 1px;
   top: -2px;
+  z-index: 4;
 }
 
 .range-slider__input-right{
   left: 1px;
   top: -2px;
+
 }
 
 input[class="range-slider__input-left"]::-webkit-slider-thumb {

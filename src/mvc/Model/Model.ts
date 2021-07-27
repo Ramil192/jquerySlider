@@ -14,8 +14,9 @@ export default class Model implements IModel {
       percentageLeft: 0,
       percentageRight: 0,
       newStepInputValue: 0,
-      penultimate: 0,
-      isPenultimate: false
+      penultimateValue: 0,
+      isPenultimate: false,
+      isPenultimateValue: false,
     };
   }
 
@@ -86,25 +87,30 @@ export default class Model implements IModel {
 
   public setStateForRightInput(obj: { valueLeft?: number, valueRight: number }): void {
     let { valueRight } = obj;
-    console.log(valueRight);
-    if (this.state.isPenultimate) {
-      if (this.state.penultimate > valueRight) {
-        this.state.newStepInputValue = this.settings.step;
-        valueRight = parseFloat(Math.abs(this.state.penultimate - this.settings.step).toFixed(1));
-        this.state.isPenultimate = false;
-      }
-    } else {
-      if ((this.settings.max - this.settings.step) < valueRight) {
-        this.state.newStepInputValue = Math.floor(parseFloat(Math.abs(this.settings.max - valueRight).toFixed(1)));
-        this.state.penultimate = valueRight;
-        this.state.isPenultimate = true;
-        console.log(this.state.newStepInputValue);
-      }
 
+    if (this.state.isPenultimateValue) {
+      valueRight = this.state.penultimateValue;
+      this.state.isPenultimateValue = false;
+    }
+
+    if (this.state.isPenultimate) {
+      if (this.state.penultimateValue > valueRight) {
+        valueRight = parseFloat(Math.abs(this.state.penultimateValue - this.settings.step).toFixed(1));
+        this.state.newStepInputValue = this.settings.step;
+      } else {
+        valueRight = this.settings.max;
+        this.state.isPenultimateValue = true;
+      }
+      this.state.isPenultimate = false;
+    }
+
+    if (((this.settings.max - this.settings.step) < valueRight) && (valueRight !== this.settings.max)) {
+      this.state.newStepInputValue = Number.isInteger(this.settings.step) ? 0 : 0.1;
+      this.state.penultimateValue = valueRight;
+      this.state.isPenultimate = true;
     }
 
     const newValue = Math.max(valueRight, this.state.valueLeft + 1);
-    console.log(newValue);
     this.state.percentageRight = this.getPercentage(newValue);
     this.state.valueRight = newValue;
     this.settings.valueRight = newValue;
@@ -147,10 +153,13 @@ export default class Model implements IModel {
 
   private checkStep() {
     let newLeftValue = this.settings.valueRight;
-    for (; (newLeftValue % this.settings.step);) {
-      newLeftValue -= 1;
+    if (Number.isInteger(this.settings.step)) {
+
+      for (; (newLeftValue % this.settings.step);) {
+        newLeftValue -= 1;
+      }
     }
-    this.settings.valueRight=newLeftValue
+    this.settings.valueRight = newLeftValue
   }
 
   private callObserver() {

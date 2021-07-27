@@ -73,7 +73,7 @@ export default class View implements IView {
     } = state;
 
     this.renderVertical(isVertical);
-    this.changeAttrInput(min, max, step,newStepInputValue, valueLeft, valueRight);
+    this.changeAttrInput(min, max, step, newStepInputValue, valueLeft, valueRight);
 
     this.scale.renderScale(min, max, isScale);
 
@@ -104,9 +104,9 @@ export default class View implements IView {
 
   public doubleSlider(isDouble: boolean) {
     if (isDouble) {
-      this.inputRight.css({ pointerEvents: 'none' });
+      this.inputRight.css({ pointerEvents: 'none', zIndex: 2 });
     } else {
-      this.inputRight.css({ pointerEvents: 'all' });
+      this.inputRight.css({ pointerEvents: 'all', zIndex: 5 });
     }
     this.slider.doubleSlider(isDouble);
   }
@@ -142,14 +142,14 @@ export default class View implements IView {
     }
   }
 
-  private changeAttrInput(min: number, max: number, step: number,newStepInputValue:number, valueLeft: number, valueRight: number): void {
-    console.log(min, max, step,newStepInputValue, valueLeft, valueRight);
+  private changeAttrInput(min: number, max: number, step: number, newStepInputValue: number, valueLeft: number, valueRight: number): void {
+    //console.log(min, max, step,newStepInputValue, valueLeft, valueRight);
     this.inputLeft.attr('min', min);
     this.inputLeft.attr('max', max);
     this.inputLeft.attr('step', step);
     this.inputLeft.attr('value', valueLeft);
     this.inputLeft.val(valueLeft);
-    
+
     this.inputRight.attr('min', min);
     this.inputRight.attr('max', max);
     this.inputRight.attr('step', newStepInputValue);
