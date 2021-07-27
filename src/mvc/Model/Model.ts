@@ -17,8 +17,11 @@ export default class Model implements IModel {
       penultimateValue: 0,
       isPenultimate: false,
       isPenultimateValue: false,
+      isSmooth: false,
     };
   }
+
+
 
   public setObserver(observer: IObserver) {
     this.observerControllerView = observer;
@@ -73,6 +76,7 @@ export default class Model implements IModel {
     this.state.percentageRight = this.getPercentage(this.settings.valueRight);
 
     this.setStateForRightInput({ valueRight: this.state.valueRight });
+    this.setIsSmooth(this.state.valueLeft,this.state.valueRight);
     this.callObserver();
   }
 
@@ -115,13 +119,14 @@ export default class Model implements IModel {
     this.state.valueRight = newValue;
     this.settings.valueRight = newValue;
 
+    this.setIsSmooth(this.state.valueLeft,this.state.valueRight);
     this.callObserver();
   }
 
   public getValueClickTrack(obj: { width: number, trackX: number }) {
     const { width, trackX } = obj;
-    const clickPercentTrack: number = ((100 / (width + 12)) * trackX);
-    const formulaClickTrack: number = (clickPercentTrack * (this.state.newStepInputValue - this.settings.min) / 100) + this.settings.min;
+    const clickPercentTrack: number = parseFloat(((100 / (width + 12)) * trackX).toFixed(1));
+    const formulaClickTrack: number = (clickPercentTrack * (this.settings.max - this.settings.min) / 100) + this.settings.min;
     const valueClickTrack: number = Math.ceil(formulaClickTrack);
 
     this.setStateForInput({ value: valueClickTrack });
@@ -143,6 +148,7 @@ export default class Model implements IModel {
       this.setStateForRightInput({ valueRight: value });
     }
 
+    this.setIsSmooth(this.state.valueLeft,this.state.valueRight);
     this.callObserver();
   }
 
@@ -165,6 +171,15 @@ export default class Model implements IModel {
   private callObserver() {
     if (typeof this.observerControllerView !== 'undefined') {
       this.observerControllerView.callAllObserver();
+    }
+  }
+
+  private setIsSmooth(valueLeft: number, valueRight: number) {
+
+    if (Math.abs(valueRight - valueLeft) <= 1) {
+      this.state.isSmooth = true;
+    }else{
+      this.state.isSmooth = false;
     }
   }
 }

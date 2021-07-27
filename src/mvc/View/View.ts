@@ -41,18 +41,7 @@ export default class View implements IView {
     this.observerControllerModelTrack = observer;
   }
 
-  private init(): void {
-    this.target.append('<div class="range-slider"></div>');
-    this.target.find('.range-slider').append(this.inputLeft);
-    this.target.find('.range-slider').append(this.inputRight);
-    this.target.find('.range-slider').append(this.slider.slider);
-    this.slider.slider.append(this.scale.scale);
-    this.target.css({
-      transformOrigin: 'bottom left',
-      margin: '32px 0px',
-      width: '100%',
-    });
-  }
+
 
   public render(settings: ISettings, state: IState): void {
     const {
@@ -70,6 +59,7 @@ export default class View implements IView {
       percentageLeft,
       valueRight,
       percentageRight,
+      isSmooth
     } = state;
 
     this.renderVertical(isVertical);
@@ -83,6 +73,7 @@ export default class View implements IView {
 
     this.renderThumbLeft(isDouble, min, valueLeft, percentageLeft);
     this.renderThumbRight(isVertical, valueRight, percentageRight);
+    this.leftValueSmoothRightValue(isSmooth)
   }
 
   public renderVertical(isVertical: boolean): void {
@@ -143,7 +134,6 @@ export default class View implements IView {
   }
 
   private changeAttrInput(min: number, max: number, step: number, newStepInputValue: number, valueLeft: number, valueRight: number): void {
-    //console.log(min, max, step,newStepInputValue, valueLeft, valueRight);
     this.inputLeft.attr('min', min);
     this.inputLeft.attr('max', max);
     this.inputLeft.attr('step', step);
@@ -185,6 +175,28 @@ export default class View implements IView {
     }
   }
 
+  private init(): void {
+    this.target.append('<div class="range-slider"></div>');
+    this.target.find('.range-slider').append(this.inputLeft);
+    this.target.find('.range-slider').append(this.inputRight);
+    this.target.find('.range-slider').append(this.slider.slider);
+    this.slider.slider.append(this.scale.scale);
+    this.target.css({
+      transformOrigin: 'bottom left',
+      margin: '32px 0px',
+      width: '100%',
+    });
+  }
+
+  private leftValueSmoothRightValue(isSmooth:boolean) {
+  
+    if (isSmooth) {
+      this.inputRight.css({ zIndex: -1 });
+    } else {
+      this.inputRight.css({ zIndex: 5 });
+    }
+  }
+
   private handlerInputLeft = () => {
     this.callObserver(this.getInputsValue());
   };
@@ -209,11 +221,11 @@ export default class View implements IView {
     this.inputLeft.css({ left: '1px', top: '-2px' });
   }
   private handlerTextRightMouseenter = () => {
-    this.inputRight.css({ left: '-15px', top: '-24px' });
+    this.inputRight.css({ left: '-6px', top: '-24px' });
   }
 
   private handlerThumbRightMouseenter = () => {
-    this.inputRight.css({ left: '1px', top: '-2px' });
+    this.inputRight.css({ left: '6px', top: '-2px' });
   }
 
   private setEventHandlers() {

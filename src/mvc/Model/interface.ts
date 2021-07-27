@@ -36,7 +36,7 @@ export interface IState {
   penultimateValue: number
   isPenultimate: boolean
   isPenultimateValue: boolean
-  
+  isSmooth: boolean  
 }
 
 export interface IModel {
