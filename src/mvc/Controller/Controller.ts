@@ -3,7 +3,6 @@ import { IModel } from '../Model/interface';
 import { IObserver } from '../Observer/interface';
 
 import Observer from '../Observer/Observer';
-// import Observer1 from '../Observer/Observer1';
 
 export default class Controller {
   private view: IView;

@@ -143,14 +143,17 @@ export default class View implements IView {
   }
 
   private changeAttrInput(min: number, max: number, step: number,newStepInputValue:number, valueLeft: number, valueRight: number): void {
+    console.log(min, max, step,newStepInputValue, valueLeft, valueRight);
     this.inputLeft.attr('min', min);
     this.inputLeft.attr('max', max);
     this.inputLeft.attr('step', step);
+    this.inputLeft.attr('value', valueLeft);
     this.inputLeft.val(valueLeft);
-
+    
     this.inputRight.attr('min', min);
     this.inputRight.attr('max', max);
     this.inputRight.attr('step', newStepInputValue);
+    this.inputRight.attr('value', valueRight);
     this.inputRight.val(valueRight);
   }
 
@@ -174,8 +177,8 @@ export default class View implements IView {
 
 
   private getInputsValue() {
-    const valueLeft: number = parseInt(this.inputLeft.val()!.toString(), 10);
-    const valueRight: number = parseInt(this.inputRight.val()!.toString(), 10);
+    const valueLeft: number = parseFloat(this.inputLeft.val()!.toString());
+    const valueRight: number = parseFloat(this.inputRight.val()!.toString());
     return {
       valueLeft,
       valueRight

@@ -13,7 +13,7 @@ export default class Model implements IModel {
       valueRight: 0,
       percentageLeft: 0,
       percentageRight: 0,
-      newStepInputValue: this.settings.step,
+      newStepInputValue: 0,
       penultimate: 0,
       isPenultimate: false
     };
@@ -67,10 +67,11 @@ export default class Model implements IModel {
 
     this.state.valueLeft = this.settings.valueLeft;
     this.state.valueRight = this.settings.valueRight;
-    this.state.percentageLeft = this.getPercentage(this.settings.valueLeft);
+    this.state.newStepInputValue = this.settings.step,
+      this.state.percentageLeft = this.getPercentage(this.settings.valueLeft);
     this.state.percentageRight = this.getPercentage(this.settings.valueRight);
 
-    this.setStateForRightInput({valueRight:this.state.valueRight});
+    this.setStateForRightInput({ valueRight: this.state.valueRight });
     this.callObserver();
   }
 
@@ -85,23 +86,25 @@ export default class Model implements IModel {
 
   public setStateForRightInput(obj: { valueLeft?: number, valueRight: number }): void {
     let { valueRight } = obj;
-
+    console.log(valueRight);
     if (this.state.isPenultimate) {
       if (this.state.penultimate > valueRight) {
         this.state.newStepInputValue = this.settings.step;
-        valueRight = this.state.penultimate - this.settings.step;
+        valueRight = parseFloat(Math.abs(this.state.penultimate - this.settings.step).toFixed(1));
         this.state.isPenultimate = false;
       }
     } else {
       if ((this.settings.max - this.settings.step) < valueRight) {
-        this.state.newStepInputValue = Math.abs(this.settings.max - valueRight);
+        this.state.newStepInputValue = Math.floor(parseFloat(Math.abs(this.settings.max - valueRight).toFixed(1)));
         this.state.penultimate = valueRight;
         this.state.isPenultimate = true;
+        console.log(this.state.newStepInputValue);
       }
+
     }
 
     const newValue = Math.max(valueRight, this.state.valueLeft + 1);
-
+    console.log(newValue);
     this.state.percentageRight = this.getPercentage(newValue);
     this.state.valueRight = newValue;
     this.settings.valueRight = newValue;
@@ -143,10 +146,11 @@ export default class Model implements IModel {
   }
 
   private checkStep() {
-
-    for (; (this.settings.valueRight % this.settings.step);) {
-      this.settings.valueRight -= 1;
+    let newLeftValue = this.settings.valueRight;
+    for (; (newLeftValue % this.settings.step);) {
+      newLeftValue -= 1;
     }
+    this.settings.valueRight=newLeftValue
   }
 
   private callObserver() {
