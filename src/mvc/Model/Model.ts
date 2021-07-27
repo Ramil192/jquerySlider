@@ -13,7 +13,9 @@ export default class Model implements IModel {
       valueRight: 0,
       percentageLeft: 0,
       percentageRight: 0,
-      newMax: 0,
+      newStepInputValue: this.settings.step,
+      penultimate: 0,
+      isPenultimate: false
     };
   }
 
@@ -51,12 +53,12 @@ export default class Model implements IModel {
       this.settings.valueRight = this.settings.min;
     }
 
-    if (this.state.newMax < valueLeft) {
-      this.settings.valueLeft = this.state.newMax;
+    if (this.settings.max < valueLeft) {
+      this.settings.valueLeft = this.settings.max;
     }
 
-    if (this.state.newMax < valueRight) {
-      this.settings.valueRight = this.state.newMax;
+    if (this.settings.max < valueRight) {
+      this.settings.valueRight = this.settings.max;
     }
 
     if (!isDouble) {
@@ -67,7 +69,6 @@ export default class Model implements IModel {
     this.state.valueRight = this.settings.valueRight;
     this.state.percentageLeft = this.getPercentage(this.settings.valueLeft);
     this.state.percentageRight = this.getPercentage(this.settings.valueRight);
-
     this.callObserver();
   }
 
@@ -81,7 +82,22 @@ export default class Model implements IModel {
   }
 
   public setStateForRightInput(obj: { valueLeft?: number, valueRight: number }): void {
-    const { valueRight } = obj;
+    let { valueRight } = obj;
+
+    if (this.state.isPenultimate) {
+      if (this.state.penultimate > valueRight) {
+        this.state.newStepInputValue = this.settings.step;
+        valueRight = this.state.penultimate - this.settings.step;
+        this.state.isPenultimate = false;
+      }
+    } else {
+      if ((this.settings.max - this.settings.step) < valueRight) {
+        this.state.newStepInputValue = Math.abs(this.settings.max - valueRight);
+        this.state.penultimate = valueRight;
+        this.state.isPenultimate = true;
+      }
+    }
+
     const newValue = Math.max(valueRight, this.state.valueLeft + 1);
 
     this.state.percentageRight = this.getPercentage(newValue);
@@ -93,8 +109,8 @@ export default class Model implements IModel {
 
   public getValueClickTrack(obj: { width: number, trackX: number }) {
     const { width, trackX } = obj;
-    const clickPercentTrack: number = ((100 / (width+12)) * trackX);
-    const formulaClickTrack: number = (clickPercentTrack * (this.state.newMax - this.settings.min) / 100) + this.settings.min;
+    const clickPercentTrack: number = ((100 / (width + 12)) * trackX);
+    const formulaClickTrack: number = (clickPercentTrack * (this.state.newStepInputValue - this.settings.min) / 100) + this.settings.min;
     const valueClickTrack: number = Math.ceil(formulaClickTrack);
 
     this.setStateForInput({ value: valueClickTrack });
@@ -120,15 +136,14 @@ export default class Model implements IModel {
   }
 
   private getPercentage(val: number): number {
-    const { min } = this.settings;
-    const { newMax } = this.state;
-    return Math.abs(((val - min) / (newMax - min)) * 100);
+    const { min, max } = this.settings;
+    return Math.abs(((val - min) / (max - min)) * 100);
   }
 
   private checkStep() {
-    this.state.newMax = this.settings.max;
-    for (; (this.state.newMax % this.settings.step);) {
-      this.state.newMax -= 1;
+
+    for (; (this.settings.valueRight % this.settings.step);) {
+      this.settings.valueRight -= 1;
     }
   }
 

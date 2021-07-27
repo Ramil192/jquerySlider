@@ -58,13 +58,14 @@ export default class View implements IView {
     const {
       isVertical,
       min,
+      max,
       step,
       isScale,
       isLabel,
       isDouble,
     } = settings;
     const {
-      newMax,
+      newStepInputValue,
       valueLeft,
       percentageLeft,
       valueRight,
@@ -72,9 +73,9 @@ export default class View implements IView {
     } = state;
 
     this.renderVertical(isVertical);
-    this.changeAttrInput(min, newMax, step, valueLeft, valueRight);
+    this.changeAttrInput(min, max, step,newStepInputValue, valueLeft, valueRight);
 
-    this.scale.renderScale(min, newMax, isScale);
+    this.scale.renderScale(min, max, isScale);
 
     this.doubleSlider(isDouble);
 
@@ -141,7 +142,7 @@ export default class View implements IView {
     }
   }
 
-  private changeAttrInput(min: number, max: number, step: number, valueLeft: number, valueRight: number): void {
+  private changeAttrInput(min: number, max: number, step: number,newStepInputValue:number, valueLeft: number, valueRight: number): void {
     this.inputLeft.attr('min', min);
     this.inputLeft.attr('max', max);
     this.inputLeft.attr('step', step);
@@ -149,7 +150,7 @@ export default class View implements IView {
 
     this.inputRight.attr('min', min);
     this.inputRight.attr('max', max);
-    this.inputRight.attr('step', step);
+    this.inputRight.attr('step', newStepInputValue);
     this.inputRight.val(valueRight);
   }
 
