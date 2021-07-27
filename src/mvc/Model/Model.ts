@@ -69,6 +69,8 @@ export default class Model implements IModel {
     this.state.valueRight = this.settings.valueRight;
     this.state.percentageLeft = this.getPercentage(this.settings.valueLeft);
     this.state.percentageRight = this.getPercentage(this.settings.valueRight);
+
+    this.setStateForRightInput({valueRight:this.state.valueRight});
     this.callObserver();
   }
 
