@@ -1,14 +1,14 @@
-import { MyType, INewSettings } from './interface';
+import { MyType, INewSettings,IDemoPage } from './interface';
 import 'jquery';
 
-class DemoPage {
-  outerContainerElement: JQuery;
+class DemoPage  implements IDemoPage{
+  outerContainerElement: JQuery<HTMLElement>;
   leftValue: string[];
   rightValue: boolean[];
-  columnNumber: JQuery;
-  columnCheckbox: JQuery;
-  valueLeft: JQuery;
-  valueRight: JQuery;
+  columnNumber: JQuery<HTMLElement>;
+  columnCheckbox: JQuery<HTMLElement>;
+  valueLeft: JQuery<HTMLElement>;
+  valueRight: JQuery<HTMLElement>;
   plugin: JQuery<HTMLElement>;
 
   constructor(outerContainerElement: Element) {
@@ -29,6 +29,7 @@ class DemoPage {
     this.synchronizationRight();
     this.bindEventListeners();
   }
+
   settingsObjInit(): INewSettings {
     const settingObj: MyType = {};
 
@@ -50,6 +51,7 @@ class DemoPage {
   synchronizationLeft(): void {
     this.plugin.data().synchronizationLeft(this.valueLeft);
   }
+
   synchronizationRight(): void {
     this.plugin.data().synchronizationRight(this.valueRight);
   }

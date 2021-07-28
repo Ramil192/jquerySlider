@@ -12,9 +12,11 @@ export interface ISettings {
   isDouble: boolean,
   [key: string]: boolean | number
 }
+
 export interface MyType {
   [key: string]: number | boolean;
 }
+
 export interface INewSettings {
   min?: number,
   max?: number,
@@ -45,7 +47,7 @@ export interface IModel {
   observerControllerView?: IObserver;
 
   setObserver(observer: IObserver): void
-  setStateForLeftInput(obj: { valueLeft: number, valueRight?: number }): void
+  setStateForLeftInput(obj: { valueLeft: number}): void
   setStateForRightInput(obj: { valueLeft?: number, valueRight: number }): void
   getValueClickTrack(obj: { width: number, trackX: number }): void
   setStateForInput(obj: { value: number }): void

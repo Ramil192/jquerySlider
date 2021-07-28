@@ -1,24 +1,26 @@
 import { IView, IScale, ISlider } from './interface';
-import { IObserver } from '../Observer/interface';
+import { IObserver, IObserverLeft,IObserverRight, IObserverTrack, IObserverScale } from '../Observer/interface';
 import { ISettings, IState } from '../Model/interface';
 
 import Scale from './subView/Scale/Scale';
 import Slider from './subView/Slider/Slider';
 
 export default class View implements IView {
-  public target: JQuery;
-  public inputLeft: JQuery;
-  public inputRight: JQuery;
+  public target: JQuery<HTMLElement>;
+  public inputLeft: JQuery<HTMLElement>;
+  public inputRight: JQuery<HTMLElement>;
   public scale: IScale;
   public slider: ISlider;
 
-  public synchronizationLeft?: JQuery;
-  public synchronizationRight?: JQuery;
+  public synchronizationLeft?: JQuery<HTMLElement>;
+  public synchronizationRight?: JQuery<HTMLElement>;
   public observerControllerModel?: IObserver;
-  public observerControllerModelScale?: IObserver;
-  public observerControllerModelTrack?: IObserver;
+  public observerControllerModelLeft?: IObserverLeft;
+  public observerControllerModelRight?: IObserverRight;
+  public observerControllerModelScale?: IObserverScale;
+  public observerControllerModelTrack?: IObserverTrack;
 
-  constructor(target: JQuery) {
+  constructor(target: JQuery<HTMLElement>) {
     this.target = target;
     this.inputLeft = $('<input class="range-slider__input-left" type="range">');
     this.inputRight = $('<input class="range-slider__input-right" type="range">');
@@ -29,15 +31,21 @@ export default class View implements IView {
     this.setEventHandlers();
   }
 
-  public setObserver(observer: IObserver) {
-    this.observerControllerModel = observer;
+
+
+  public setObserverLeft(observer: IObserverLeft) {
+    this.observerControllerModelLeft = observer;
+  }
+  
+  public setObserverRight(observer: IObserverRight) {
+    this.observerControllerModelRight = observer;
   }
 
-  public setObserverScale(observer: IObserver) {
+  public setObserverScale(observer: IObserverScale) {
     this.observerControllerModelScale = observer;
   }
 
-  public setObserverTrack(observer: IObserver) {
+  public setObserverTrack(observer: IObserverTrack) {
     this.observerControllerModelTrack = observer;
   }
 
@@ -102,11 +110,11 @@ export default class View implements IView {
     this.slider.doubleSlider(isDouble);
   }
 
-  public setSynchronizationLeft(left: JQuery): void {
+  public setSynchronizationLeft(left: JQuery<HTMLElement>): void {
     this.synchronizationLeft = left;
   }
 
-  public setSynchronizationRight(right: JQuery): void {
+  public setSynchronizationRight(right: JQuery<HTMLElement>): void {
     this.synchronizationRight = right;
   }
 
@@ -133,6 +141,19 @@ export default class View implements IView {
     }
   }
 
+  private init(): void {
+    this.target.append('<div class="range-slider"></div>');
+    this.target.find('.range-slider').append(this.inputLeft);
+    this.target.find('.range-slider').append(this.inputRight);
+    this.target.find('.range-slider').append(this.slider.slider);
+    this.slider.slider.append(this.scale.scale);
+    this.target.css({
+      transformOrigin: 'bottom left',
+      margin: '32px 0px',
+      width: '100%',
+    });
+  }
+
   private changeAttrInput(min: number, max: number, step: number, newStepInputValue: number, valueLeft: number, valueRight: number): void {
     this.inputLeft.attr('min', min);
     this.inputLeft.attr('max', max);
@@ -147,9 +168,15 @@ export default class View implements IView {
     this.inputRight.val(valueRight);
   }
 
-  private callObserver(obj: { valueLeft: number, valueRight: number, }) {
-    if (typeof this.observerControllerModel !== 'undefined') {
-      this.observerControllerModel.callAllObserver(obj);
+
+  private callObserverLeft(obj: { valueLeft: number }) {
+    if (typeof this.observerControllerModelLeft !== 'undefined') {
+      this.observerControllerModelLeft.callAllObserver(obj);
+    }
+  }
+  private callObserverRight(obj: { valueRight: number }) {
+    if (typeof this.observerControllerModelRight !== 'undefined') {
+      this.observerControllerModelRight.callAllObserver(obj);
     }
   }
 
@@ -166,30 +193,8 @@ export default class View implements IView {
   }
 
 
-  private getInputsValue() {
-    const valueLeft: number = parseFloat(this.inputLeft.val()!.toString());
-    const valueRight: number = parseFloat(this.inputRight.val()!.toString());
-    return {
-      valueLeft,
-      valueRight
-    }
-  }
+  private leftValueSmoothRightValue(isSmooth: boolean) {
 
-  private init(): void {
-    this.target.append('<div class="range-slider"></div>');
-    this.target.find('.range-slider').append(this.inputLeft);
-    this.target.find('.range-slider').append(this.inputRight);
-    this.target.find('.range-slider').append(this.slider.slider);
-    this.slider.slider.append(this.scale.scale);
-    this.target.css({
-      transformOrigin: 'bottom left',
-      margin: '32px 0px',
-      width: '100%',
-    });
-  }
-
-  private leftValueSmoothRightValue(isSmooth:boolean) {
-  
     if (isSmooth) {
       this.inputRight.css({ zIndex: -1 });
     } else {
@@ -198,12 +203,15 @@ export default class View implements IView {
   }
 
   private handlerInputLeft = () => {
-    this.callObserver(this.getInputsValue());
+    const valueLeft: number = parseFloat(this.inputLeft.val()!.toString());
+    this.callObserverLeft({valueLeft});
   };
 
   private handlerInputRight = () => {
-    this.callObserver(this.getInputsValue());
+    const valueRight: number = parseFloat(this.inputRight.val()!.toString());
+    this.callObserverRight({valueRight});
   };
+
 
   private handlerScaleClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>) => {
     this.callObserverScale({ value: parseInt(e.target.innerHTML, 10) });

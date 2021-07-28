@@ -1,44 +1,48 @@
 import { ISettings, IState } from '../Model/interface';
-import { IObserver } from '../Observer/interface';
+import { IObserver, IObserverLeft, IObserverRight, IObserverTrack, IObserverScale } from '../Observer/interface';
 
 export interface IView {
-  target: JQuery
-  inputLeft: JQuery
-  inputRight: JQuery
+  target: JQuery<HTMLElement>
+  inputLeft: JQuery<HTMLElement>
+  inputRight: JQuery<HTMLElement>
   scale: IScale
   slider: ISlider
-  synchronizationLeft?: JQuery;
-  synchronizationRight?: JQuery;
+  synchronizationLeft?: JQuery<HTMLElement>;
+  synchronizationRight?: JQuery<HTMLElement>;
   observerControllerModel?: IObserver;
-  observerControllerModelTrack?: IObserver;
+  observerControllerModelLeft?: IObserverLeft;
+  observerControllerModelRight?: IObserverRight
+  observerControllerModelScale?: IObserverScale;
+  observerControllerModelTrack?: IObserverTrack;
 
-  doubleSlider(isDouble:boolean):void;
-  setObserver(observer:IObserver):void;
-  setObserverScale(observerScale:IObserver):void;
-  setObserverTrack(observerTrack:IObserver):void;
+  doubleSlider(isDouble: boolean): void;
+  setObserverLeft(observer: IObserverLeft): void;
+  setObserverRight(observer: IObserverRight): void;
+  setObserverScale(observerScale: IObserverScale): void;
+  setObserverTrack(observerTrack: IObserverTrack): void;
   render(settings: ISettings, state: IState): void;
   renderThumbLeft(isDouble: boolean, min: number, valueLeft: number, percentageLeft: number): void;
   renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void;
-  setSynchronizationLeft(left: JQuery): void;
-  setSynchronizationRight(right: JQuery): void;
+  setSynchronizationLeft(left: JQuery<HTMLElement>): void;
+  setSynchronizationRight(right: JQuery<HTMLElement>): void;
 }
 
 export interface IScale {
-  scale: JQuery
+  scale: JQuery<HTMLElement>
 
   renderScale(min: number, max: number, isScale: boolean): void;
   verticalScale(isVertical: boolean): void;
 }
 
 export interface ISlider {
-  slider: JQuery;
-  track: JQuery;
-  trackClick: JQuery;
-  range: JQuery;
-  thumbLeft: JQuery;
-  thumbRight: JQuery;
-  textLeft: JQuery;
-  textRight: JQuery;
+  slider: JQuery<HTMLElement>;
+  track: JQuery<HTMLElement>;
+  trackClick: JQuery<HTMLElement>;
+  range: JQuery<HTMLElement>;
+  thumbLeft: JQuery<HTMLElement>;
+  thumbRight: JQuery<HTMLElement>;
+  textLeft: JQuery<HTMLElement>;
+  textRight: JQuery<HTMLElement>;
 
   renderText(isLabel: boolean, isDouble: boolean): void;
   doubleSlider(isDouble: boolean): void;

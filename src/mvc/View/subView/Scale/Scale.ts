@@ -1,7 +1,7 @@
 import { IScale } from '../../interface';
 
 class Scale implements IScale {
-  public scale: JQuery;
+  public scale: JQuery<HTMLElement>;
 
   constructor() {
     this.scale = $('<div class="range-slider__scale"></div>');

@@ -38,11 +38,11 @@ import { INewSettings } from './Model/interface';
       model.checkSettings(prevLeft);
     };
 
-    $(this).data().synchronizationLeft = function (inputLeft: JQuery): void {
+    $(this).data().synchronizationLeft = function (inputLeft: JQuery<HTMLElement>): void {
       view.setSynchronizationLeft(inputLeft);
     };
 
-    $(this).data().synchronizationRight = function (inputRight: JQuery): void {
+    $(this).data().synchronizationRight = function (inputRight: JQuery<HTMLElement>): void {
       view.setSynchronizationRight(inputRight);
     };
 

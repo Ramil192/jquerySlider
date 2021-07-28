@@ -76,21 +76,26 @@ export default class Model implements IModel {
     this.state.percentageRight = this.getPercentage(this.settings.valueRight);
 
     this.setStateForRightInput({ valueRight: this.state.valueRight });
-    this.setIsSmooth(this.state.valueLeft,this.state.valueRight);
+    this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
     this.callObserver();
   }
 
-  public setStateForLeftInput(obj: { valueLeft: number, valueRight?: number }): void {
+  public setStateForLeftInput(obj: { valueLeft: number }): void {
     const { valueLeft } = obj;
+
     const newValue = Math.min(valueLeft, this.state.valueRight - 1);
 
     this.state.percentageLeft = this.getPercentage(newValue);
     this.state.valueLeft = newValue;
     this.settings.valueLeft = newValue;
+
+    this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
+    this.callObserver();
   }
 
   public setStateForRightInput(obj: { valueLeft?: number, valueRight: number }): void {
     let { valueRight } = obj;
+
 
     if (this.state.isPenultimateValue) {
       valueRight = this.state.penultimateValue;
@@ -119,8 +124,10 @@ export default class Model implements IModel {
     this.state.valueRight = newValue;
     this.settings.valueRight = newValue;
 
-    this.setIsSmooth(this.state.valueLeft,this.state.valueRight);
+    this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
     this.callObserver();
+
+
   }
 
   public getValueClickTrack(obj: { width: number, trackX: number }) {
@@ -148,7 +155,7 @@ export default class Model implements IModel {
       this.setStateForRightInput({ valueRight: value });
     }
 
-    this.setIsSmooth(this.state.valueLeft,this.state.valueRight);
+    this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
     this.callObserver();
   }
 
@@ -178,7 +185,7 @@ export default class Model implements IModel {
 
     if (Math.abs(valueRight - valueLeft) <= 1) {
       this.state.isSmooth = true;
-    }else{
+    } else {
       this.state.isSmooth = false;
     }
   }

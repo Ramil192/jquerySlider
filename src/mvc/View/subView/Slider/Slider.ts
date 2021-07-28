@@ -1,14 +1,14 @@
 import { ISlider } from '../../interface';
 
 class Slider implements ISlider {
-  public slider: JQuery;
-  public track: JQuery;
-  public trackClick: JQuery;
-  public range: JQuery;
-  public thumbLeft: JQuery;
-  public thumbRight: JQuery;
-  public textLeft: JQuery;
-  public textRight: JQuery;
+  public slider: JQuery<HTMLElement>;
+  public track: JQuery<HTMLElement>;
+  public trackClick: JQuery<HTMLElement>;
+  public range: JQuery<HTMLElement>;
+  public thumbLeft: JQuery<HTMLElement>;
+  public thumbRight: JQuery<HTMLElement>;
+  public textLeft: JQuery<HTMLElement>;
+  public textRight: JQuery<HTMLElement>;
 
   constructor() {
     this.slider = $('<div class="range-slider__body"></div>');
