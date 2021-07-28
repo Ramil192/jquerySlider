@@ -77,35 +77,35 @@ describe('Model', () => {
   });
 
   describe('setState', () => {
-    test('setStateForLeftInput', () => {
+    test('setStateLeft', () => {
       const value = 30
 
-      model.setStateForLeftInput(value);
+      model.setStateLeft(value);
       expect(model.state.valueLeft).toBe(value)
     })
 
-    test('setStateForRightInput', () => {
+    test('setStateRight', () => {
       const value = 60
 
-      model.setStateForRightInput(value);
+      model.setStateRight(value);
       expect(model.state.valueRight).toBe(value)
     })
 
-    test('setStateForInput', () => {
+    test('setStateLeftOrRight', () => {
       let valueScale = 20
-      model.setStateForInput(valueScale);
+      model.setStateLeftOrRight(valueScale);
       expect(model.settings.valueLeft).toBe(valueScale)
 
       valueScale = 80
-      model.setStateForInput(valueScale);
+      model.setStateLeftOrRight(valueScale);
       expect(model.settings.valueRight).toBe(valueScale);
     })
 
-    test('setStateForInput isDouble = false', () => {
+    test('setStateLeftOrRight isDouble = false', () => {
       model.settings.isDouble = false
       const valueScale = 50
 
-      model.setStateForInput(valueScale);
+      model.setStateLeftOrRight(valueScale);
       expect(model.settings.valueRight).toBe(valueScale)
     })
 

@@ -5,7 +5,7 @@ import { IObserver, IObserverTrack, IObserverScale, IObserverLeft, IObserverRigh
 export interface IController {
   view: IView
   model: IModel
-  observerControllerView: IObserver;
+  observerRender: IObserver;
   observerControllerModel: IObserver;
   observerControllerModelLeft: IObserverLeft;
   observerControllerModelRight: IObserverRight;

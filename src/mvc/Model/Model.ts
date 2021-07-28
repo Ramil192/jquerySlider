@@ -4,7 +4,7 @@ import { IObserver } from '../Observer/interface';
 export default class Model implements IModel {
   public settings: ISettings;
   public state: IState;
-  public observerControllerView?: IObserver;
+  public observerRender?: IObserver;
 
   constructor(settings: ISettings) {
     this.settings = settings;
@@ -13,7 +13,7 @@ export default class Model implements IModel {
       valueRight: 0,
       percentageLeft: 0,
       percentageRight: 0,
-      newStepInputValue: 0,
+      newStepRight: 0,
       penultimateValue: 0,
       isPenultimate: false,
       isPenultimateValue: false,
@@ -21,10 +21,8 @@ export default class Model implements IModel {
     };
   }
 
-
-
   public setObserver(observer: IObserver) {
-    this.observerControllerView = observer;
+    this.observerRender = observer;
   }
 
   public checkSettings(prevLeft = 25): void {
@@ -71,16 +69,16 @@ export default class Model implements IModel {
 
     this.state.valueLeft = this.settings.valueLeft;
     this.state.valueRight = this.settings.valueRight;
-    this.state.newStepInputValue = this.settings.step,
-      this.state.percentageLeft = this.getPercentage(this.settings.valueLeft);
+    this.state.newStepRight = this.settings.step;
+    this.state.percentageLeft = this.getPercentage(this.settings.valueLeft);
     this.state.percentageRight = this.getPercentage(this.settings.valueRight);
 
-    this.setStateForRightInput({ valueRight: this.state.valueRight });
+    this.setStateRight({ valueRight: this.state.valueRight });
     this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
-    this.callObserver();
+    this.observerRender!.callAllObserver()
   }
 
-  public setStateForLeftInput(obj: { valueLeft: number }): void {
+  public setStateLeft(obj: { valueLeft: number }): void {
     const { valueLeft } = obj;
 
     const newValue = Math.min(valueLeft, this.state.valueRight - 1);
@@ -90,12 +88,11 @@ export default class Model implements IModel {
     this.settings.valueLeft = newValue;
 
     this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
-    this.callObserver();
+    this.observerRender!.callAllObserver()
   }
 
-  public setStateForRightInput(obj: { valueLeft?: number, valueRight: number }): void {
+  public setStateRight(obj: { valueLeft?: number, valueRight: number }): void {
     let { valueRight } = obj;
-
 
     if (this.state.isPenultimateValue) {
       valueRight = this.state.penultimateValue;
@@ -103,18 +100,12 @@ export default class Model implements IModel {
     }
 
     if (this.state.isPenultimate) {
-      if (this.state.penultimateValue > valueRight) {
-        valueRight = parseFloat(Math.abs(this.state.penultimateValue - this.settings.step).toFixed(1));
-        this.state.newStepInputValue = this.settings.step;
-      } else {
-        valueRight = this.settings.max;
-        this.state.isPenultimateValue = true;
-      }
+      valueRight = this.newValueRight(valueRight);
       this.state.isPenultimate = false;
     }
 
-    if (((this.settings.max - this.settings.step) < valueRight) && (valueRight !== this.settings.max)) {
-      this.state.newStepInputValue = Number.isInteger(this.settings.step) ? 0 : 0.1;
+    if (this.isPenultimateAndIsNotMaxValue(valueRight)) {
+      this.state.newStepRight = Number.isInteger(this.settings.step) ? 0 : 0.1;
       this.state.penultimateValue = valueRight;
       this.state.isPenultimate = true;
     }
@@ -125,38 +116,34 @@ export default class Model implements IModel {
     this.settings.valueRight = newValue;
 
     this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
-    this.callObserver();
-
+    this.observerRender!.callAllObserver()
 
   }
 
-  public getValueClickTrack(obj: { width: number, trackX: number }) {
-    const { width, trackX } = obj;
-    const clickPercentTrack: number = parseFloat(((100 / (width + 12)) * trackX).toFixed(1));
-    const formulaClickTrack: number = (clickPercentTrack * (this.settings.max - this.settings.min) / 100) + this.settings.min;
-    const valueClickTrack: number = Math.ceil(formulaClickTrack);
+  public getNewValueForState(obj: { width: number, coordinatesX: number }) {
+    const { width, coordinatesX } = obj;
+    const percent: number = parseFloat(((100 / (width + 12)) * coordinatesX).toFixed(1));
+    const newValueForState: number = (percent * (this.settings.max - this.settings.min) / 100) + this.settings.min;
 
-    this.setStateForInput({ value: valueClickTrack });
+    this.setStateLeftOrRight({ value: Math.ceil(newValueForState) });
   }
 
-  public setStateForInput(obj: { value: number }): void {
+  public setStateLeftOrRight(obj: { value: number }): void {
     const { value } = obj;
-    const isRightLess = this.state.valueRight < value;
-    const isRightNearer = Math.abs(value - this.state.valueRight) < Math.abs(value - this.state.valueLeft);
-    const isNewRightValue = isRightLess || isRightNearer;
+    let isRightNearer = Math.abs(this.state.valueRight - value) < Math.abs(this.state.valueLeft - value);
 
-    if (this.settings.isDouble) {
-      if (isNewRightValue) {
-        this.setStateForRightInput({ valueRight: value });
-      } else {
-        this.setStateForLeftInput({ valueLeft: value });
-      }
+    if (!this.settings.isDouble) {
+      isRightNearer = true;
+    }
+
+    if (isRightNearer) {
+      this.setStateRight({ valueRight: value });
     } else {
-      this.setStateForRightInput({ valueRight: value });
+      this.setStateLeft({ valueLeft: value });
     }
 
     this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
-    this.callObserver();
+    this.observerRender!.callAllObserver()
   }
 
   private getPercentage(val: number): number {
@@ -166,27 +153,35 @@ export default class Model implements IModel {
 
   private checkStep() {
     let newLeftValue = this.settings.valueRight;
-    if (Number.isInteger(this.settings.step)) {
 
+    if (Number.isInteger(this.settings.step)) {
       for (; (newLeftValue % this.settings.step);) {
         newLeftValue -= 1;
       }
     }
+
     this.settings.valueRight = newLeftValue
   }
 
-  private callObserver() {
-    if (typeof this.observerControllerView !== 'undefined') {
-      this.observerControllerView.callAllObserver();
-    }
-  }
-
   private setIsSmooth(valueLeft: number, valueRight: number) {
-
     if (Math.abs(valueRight - valueLeft) <= 1) {
       this.state.isSmooth = true;
     } else {
       this.state.isSmooth = false;
     }
+  }
+
+  private newValueRight(valueRight: number) {
+    if (this.state.penultimateValue > valueRight) {
+      this.state.newStepRight = this.settings.step;
+      return parseFloat(Math.abs(this.state.penultimateValue - this.settings.step).toFixed(1));
+    } else {
+      this.state.isPenultimateValue = true;
+      return this.settings.max;
+    }
+  }
+
+  private isPenultimateAndIsNotMaxValue(valueRight: number) {
+    return ((this.settings.max - this.settings.step) < valueRight) && (valueRight !== this.settings.max)
   }
 }

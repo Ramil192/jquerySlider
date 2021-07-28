@@ -44,7 +44,7 @@ export interface IObserverRight {
 
 export interface IObserverTrackArgument {
   width: number
-  trackX: number
+  coordinatesX: number
 }
 
 export interface IObserverScaleArgument {

@@ -62,7 +62,7 @@ export default class View implements IView {
       isDouble,
     } = settings;
     const {
-      newStepInputValue,
+      newStepRight,
       valueLeft,
       percentageLeft,
       valueRight,
@@ -71,7 +71,7 @@ export default class View implements IView {
     } = state;
 
     this.renderVertical(isVertical);
-    this.changeAttrInput(min, max, step, newStepInputValue, valueLeft, valueRight);
+    this.changeAttrInput(min, max, step, newStepRight, valueLeft, valueRight);
 
     this.scale.renderScale(min, max, isScale);
 
@@ -154,7 +154,7 @@ export default class View implements IView {
     });
   }
 
-  private changeAttrInput(min: number, max: number, step: number, newStepInputValue: number, valueLeft: number, valueRight: number): void {
+  private changeAttrInput(min: number, max: number, step: number, newStepRight: number, valueLeft: number, valueRight: number): void {
     this.inputLeft.attr('min', min);
     this.inputLeft.attr('max', max);
     this.inputLeft.attr('step', step);
@@ -163,7 +163,7 @@ export default class View implements IView {
 
     this.inputRight.attr('min', min);
     this.inputRight.attr('max', max);
-    this.inputRight.attr('step', newStepInputValue);
+    this.inputRight.attr('step', newStepRight);
     this.inputRight.attr('value', valueRight);
     this.inputRight.val(valueRight);
   }
@@ -186,7 +186,7 @@ export default class View implements IView {
     }
   }
 
-  private callObserverTrack(obj: { width: number, trackX: number }) {
+  private callObserverTrack(obj: { width: number, coordinatesX: number }) {
     if (typeof this.observerControllerModelTrack !== 'undefined') {
       this.observerControllerModelTrack.callAllObserver(obj);
     }
@@ -218,7 +218,7 @@ export default class View implements IView {
   };
 
   private handlerTrackClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>) => {
-    this.callObserverTrack({ width: this.slider.trackClick.width()!, trackX: e.offsetX });
+    this.callObserverTrack({ width: this.slider.trackClick.width()!, coordinatesX: e.offsetX });
   };
 
   private handlerTextLeftMouseenter = () => {

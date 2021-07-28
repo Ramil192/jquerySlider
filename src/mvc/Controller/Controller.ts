@@ -12,7 +12,7 @@ export default class Controller {
   private view: IView;
   private model: IModel;
 
-  private observerControllerView: IObserver;
+  private observerRender: IObserver;
   private observerControllerModelLeft: IObserverLeft;
   private observerControllerModelRight: IObserverRight;
   private observerControllerModelScale: IObserverScale;
@@ -22,7 +22,7 @@ export default class Controller {
     this.model = model;
     this.view = view;
 
-    this.observerControllerView = new Observer();
+    this.observerRender = new Observer();
     this.observerControllerModelLeft = new ObserverLeft();
     this.observerControllerModelRight = new ObserverRight();
     this.observerControllerModelScale = new ObserverScale();
@@ -31,20 +31,20 @@ export default class Controller {
 
   public init(): void {
     const mainRenderView = this.view.render.bind(this.view, this.model.settings, this.model.state);
-    this.observerControllerView.addObserver(mainRenderView);
-    this.model.setObserver(this.observerControllerView);
+    this.observerRender.addObserver(mainRenderView);
+    this.model.setObserver(this.observerRender);
     this.model.checkSettings();
 
-    this.observerControllerModelLeft.addObserver(this.model.setStateForLeftInput.bind(this.model));
+    this.observerControllerModelLeft.addObserver(this.model.setStateLeft.bind(this.model));
     this.view.setObserverLeft(this.observerControllerModelLeft);
 
-    this.observerControllerModelRight.addObserver(this.model.setStateForRightInput.bind(this.model));
+    this.observerControllerModelRight.addObserver(this.model.setStateRight.bind(this.model));
     this.view.setObserverRight(this.observerControllerModelRight);
 
-    this.observerControllerModelScale.addObserver(this.model.setStateForInput.bind(this.model));
+    this.observerControllerModelScale.addObserver(this.model.setStateLeftOrRight.bind(this.model));
     this.view.setObserverScale(this.observerControllerModelScale);
 
-    this.observerControllerModelTrack.addObserver(this.model.getValueClickTrack.bind(this.model));
+    this.observerControllerModelTrack.addObserver(this.model.getNewValueForState.bind(this.model));
     this.view.setObserverTrack(this.observerControllerModelTrack);
 
   }

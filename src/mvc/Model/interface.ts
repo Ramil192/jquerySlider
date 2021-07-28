@@ -31,7 +31,7 @@ export interface IState {
   valueRight: number
   percentageLeft: number
   percentageRight: number
-  newStepInputValue: number
+  newStepRight: number
   penultimateValue: number
   isPenultimate: boolean
   isPenultimateValue: boolean
@@ -41,12 +41,12 @@ export interface IState {
 export interface IModel {
   settings: ISettings
   state: IState
-  observerControllerView?: IObserver;
+  observerRender?: IObserver;
 
   setObserver(observer: IObserver): void
-  setStateForLeftInput(obj: { valueLeft: number}): void
-  setStateForRightInput(obj: { valueLeft?: number, valueRight: number }): void
-  getValueClickTrack(obj: { width: number, trackX: number }): void
-  setStateForInput(obj: { value: number }): void
+  setStateLeft(obj: { valueLeft: number}): void
+  setStateRight(obj: { valueLeft?: number, valueRight: number }): void
+  getNewValueForState(obj: { width: number, coordinatesX: number }): void
+  setStateLeftOrRight(obj: { value: number }): void
   checkSettings(prevLeft?: number): void
 }
