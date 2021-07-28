@@ -1,4 +1,4 @@
-import { MyType, INewSettings,IDemoPage } from './interface';
+import { ISetSettings, INewSettings,IDemoPage } from './interface';
 import 'jquery';
 
 class DemoPage  implements IDemoPage{
@@ -31,7 +31,7 @@ class DemoPage  implements IDemoPage{
   }
 
   settingsObjInit(): INewSettings {
-    const settingObj: MyType = {};
+    const settingObj: ISetSettings = {};
 
     this.columnNumber.each((i, e) => {
       if ((e as HTMLInputElement).dataset.key !== undefined) {

@@ -13,9 +13,6 @@ export interface ISettings {
   [key: string]: boolean | number
 }
 
-export interface MyType {
-  [key: string]: number | boolean;
-}
 
 export interface INewSettings {
   min?: number,

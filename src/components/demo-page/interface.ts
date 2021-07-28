@@ -1,4 +1,4 @@
-export interface MyType {
+export interface ISetSettings{
   [key: string]: number | boolean;
 }
 
