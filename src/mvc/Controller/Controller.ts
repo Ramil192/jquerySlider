@@ -2,11 +2,8 @@ import { IView } from '../View/interface';
 import { IModel } from '../Model/interface';
 import { IObserver, IObserverTrack, IObserverScale, IObserverLeft,IObserverRight } from '../Observer/interface';
 
-import Observer from '../Observer/Observer';
-import ObserverTrack from '../Observer/ObserverTrack';
-import ObserverScale from '../Observer/ObserverScale';
-import ObserverLeft from '../Observer/ObserverLeft';
-import ObserverRight from '../Observer/ObserverRight';
+// import Observer from '../Observer/Observer';
+import ObserverT from '../Observer/ObserverT';
 
 export default class Controller {
   private view: IView;
@@ -22,16 +19,15 @@ export default class Controller {
     this.model = model;
     this.view = view;
 
-    this.observerRender = new Observer();
-    this.observerControllerModelLeft = new ObserverLeft();
-    this.observerControllerModelRight = new ObserverRight();
-    this.observerControllerModelScale = new ObserverScale();
-    this.observerControllerModelTrack = new ObserverTrack();
+    this.observerRender = new ObserverT();
+    this.observerControllerModelLeft = new ObserverT();
+    this.observerControllerModelRight = new ObserverT();
+    this.observerControllerModelScale = new ObserverT();
+    this.observerControllerModelTrack = new ObserverT();
   }
 
   public init(): void {
-    const mainRenderView = this.view.render.bind(this.view, this.model.settings, this.model.state);
-    this.observerRender.addObserver(mainRenderView);
+    this.observerRender.addObserver(this.view.render.bind(this.view));
     this.model.setObserver(this.observerRender);
     this.model.checkSettings();
 

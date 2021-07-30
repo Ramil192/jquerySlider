@@ -47,7 +47,7 @@ class Slider implements ISlider {
       });
     } else {
       this.textLeft.css({
-        transform: 'rotate(0deg) translate(-23px, 0px)',
+        transform: 'rotate(0deg) translate(-10px, 0px)',
       });
 
       this.textRight.css({
@@ -70,7 +70,7 @@ class Slider implements ISlider {
   public renderThumbLeft(valueLeft: number, percentageLeft: number): void {
     this.thumbLeft.css({ left: `${percentageLeft}%` });
     this.range.css({ left: `${percentageLeft}%` });
-    this.textLeft.css({ right: `${95 - percentageLeft}%` });
+    this.textLeft.css({ left: `${percentageLeft}%` });
     this.textLeft.html(`${valueLeft}`);
   }
 

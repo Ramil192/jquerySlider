@@ -64,7 +64,7 @@
   -webkit-appearance: none;
   top: -10px;
   left: -6px;
-  opacity: 0;
+  opacity: 0.1;
   width: 97%;
 }
 
@@ -104,7 +104,7 @@ input[class="range-slider__input-right"]::-webkit-slider-thumb {
   position: absolute;
   background-color: #6200ee;
   padding: 5px;
-  border-radius: 10px 10px 0px 10px;
+  border-radius: 10px 10px 0px 0px;
   top: -30px;
   color: #fff;
   font-size: 10px;

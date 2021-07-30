@@ -51,7 +51,7 @@ export default class View implements IView {
 
 
 
-  public render(settings: ISettings, state: IState): void {
+  public render(obj: {settings: ISettings, state: IState}): void {
     const {
       isVertical,
       min,
@@ -60,7 +60,7 @@ export default class View implements IView {
       isScale,
       isLabel,
       isDouble,
-    } = settings;
+    } = obj.settings;
     const {
       newStepRight,
       valueLeft,
@@ -68,7 +68,7 @@ export default class View implements IView {
       valueRight,
       percentageRight,
       isSmooth
-    } = state;
+    } = obj.state;
 
     this.renderVertical(isVertical);
     this.changeAttrInput(min, max, step, newStepRight, valueLeft, valueRight);
@@ -222,7 +222,7 @@ export default class View implements IView {
   };
 
   private handlerTextLeftMouseenter = () => {
-    this.inputLeft.css({ left: '-20px', top: '-24px' });
+    this.inputLeft.css({ left: '1px', top: '-24px' });
   }
 
   private handlerThumbLeftMouseenter = () => {

@@ -75,7 +75,7 @@ export default class Model implements IModel {
 
     this.setStateRight({ valueRight: this.state.valueRight });
     this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
-    this.observerRender!.callAllObserver()
+    this.observerRender!.callAllObserver({settings: this.settings, state: this.state})
   }
 
   public setStateLeft(obj: { valueLeft: number }): void {
@@ -88,7 +88,7 @@ export default class Model implements IModel {
     this.settings.valueLeft = newValue;
 
     this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
-    this.observerRender!.callAllObserver()
+    this.observerRender!.callAllObserver({settings: this.settings, state: this.state})
   }
 
   public setStateRight(obj: { valueLeft?: number, valueRight: number }): void {
@@ -116,7 +116,7 @@ export default class Model implements IModel {
     this.settings.valueRight = newValue;
 
     this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
-    this.observerRender!.callAllObserver()
+    this.observerRender!.callAllObserver({settings: this.settings, state: this.state})
 
   }
 
@@ -143,7 +143,7 @@ export default class Model implements IModel {
     }
 
     this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
-    this.observerRender!.callAllObserver()
+    this.observerRender!.callAllObserver({settings: this.settings, state: this.state})
   }
 
   private getPercentage(val: number): number {

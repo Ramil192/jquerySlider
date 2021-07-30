@@ -1,5 +1,5 @@
 import { ISettings, IState } from '../Model/interface';
-import { IObserver, IObserverLeft, IObserverRight, IObserverTrack, IObserverScale } from '../Observer/interface';
+import { IObserver, IObserverLeft, IObserverRight, IObserverTrack, IObserverScale, } from '../Observer/interface';
 
 export interface IView {
   target: JQuery<HTMLElement>
@@ -20,7 +20,7 @@ export interface IView {
   setObserverRight(observer: IObserverRight): void;
   setObserverScale(observerScale: IObserverScale): void;
   setObserverTrack(observerTrack: IObserverTrack): void;
-  render(settings: ISettings, state: IState): void;
+  render(obj: {settings: ISettings, state: IState}): void;
   renderThumbLeft(isDouble: boolean, min: number, valueLeft: number, percentageLeft: number): void;
   renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void;
   setSynchronizationLeft(left: JQuery<HTMLElement>): void;
