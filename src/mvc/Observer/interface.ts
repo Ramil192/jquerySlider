@@ -40,6 +40,7 @@ export interface IObserverViewArgument {
   settings: ISettings
   state: IState
 }
+
 export interface IObserverTrackArgument {
   width: number
   coordinatesX: number

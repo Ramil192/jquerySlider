@@ -222,18 +222,22 @@ export default class View implements IView {
   };
 
   private handlerTextLeftMouseenter = () => {
-    this.inputLeft.css({ left: '1px', top: '-24px' });
+    // this.inputLeft.css({ left: '1px', top: '-24px' });
+    this.inputLeft.css({top: '-24px' });
   }
 
   private handlerThumbLeftMouseenter = () => {
-    this.inputLeft.css({ left: '1px', top: '-2px' });
+    //this.inputLeft.css({ left: '1px', top: '-2px' });
+    this.inputLeft.css({ top: '0px' });
   }
   private handlerTextRightMouseenter = () => {
-    this.inputRight.css({ left: '-6px', top: '-24px' });
+    // this.inputRight.css({ left: '-6px', top: '-24px' });
+    this.inputRight.css({top: '-24px' });
   }
 
   private handlerThumbRightMouseenter = () => {
-    this.inputRight.css({ left: '6px', top: '-2px' });
+    // this.inputRight.css({ left: '6px', top: '-2px' });
+    this.inputRight.css({top: '0px' });
   }
 
   private setEventHandlers() {

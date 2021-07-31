@@ -122,7 +122,7 @@ export default class Model implements IModel {
 
   public getNewValueForState(obj: { width: number, coordinatesX: number }) {
     const { width, coordinatesX } = obj;
-    const percent: number = parseFloat(((100 / (width + 12)) * coordinatesX).toFixed(1));
+    const percent: number = parseFloat(((100 / width ) * coordinatesX).toFixed(1));
     const newValueForState: number = (percent * (this.settings.max - this.settings.min) / 100) + this.settings.min;
 
     this.setStateLeftOrRight({ value: Math.ceil(newValueForState) });

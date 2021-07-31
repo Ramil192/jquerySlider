@@ -1,3 +1,5 @@
+
+
 .range-slider__body {
   position: relative;
   z-index: 1;
@@ -39,8 +41,7 @@
   height: 20px;
   border-radius: 50%;
   background-color: #6200ee;
-  top: 5px;
-  transform: translate(-8px, -12px);
+  transform: translate(-10px, -5px);
 }
 
 .range-slider__body-thumb-right {
@@ -50,8 +51,7 @@
   height: 20px;
   border-radius: 50%;
   background-color: #6200ee;
-  top: 5px;
-  transform: translate(9px, -12px);
+  transform: translate(10px, -5px);
 }
 
 .range-slider__input-left,
@@ -62,29 +62,23 @@
   height: 10px;
   width: 100%;
   -webkit-appearance: none;
-  top: -10px;
-  left: -6px;
   opacity: 0.1;
-  width: 97%;
 }
 
 .range-slider__input-left{
-  left: 1px;
-  top: -2px;
+
   z-index: 4;
 }
 
 .range-slider__input-right{
-  left: 1px;
-  top: -2px;
 
 }
 
 input[class="range-slider__input-left"]::-webkit-slider-thumb {
   pointer-events: all;
-  width: 30px;
+  width: 20px;
   height: 20px;
-  border-radius: 0;
+  border-radius: 50%;
   border: 0px none;
   background-color: red;
   -webkit-appearance: none;
@@ -92,9 +86,9 @@ input[class="range-slider__input-left"]::-webkit-slider-thumb {
 
 input[class="range-slider__input-right"]::-webkit-slider-thumb {
   pointer-events: all;
-  width: 30px;
+  width: 20px;
   height: 20px;
-  border-radius: 0;
+  border-radius: 50%;
   border: 0px none;
   background-color: red;
   -webkit-appearance: none;
@@ -104,18 +98,19 @@ input[class="range-slider__input-right"]::-webkit-slider-thumb {
   position: absolute;
   background-color: #6200ee;
   padding: 5px;
-  border-radius: 10px 10px 0px 0px;
+  border-radius: 10px;
   top: -30px;
   color: #fff;
   font-size: 10px;
   cursor: pointer;
+  transform: translate(-10px, -5px);
 }
 
 .range-slider__body-text-right {
   position: absolute;
   background-color: #6200ee;
   padding: 5px;
-  border-radius: 10px 10px 0px 10px;
+  border-radius: 10px;
   top: -30px;
   color: #fff;
   font-size: 10px;
@@ -128,15 +123,15 @@ input[class="range-slider__input-right"]::-webkit-slider-thumb {
   font-size: 10px;
 
   :nth-child(2) {
-    left: 25%;
+    left: 23%;
   }
 
   :nth-child(3) {
-    left: 50%;
+    left: 48%;
   }
 
   :nth-child(4) {
-    left: 75%;
+    left: 73%;
   }
 
   :nth-child(5) {
