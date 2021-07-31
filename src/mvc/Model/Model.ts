@@ -29,7 +29,6 @@ export default class Model implements IModel {
     const {
       min, max, valueLeft, valueRight, isDouble,
     } = this.settings;
-    this.checkStep();
 
     if (min >= max) {
       if (min >= 0) {
@@ -149,18 +148,6 @@ export default class Model implements IModel {
   private getPercentage(val: number): number {
     const { min, max } = this.settings;
     return Math.abs(((val - min) / (max - min)) * 100);
-  }
-
-  private checkStep() {
-    let newLeftValue = this.settings.valueRight;
-
-    if (Number.isInteger(this.settings.step)) {
-      for (; (newLeftValue % this.settings.step);) {
-        newLeftValue -= 1;
-      }
-    }
-
-    this.settings.valueRight = newLeftValue
   }
 
   private setIsSmooth(valueLeft: number, valueRight: number) {

@@ -39,11 +39,11 @@ class Slider implements ISlider {
   public verticalSlider(isVertical: boolean): void {
     if (isVertical) {
       this.textLeft.css({
-        transform: 'rotate(90deg) translate(0px, 10px)',
+        transform: 'rotate(90deg) translate(0px, 7px)',
       });
 
       this.textRight.css({
-        transform: 'rotate(90deg) translate(0px, -5px)',
+        transform: 'rotate(90deg) translate(0px, -4px)',
       });
     } else {
       this.textLeft.css({

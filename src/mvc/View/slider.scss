@@ -4,7 +4,7 @@
   position: relative;
   z-index: 1;
   height: 5px;
-  margin: 0px 15px;
+  margin: 0px 10px;
 }
 
 .range-slider__body-track,.range-slider__body-track-click  {
@@ -62,7 +62,7 @@
   height: 10px;
   width: 100%;
   -webkit-appearance: none;
-  opacity: 0.1;
+  opacity: 0;
 }
 
 .range-slider__input-left{

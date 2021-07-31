@@ -1,5 +1,5 @@
 import { IView, IScale, ISlider } from './interface';
-import { IObserver, IObserverLeft,IObserverRight, IObserverTrack, IObserverScale } from '../Observer/interface';
+import { IObserver, IObserverLeft, IObserverRight, IObserverTrack, IObserverScale } from '../Observer/interface';
 import { ISettings, IState } from '../Model/interface';
 
 import Scale from './subView/Scale/Scale';
@@ -36,7 +36,7 @@ export default class View implements IView {
   public setObserverLeft(observer: IObserverLeft) {
     this.observerControllerModelLeft = observer;
   }
-  
+
   public setObserverRight(observer: IObserverRight) {
     this.observerControllerModelRight = observer;
   }
@@ -51,7 +51,7 @@ export default class View implements IView {
 
 
 
-  public render(obj: {settings: ISettings, state: IState}): void {
+  public render(obj: { settings: ISettings, state: IState }): void {
     const {
       isVertical,
       min,
@@ -116,6 +116,7 @@ export default class View implements IView {
 
   public setSynchronizationRight(right: JQuery<HTMLElement>): void {
     this.synchronizationRight = right;
+    this.handlerInputRight()
   }
 
   public renderThumbLeft(isDouble: boolean, min: number, valueLeft: number, percentageLeft: number): void {
@@ -204,12 +205,12 @@ export default class View implements IView {
 
   private handlerInputLeft = () => {
     const valueLeft: number = parseFloat(this.inputLeft.val()!.toString());
-    this.callObserverLeft({valueLeft});
+    this.callObserverLeft({ valueLeft });
   };
 
   private handlerInputRight = () => {
     const valueRight: number = parseFloat(this.inputRight.val()!.toString());
-    this.callObserverRight({valueRight});
+    this.callObserverRight({ valueRight });
   };
 
 
@@ -222,22 +223,18 @@ export default class View implements IView {
   };
 
   private handlerTextLeftMouseenter = () => {
-    // this.inputLeft.css({ left: '1px', top: '-24px' });
-    this.inputLeft.css({top: '-24px' });
+    this.inputLeft.css({ top: '-24px' });
   }
 
   private handlerThumbLeftMouseenter = () => {
-    //this.inputLeft.css({ left: '1px', top: '-2px' });
     this.inputLeft.css({ top: '0px' });
   }
   private handlerTextRightMouseenter = () => {
-    // this.inputRight.css({ left: '-6px', top: '-24px' });
-    this.inputRight.css({top: '-24px' });
+    this.inputRight.css({ top: '-24px' });
   }
 
   private handlerThumbRightMouseenter = () => {
-    // this.inputRight.css({ left: '6px', top: '-2px' });
-    this.inputRight.css({top: '0px' });
+    this.inputRight.css({ top: '0px' });
   }
 
   private setEventHandlers() {
