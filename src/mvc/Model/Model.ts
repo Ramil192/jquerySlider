@@ -30,20 +30,16 @@ export default class Model implements IModel {
       min, max, valueLeft, valueRight, isDouble,
     } = this.settings;
 
-    if (min >= max) {
-      if (min >= 0) {
-        this.settings.min = max - 1;
-      } else {
-        this.settings.min = max + 1;
-      }
+    if (min >= max && min >= 0) {
+      this.settings.min = max - 1;
+    }
+
+    if (min >= max && min <= 0) {
+      this.settings.min = max + 1;
     }
 
     if (this.settings.valueLeft >= valueRight) {
-      if (prevLeft !== valueLeft) {
-        this.settings.valueRight = this.settings.valueLeft;
-      } else {
-        this.settings.valueLeft = this.settings.valueRight;
-      }
+      this.settings.valueRight = this.settings.valueLeft;
     }
 
     if (this.settings.min > valueLeft) {
@@ -74,7 +70,7 @@ export default class Model implements IModel {
 
     this.setStateRight({ valueRight: this.state.valueRight });
     this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
-    this.observerRender!.callAllObserver({settings: this.settings, state: this.state})
+    this.observerRender!.callAllObserver({ settings: this.settings, state: this.state })
   }
 
   public setStateLeft(obj: { valueLeft: number }): void {
@@ -87,7 +83,7 @@ export default class Model implements IModel {
     this.settings.valueLeft = newValue;
 
     this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
-    this.observerRender!.callAllObserver({settings: this.settings, state: this.state})
+    this.observerRender!.callAllObserver({ settings: this.settings, state: this.state })
   }
 
   public setStateRight(obj: { valueLeft?: number, valueRight: number }): void {
@@ -115,13 +111,13 @@ export default class Model implements IModel {
     this.settings.valueRight = newValue;
 
     this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
-    this.observerRender!.callAllObserver({settings: this.settings, state: this.state})
+    this.observerRender!.callAllObserver({ settings: this.settings, state: this.state })
 
   }
 
   public getNewValueForState(obj: { width: number, coordinatesX: number }) {
     const { width, coordinatesX } = obj;
-    const percent: number = parseFloat(((100 / width ) * coordinatesX).toFixed(1));
+    const percent: number = parseFloat(((100 / width) * coordinatesX).toFixed(1));
     const newValueForState: number = (percent * (this.settings.max - this.settings.min) / 100) + this.settings.min;
 
     this.setStateLeftOrRight({ value: Math.ceil(newValueForState) });
@@ -142,7 +138,7 @@ export default class Model implements IModel {
     }
 
     this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
-    this.observerRender!.callAllObserver({settings: this.settings, state: this.state})
+    this.observerRender!.callAllObserver({ settings: this.settings, state: this.state })
   }
 
   private getPercentage(val: number): number {
