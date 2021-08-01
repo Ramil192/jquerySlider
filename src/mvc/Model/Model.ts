@@ -76,7 +76,7 @@ export default class Model implements IModel {
   public setStateLeft(obj: { valueLeft: number }): void {
     const { valueLeft } = obj;
 
-    const newValue = Math.min(valueLeft, this.state.valueRight - 1);
+    const newValue = Math.min(valueLeft, this.state.valueRight - this.isFractional());
 
     this.state.percentageLeft = this.getPercentage(newValue);
     this.state.valueLeft = newValue;
@@ -105,7 +105,7 @@ export default class Model implements IModel {
       this.state.isPenultimate = true;
     }
 
-    const newValue = Math.max(valueRight, this.state.valueLeft + 1);
+    const newValue = Math.max(valueRight, this.state.valueLeft + this.isFractional());
     this.state.percentageRight = this.getPercentage(newValue);
     this.state.valueRight = newValue;
     this.settings.valueRight = newValue;
@@ -147,11 +147,16 @@ export default class Model implements IModel {
   }
 
   private setIsSmooth(valueLeft: number, valueRight: number) {
-    if (Math.abs(valueRight - valueLeft) <= 1) {
+    const difference = this.isFractional();
+    if (Math.abs(valueRight - valueLeft) <= difference) {
       this.state.isSmooth = true;
     } else {
       this.state.isSmooth = false;
     }
+  }
+
+  private isFractional():number {
+    return Number.isInteger(this.settings.step) ? 1 : 0.1;
   }
 
   private newValueRight(valueRight: number) {

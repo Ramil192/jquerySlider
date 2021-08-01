@@ -66,12 +66,7 @@
 }
 
 .range-slider__input-left{
-
   z-index: 4;
-}
-
-.range-slider__input-right{
-
 }
 
 input[class="range-slider__input-left"]::-webkit-slider-thumb {
@@ -80,7 +75,7 @@ input[class="range-slider__input-left"]::-webkit-slider-thumb {
   height: 20px;
   border-radius: 50%;
   border: 0px none;
-  background-color: red;
+  background-color: gold;
   -webkit-appearance: none;
 }
 
@@ -104,6 +99,7 @@ input[class="range-slider__input-right"]::-webkit-slider-thumb {
   font-size: 10px;
   cursor: pointer;
   transform: translate(-10px, -5px);
+  z-index: 3;
 }
 
 .range-slider__body-text-right {
