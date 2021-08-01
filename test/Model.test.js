@@ -1,4 +1,6 @@
 import Model from '../src/mvc/model/Model';
+import View from '../src/mvc/view/View';
+import ObserverT from '../src/mvc/Observer/ObserverT';
 import $ from 'jquery';
 global.$ = global.jQuery = $;
 
@@ -17,6 +19,13 @@ describe('Model', () => {
   }
 
   const model = new Model({ ...settings });
+  const observerRender = new ObserverT();
+
+  const element = $('<div class = "test"></div>');
+  const view = new View(element);
+
+  observerRender.addObserver(view.render.bind(view));
+  model.setObserver(observerRender);
 
   const {
     valueLeft,
@@ -24,6 +33,11 @@ describe('Model', () => {
   } = settings;
 
   const outerState = {
+    isPenultimate: false,
+    isPenultimateValue: false,
+    isSmooth: false,
+    newStepRight: 1,
+    penultimateValue: 0,
     valueLeft: valueLeft,
     valueRight: valueRight,
     percentageLeft: 25,
@@ -58,12 +72,9 @@ describe('Model', () => {
 
     test('valueLeft >= valueRight ', () => {
       model.settings.valueLeft = 76;
-      model.checkSettings(75);
-      expect(model.settings.valueRight).toEqual(model.settings.valueLeft)
+      model.checkSettings();
+      expect(model.settings.valueRight).toEqual(77)
 
-      model.settings.valueLeft = 76;
-      model.checkSettings(76);
-      expect(model.settings.valueLeft).toEqual(model.settings.valueRight)
     });
 
     test('isDouble', () => {
@@ -78,37 +89,87 @@ describe('Model', () => {
 
   describe('setState', () => {
     test('setStateLeft', () => {
-      const value = 30
+      const obj = {
+        valueLeft: 30
+      }
 
-      model.setStateLeft(value);
-      expect(model.state.valueLeft).toBe(value)
+      model.setStateLeft(obj);
+      expect(model.state.valueLeft).toBe(obj.valueLeft)
     })
 
     test('setStateRight', () => {
-      const value = 60
+      const obj = {
+        valueRight: 60
+      }
 
-      model.setStateRight(value);
-      expect(model.state.valueRight).toBe(value)
+      model.setStateRight(obj);
+      expect(model.state.valueRight).toBe(obj.valueRight)
     })
 
     test('setStateLeftOrRight', () => {
-      let valueScale = 20
-      model.setStateLeftOrRight(valueScale);
-      expect(model.settings.valueLeft).toBe(valueScale)
+      const obj = {
+        value: 20
+      }
 
-      valueScale = 80
-      model.setStateLeftOrRight(valueScale);
-      expect(model.settings.valueRight).toBe(valueScale);
-    })
+      model.setStateLeftOrRight(obj);
+      expect(model.settings.valueLeft).toBe(obj.value)
 
-    test('setStateLeftOrRight isDouble = false', () => {
-      model.settings.isDouble = false
-      const valueScale = 50
-
-      model.setStateLeftOrRight(valueScale);
-      expect(model.settings.valueRight).toBe(valueScale)
+      obj.value = 80
+      model.setStateLeftOrRight(obj);
+      expect(model.settings.valueRight).toBe(obj.value);
     })
 
   })
+
+  describe('getNewValueForState', () => {
+    beforeAll(() => {
+      model.settings = { ...settings };
+    });
+
+    test('getNewValueForState()', () => {
+      const obj = {
+        width: 320,
+        coordinatesX: 319
+      }
+
+      model.getNewValueForState(obj);
+      expect(model.settings.valueRight).toBe(100);
+    })
+  })
+
+  describe('setStateRight', () => {
+    afterAll(() => {
+      model.settings = { ...settings };
+    });
+
+    const obj ={
+      valueRight:96
+    }
+    
+    test('setStateRight isPenultimate', () => {
+      model.settings.step = 6;
+      model.setStateRight(obj);
+      expect(model.state.newStepRight ).toBe(0);
+    })
+
+    test('setStateRight isPenultimate next max and prev step', () => {
+      obj.valueRight=97;
+      model.setStateRight(obj);
+      expect(model.state.valueRight).toBe(model.settings.max);
+      expect(model.settings.valueRight).toBe(model.settings.max);
+      
+      obj.valueRight=99;
+      model.setStateRight(obj);
+      expect(model.state.valueRight).toBe(model.state.penultimateValue);
+      expect(model.settings.valueRight).toBe(model.state.penultimateValue);
+      
+      obj.valueRight=95;
+      model.setStateRight(obj);
+      expect(model.state.valueRight).toBe(model.state.penultimateValue-model.settings.step);
+      expect(model.settings.valueRight).toBe(model.state.penultimateValue-model.settings.step);
+
+    })
+  })
+
 })
 

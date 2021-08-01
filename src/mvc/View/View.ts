@@ -1,5 +1,5 @@
 import { IView, IScale, ISlider } from './interface';
-import { IObserver, IObserverLeft, IObserverRight, IObserverTrack, IObserverScale } from '../Observer/interface';
+import { IObserverLeft, IObserverRight, IObserverTrack, IObserverScale } from '../Observer/interface';
 import { ISettings, IState } from '../Model/interface';
 
 import Scale from './subView/Scale/Scale';
@@ -14,7 +14,7 @@ export default class View implements IView {
 
   public synchronizationLeft?: JQuery<HTMLElement>;
   public synchronizationRight?: JQuery<HTMLElement>;
-  public observerControllerModel?: IObserver;
+
   public observerControllerModelLeft?: IObserverLeft;
   public observerControllerModelRight?: IObserverRight;
   public observerControllerModelScale?: IObserverScale;

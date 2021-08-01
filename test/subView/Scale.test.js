@@ -1,4 +1,4 @@
-import Scale from '../../src/mvc/view/subView/Scale';
+import Scale from '../../src/mvc/view/subView/Scale/Scale';
 import $ from 'jquery';
 global.$ = global.jQuery = $;
 
@@ -12,7 +12,12 @@ describe('Scale', () => {
 
     scale.renderScale(min, max, isScale)
 
-    expect(scale.scale[0].innerHTML).toBe('<span class="range-slider__scale-item"></span><span class="range-slider__scale-item"></span><span class="range-slider__scale-item"></span><span class="range-slider__scale-item"></span><span class="range-slider__scale-item"></span>');
+    expect(scale.scale[0].innerHTML).toBe(`<span class="range-slider__scale-item">${min}</span><span class="range-slider__scale-item"></span><span class="range-slider__scale-item"></span><span class="range-slider__scale-item"></span><span class="range-slider__scale-item">${max}</span>`);
 
+  })
+
+  test('renderScale()', () => {
+    scale.verticalScale(false)
+    expect(scale.scale.children('span').css('transform')).toEqual('rotate(0deg)')
   })
 })

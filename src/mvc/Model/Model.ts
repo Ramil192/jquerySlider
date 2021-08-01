@@ -25,7 +25,7 @@ export default class Model implements IModel {
     this.observerRender = observer;
   }
 
-  public checkSettings(prevLeft = 25): void {
+  public checkSettings(): void {
     const {
       min, max, valueLeft, valueRight, isDouble,
     } = this.settings;

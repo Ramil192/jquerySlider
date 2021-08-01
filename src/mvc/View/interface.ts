@@ -9,7 +9,7 @@ export interface IView {
   slider: ISlider
   synchronizationLeft?: JQuery<HTMLElement>;
   synchronizationRight?: JQuery<HTMLElement>;
-  observerControllerModel?: IObserver;
+  
   observerControllerModelLeft?: IObserverLeft;
   observerControllerModelRight?: IObserverRight
   observerControllerModelScale?: IObserverScale;

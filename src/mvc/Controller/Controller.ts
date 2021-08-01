@@ -2,7 +2,6 @@ import { IView } from '../View/interface';
 import { IModel } from '../Model/interface';
 import { IObserver, IObserverTrack, IObserverScale, IObserverLeft,IObserverRight } from '../Observer/interface';
 
-// import Observer from '../Observer/Observer';
 import ObserverT from '../Observer/ObserverT';
 
 export default class Controller {

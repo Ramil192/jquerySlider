@@ -34,8 +34,7 @@ import { INewSettings } from './Model/interface';
         model.settings[key] = value;
       });
 
-      const prevLeft = model.settings.valueLeft;
-      model.checkSettings(prevLeft);
+      model.checkSettings();
     };
 
     $(this).data().synchronizationLeft = function (inputLeft: JQuery<HTMLElement>): void {
