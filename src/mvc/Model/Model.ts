@@ -27,35 +27,55 @@ export default class Model implements IModel {
 
   public checkSettings(): void {
     const {
-      min, max, valueLeft, valueRight, isDouble,
+      min, max, isDouble
     } = this.settings;
 
-    if (min >= max && min >= 0) {
+    const isMinMoreThanMaxAndMinMoreThanZero = (min >= max && min >= 0);
+    const isMinMoreThanMaxAndMinLessThanZero = (min >= max && min <= 0);
+
+
+
+    if (isMinMoreThanMaxAndMinMoreThanZero) {
       this.settings.min = max - 1;
     }
 
-    if (min >= max && min <= 0) {
-      this.settings.min = max + 1;
+    if (isMinMoreThanMaxAndMinLessThanZero && !isMinMoreThanMaxAndMinMoreThanZero) {
+      this.settings.min = max - 1;
     }
 
-    if (this.settings.valueLeft >= valueRight) {
-      this.settings.valueRight = this.settings.valueLeft;
-    }
 
-    if (this.settings.min > valueLeft) {
+
+    if (this.settings.min > this.settings.valueLeft) {
       this.settings.valueLeft = this.settings.min;
     }
 
-    if (this.settings.min > valueRight) {
-      this.settings.valueRight = this.settings.min;
-    }
-
-    if (this.settings.max < valueLeft) {
-      this.settings.valueLeft = this.settings.max;
-    }
-
-    if (this.settings.max < valueRight) {
+    if (this.settings.max < this.settings.valueRight) {
       this.settings.valueRight = this.settings.max;
+    }
+
+    if (this.isMinMoreThanRightAndMinMoreThanZero()) {
+      this.settings.valueRight = this.settings.min + 1;
+    }
+
+    if (this.isMinMoreThanRightAndMinLessThanZero()) {
+      this.settings.valueRight = this.settings.min - 1;
+    }
+
+    if (this.isMaxLessThanLeftAndMaxMoreThanZero()) {
+      this.settings.valueLeft = this.settings.max - 1;
+    }
+
+    if (this.isMaxLessThanLeftAndMaxLessThanZero()) {
+      this.settings.valueLeft = this.settings.max + 1;
+    }
+
+
+    if (this.isLeftMoreThanRightAndRightLessThanZero()) {
+      this.settings.valueLeft = this.settings.valueRight - 1;
+    }
+
+    if (this.isLeftMoreThanRightAndRightMoreThanZero()) {
+      this.settings.valueLeft = this.settings.valueRight - 1;
     }
 
     if (!isDouble) {
@@ -71,6 +91,7 @@ export default class Model implements IModel {
     this.setStateRight({ valueRight: this.state.valueRight });
     this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
     this.observerRender!.callAllObserver({ settings: this.settings, state: this.state })
+
   }
 
   public setStateLeft(obj: { valueLeft: number }): void {
@@ -155,7 +176,7 @@ export default class Model implements IModel {
     }
   }
 
-  private isFractional():number {
+  private isFractional(): number {
     return Number.isInteger(this.settings.step) ? 1 : 0.1;
   }
 
@@ -172,4 +193,28 @@ export default class Model implements IModel {
   private isPenultimateAndIsNotMaxValue(valueRight: number) {
     return ((this.settings.max - this.settings.step) < valueRight) && (valueRight !== this.settings.max)
   }
+
+  private isMinMoreThanRightAndMinMoreThanZero(){
+    return (this.settings.min > this.settings.valueRight && this.settings.min >= 0)
+  }
+
+  private isMinMoreThanRightAndMinLessThanZero(){
+    return (this.settings.min > this.settings.valueRight && this.settings.min <= 0)
+  }
+
+  private isMaxLessThanLeftAndMaxMoreThanZero(){
+    return (this.settings.max < this.settings.valueLeft && this.settings.max >= 0)
+  }
+
+  private isMaxLessThanLeftAndMaxLessThanZero(){
+    return (this.settings.max < this.settings.valueLeft && this.settings.max <= 0)
+  }
+
+  private isLeftMoreThanRightAndRightLessThanZero(){
+    return (this.settings.valueLeft >= this.settings.valueRight && this.settings.valueRight >= 0)
+  }
+  private isLeftMoreThanRightAndRightMoreThanZero(){
+    return (this.settings.valueLeft >= this.settings.valueRight && this.settings.valueRight <= 0)
+  }
+
 }

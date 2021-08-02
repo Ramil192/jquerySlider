@@ -67,13 +67,13 @@ describe('Model', () => {
       model.settings.min = -5;
       model.settings.max = -10;
       model.checkSettings();
-      expect(model.settings.min).toEqual(model.settings.max + 1)
+      expect(model.settings.min).toEqual(model.settings.max - 1)
     });
 
     test('valueLeft >= valueRight ', () => {
       model.settings.valueLeft = 76;
       model.checkSettings();
-      expect(model.settings.valueRight).toEqual(77)
+      expect(model.settings.valueRight).toEqual(model.settings.valueLeft+1)
 
     });
 
