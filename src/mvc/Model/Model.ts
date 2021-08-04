@@ -159,7 +159,6 @@ export default class Model implements IModel {
     if (Math.abs(valueLeft) >= 10) {
       return -30;
     }
-
     return -50;
   }
 
