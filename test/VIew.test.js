@@ -1,5 +1,5 @@
-import View from '../src/mvc/view/View';
-import Model from '../src/mvc/model/Model';
+import View from '../src/mvc/View/View';
+import Model from '../src/mvc/Model/Model';
 import Observer from '../src/mvc/Observer/Observer';
 
 import $ from 'jquery';

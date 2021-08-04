@@ -1,6 +1,6 @@
-import Model from '../src/mvc/model/Model';
-import View from '../src/mvc/view/View';
-import Controller from '../src/mvc/controller/Controller';
+import Model from '../src/mvc/Model/Model';
+import View from '../src/mvc/View/View';
+import Controller from '../src/mvc/Controller/Controller';
 
 import $ from 'jquery';
 global.$ = global.jQuery = $;
