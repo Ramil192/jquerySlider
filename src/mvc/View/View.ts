@@ -66,9 +66,11 @@ export default class View implements IView {
       valueRight,
       percentageRight,
       isSmooth,
+      centerLeft,
+      centerRight,
     } = obj.state;
 
-    this.renderVertical(isVertical);
+    this.renderVertical(isVertical, centerLeft, centerRight);
     this.changeAttrInput(min, max, step, newStepRight, valueLeft, valueRight);
 
     this.scale.renderScale(min, max, isScale);
@@ -82,8 +84,8 @@ export default class View implements IView {
     this.leftValueSmoothRightValue(isSmooth);
   }
 
-  public renderVertical(isVertical: boolean): void {
-    this.slider.verticalSlider(isVertical);
+  public renderVertical(isVertical: boolean, centerLeft: number, centerRight: number): void {
+    this.slider.verticalSlider(isVertical, centerLeft, centerRight);
     this.scale.verticalScale(isVertical);
 
     if (isVertical) {
@@ -167,13 +169,13 @@ export default class View implements IView {
     this.inputRight.val(valueRight);
   }
 
-  private callObserverLeft(obj: { valueLeft: number }): void {
+  private callObserverLeft(obj: { valueLeft: number, fromLeftEdge?: number, width?: number }): void {
     if (typeof this.observerControllerModelLeft !== 'undefined') {
       this.observerControllerModelLeft.callAllObserver(obj);
     }
   }
 
-  private callObserverRight(obj: { valueRight: number }): void {
+  private callObserverRight(obj: { valueRight: number, fromRightEdge?: number, width?: number }): void {
     if (typeof this.observerControllerModelRight !== 'undefined') {
       this.observerControllerModelRight.callAllObserver(obj);
     }
@@ -201,12 +203,17 @@ export default class View implements IView {
 
   private handlerInputLeft = (): void => {
     const valueLeft: number = parseFloat(this.inputLeft.val()!.toString());
-    this.callObserverLeft({ valueLeft });
+    const fromLeftEdge: number = Math.floor(this.slider.range.position().left);
+    const width: number = this.slider.textLeft.width()!;
+    this.callObserverLeft({ valueLeft, fromLeftEdge, width });
   };
 
   private handlerInputRight = (): void => {
     const valueRight: number = parseFloat(this.inputRight.val()!.toString());
-    this.callObserverRight({ valueRight });
+    const fromRightEdge = Math.abs((this.slider.range.position().left + this.slider.range.width()!) - 300);
+    const width: number = this.slider.textRight.width()!;
+
+    this.callObserverRight({ valueRight, fromRightEdge, width });
   };
 
   private handlerScaleClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>): void => {

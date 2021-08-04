@@ -25,6 +25,7 @@ export interface IView {
   render(obj: { settings: ISettings, state: IState }): void;
   renderThumbLeft(isDouble: boolean, min: number, valueLeft: number, percentageLeft: number): void;
   renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void;
+  renderVertical(isVertical: boolean, centerLeft:number, centerRight:number): void
   setSynchronizationLeft(left: JQuery<HTMLElement>): void;
   setSynchronizationRight(right: JQuery<HTMLElement>): void;
 }
@@ -50,5 +51,5 @@ export interface ISlider {
   doubleSlider(isDouble: boolean): void;
   renderThumbLeft(valueLeft: number, percentageLeft: number): void;
   renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void;
-  verticalSlider(isVertical: boolean): void;
+  verticalSlider(isVertical: boolean, centerLeft:number, centerRight:number): void;
 }

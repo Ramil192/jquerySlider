@@ -42,6 +42,8 @@ describe('Model', () => {
     valueRight: valueRight,
     percentageLeft: 25,
     percentageRight: 75,
+    centerLeft: -30,
+    centerRight: 30,
   }
 
   describe('checkSettings', () => {
@@ -73,7 +75,7 @@ describe('Model', () => {
     test('valueLeft >= valueRight ', () => {
       model.settings.valueLeft = 76;
       model.checkSettings();
-      expect(model.settings.valueRight).toEqual(model.settings.valueLeft+1)
+      expect(model.settings.valueRight).toEqual(model.settings.valueLeft + 1)
 
     });
 
@@ -142,31 +144,31 @@ describe('Model', () => {
       model.settings = { ...settings };
     });
 
-    const obj ={
-      valueRight:96
+    const obj = {
+      valueRight: 96
     }
-    
+
     test('setStateRight isPenultimate', () => {
       model.settings.step = 6;
       model.setStateRight(obj);
-      expect(model.state.newStepRight ).toBe(0);
+      expect(model.state.newStepRight).toBe(0);
     })
 
     test('setStateRight isPenultimate next max and prev step', () => {
-      obj.valueRight=97;
+      obj.valueRight = 97;
       model.setStateRight(obj);
       expect(model.state.valueRight).toBe(model.settings.max);
       expect(model.settings.valueRight).toBe(model.settings.max);
-      
-      obj.valueRight=99;
+
+      obj.valueRight = 99;
       model.setStateRight(obj);
       expect(model.state.valueRight).toBe(model.state.penultimateValue);
       expect(model.settings.valueRight).toBe(model.state.penultimateValue);
-      
-      obj.valueRight=95;
+
+      obj.valueRight = 95;
       model.setStateRight(obj);
-      expect(model.state.valueRight).toBe(model.state.penultimateValue-model.settings.step);
-      expect(model.settings.valueRight).toBe(model.state.penultimateValue-model.settings.step);
+      expect(model.state.valueRight).toBe(model.state.penultimateValue - model.settings.step);
+      expect(model.settings.valueRight).toBe(model.state.penultimateValue - model.settings.step);
 
     })
   })

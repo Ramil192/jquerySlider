@@ -15,6 +15,8 @@ export default class Model implements IModel {
       percentageRight: 0,
       newStepRight: 0,
       penultimateValue: 0,
+      centerLeft: this.setStateCenterLeftBegin(this.settings.valueLeft),
+      centerRight: 30,
       isPenultimate: false,
       isPenultimateValue: false,
       isSmooth: false,
@@ -88,8 +90,12 @@ export default class Model implements IModel {
     this.observerRender!.callAllObserver({ settings: this.settings, state: this.state });
   }
 
-  public setStateLeft(obj: { valueLeft: number }): void {
-    const { valueLeft } = obj;
+  public setStateLeft(obj: { valueLeft: number, fromLeftEdge?: number, width?: number }): void {
+    const { valueLeft, fromLeftEdge, width } = obj;
+
+    if (fromLeftEdge && width) {
+      this.setStateCenterLeft(fromLeftEdge, width);
+    }
 
     const newValue = Math.min(valueLeft, this.state.valueRight - this.isFractional());
 
@@ -101,8 +107,12 @@ export default class Model implements IModel {
     this.observerRender!.callAllObserver({ settings: this.settings, state: this.state });
   }
 
-  public setStateRight(obj: { valueLeft?: number, valueRight: number }): void {
-    let { valueRight } = obj;
+  public setStateRight(obj: { valueRight: number, fromRightEdge?: number, width?: number }): void {
+    let { valueRight, fromRightEdge, width } = obj;
+
+    if (fromRightEdge && width) {
+      this.setStateCenterRight(fromRightEdge, width);
+    }
 
     if (this.state.isPenultimateValue) {
       valueRight = this.state.penultimateValue;
@@ -129,12 +139,28 @@ export default class Model implements IModel {
     this.observerRender!.callAllObserver({ settings: this.settings, state: this.state });
   }
 
-  public getNewValueForState(obj: { width: number, coordinatesX: number }): void {
-    const { width, coordinatesX } = obj;
-    const percent: number = parseFloat(((100 / width) * coordinatesX).toFixed(1));
-    const newValueForState: number = ((percent * (this.settings.max - this.settings.min)) / 100) + this.settings.min;
+  private setStateCenterLeft(fromLeftEdge: number, width: number): void {
+    if (Math.floor(fromLeftEdge) >= (width / 2)) {
+      this.state.centerLeft = -50;
+    } else {
+      this.state.centerLeft = -30;
+    }
+  }
 
-    this.setStateLeftOrRight({ value: Math.ceil(newValueForState) });
+  private setStateCenterRight(fromRightEdge: number, width: number): void {
+    if (Math.floor(fromRightEdge) >= (width / 2)) {
+      this.state.centerRight = 60;
+    } else {
+      this.state.centerRight = 30;
+    }
+  }
+
+  private setStateCenterLeftBegin(valueLeft: number): number {
+    if (Math.abs(valueLeft) >= 10) {
+      return -30;
+    }
+
+    return -50;
   }
 
   public setStateLeftOrRight(obj: { value: number }): void {
@@ -153,12 +179,6 @@ export default class Model implements IModel {
 
     this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
     this.observerRender!.callAllObserver({ settings: this.settings, state: this.state });
-  }
-
-  private getPercentage(val: number): number {
-    const { min, max } = this.settings;
-
-    return Math.abs(((val - min) / (max - min)) * 100);
   }
 
   private setIsSmooth(valueLeft: number, valueRight: number): void {
@@ -185,31 +205,45 @@ export default class Model implements IModel {
     return this.settings.max;
   }
 
-  private isPenultimateAndIsNotMaxValue(valueRight: number):boolean {
+  public getNewValueForState(obj: { width: number, coordinatesX: number }): void {
+    const { width, coordinatesX } = obj;
+    const percent: number = parseFloat(((100 / width) * coordinatesX).toFixed(1));
+    const newValueForState: number = ((percent * (this.settings.max - this.settings.min)) / 100) + this.settings.min;
+
+    this.setStateLeftOrRight({ value: Math.ceil(newValueForState) });
+  }
+
+  private getPercentage(val: number): number {
+    const { min, max } = this.settings;
+
+    return Math.abs(((val - min) / (max - min)) * 100);
+  }
+
+  private isPenultimateAndIsNotMaxValue(valueRight: number): boolean {
     return ((this.settings.max - this.settings.step) < valueRight) && (valueRight !== this.settings.max);
   }
 
-  private isMinMoreThanRightAndMinMoreThanZero():boolean {
+  private isMinMoreThanRightAndMinMoreThanZero(): boolean {
     return (this.settings.min > this.settings.valueRight && this.settings.min >= 0);
   }
 
-  private isMinMoreThanRightAndMinLessThanZero():boolean {
+  private isMinMoreThanRightAndMinLessThanZero(): boolean {
     return (this.settings.min > this.settings.valueRight && this.settings.min <= 0);
   }
 
-  private isMaxLessThanLeftAndMaxMoreThanZero():boolean {
+  private isMaxLessThanLeftAndMaxMoreThanZero(): boolean {
     return (this.settings.max < this.settings.valueLeft && this.settings.max >= 0);
   }
 
-  private isMaxLessThanLeftAndMaxLessThanZero():boolean {
+  private isMaxLessThanLeftAndMaxLessThanZero(): boolean {
     return (this.settings.max < this.settings.valueLeft && this.settings.max <= 0);
   }
 
-  private isLeftMoreThanRightAndRightLessThanZero():boolean {
+  private isLeftMoreThanRightAndRightLessThanZero(): boolean {
     return (this.settings.valueLeft >= this.settings.valueRight && this.settings.valueRight >= 0);
   }
 
-  private isLeftMoreThanRightAndRightMoreThanZero():boolean {
+  private isLeftMoreThanRightAndRightMoreThanZero(): boolean {
     return (this.settings.valueLeft >= this.settings.valueRight && this.settings.valueRight <= 0);
   }
 }

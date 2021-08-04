@@ -51,8 +51,13 @@ export interface IObserverScaleArgument {
 
 export interface IObserverLeftArgument {
   valueLeft: number;
+  fromLeftEdge?: number;
+  width?: number;
+
 }
 
 export interface IObserverRightArgument {
   valueRight: number;
+  fromRightEdge?: number,
+  width?: number
 }

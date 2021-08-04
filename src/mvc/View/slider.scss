@@ -16,6 +16,7 @@
   border-radius: 5px;
   background-color: #c6aee7;
   width: 100%;
+  cursor: pointer;
 }
 
 .range-slider__body-track-click {
@@ -77,6 +78,7 @@ input[class="range-slider__input-left"]::-webkit-slider-thumb {
   border: 0px none;
   background-color: gold;
   -webkit-appearance: none;
+  cursor: grab;
 }
 
 input[class="range-slider__input-right"]::-webkit-slider-thumb {
@@ -87,6 +89,7 @@ input[class="range-slider__input-right"]::-webkit-slider-thumb {
   border: 0px none;
   background-color: red;
   -webkit-appearance: none;
+  cursor: grab;
 }
 
 .range-slider__body-text-left {
@@ -97,7 +100,6 @@ input[class="range-slider__input-right"]::-webkit-slider-thumb {
   top: -30px;
   color: #fff;
   font-size: 10px;
-  cursor: pointer;
   transform: translate(-10px, -5px);
   z-index: 3;
 }
@@ -131,7 +133,7 @@ input[class="range-slider__input-right"]::-webkit-slider-thumb {
   }
 
   :nth-child(5) {
-    left: 97%;
+    right: -2%;
   }
 }
 

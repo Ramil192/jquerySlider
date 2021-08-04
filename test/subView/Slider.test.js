@@ -38,10 +38,10 @@ describe('Slider', () => {
 
   test('verticalSlider', () => {
 
-    slider.verticalSlider(isVertical);
+    slider.verticalSlider(isVertical,0,0);
 
-    expect(slider.textLeft.css('transform')).toBe('rotate(0deg) translate(-10px, 0px)');
-    expect(slider.textRight.css('transform')).toBe('rotate(0deg) translate(13px, 0px)');
+    expect(slider.textLeft.css('transform')).toBe('rotate(0deg) translate(0%, 0px)');
+    expect(slider.textRight.css('transform')).toBe('rotate(0deg) translate(0%, 0px)');
   })
 
 

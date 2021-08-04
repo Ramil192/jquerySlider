@@ -32,6 +32,8 @@ export interface IState {
   percentageRight: number
   newStepRight: number
   penultimateValue: number
+  centerLeft: number
+  centerRight: number
   isPenultimate: boolean
   isPenultimateValue: boolean
   isSmooth: boolean
@@ -43,8 +45,8 @@ export interface IModel {
   observerRender?: IObserver;
 
   setObserver(observer: IObserver): void
-  setStateLeft(obj: { valueLeft: number }): void
-  setStateRight(obj: { valueLeft?: number, valueRight: number }): void
+  setStateLeft(obj: { valueLeft: number, fromLeftEdge?: number, width?: number }): void
+  setStateRight(obj: { valueRight: number, fromRightEdge?: number, width?: number }): void
   getNewValueForState(obj: { width: number, coordinatesX: number }): void
   setStateLeftOrRight(obj: { value: number }): void
   checkSettings(prevLeft?: number): void
