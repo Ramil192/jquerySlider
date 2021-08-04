@@ -1,7 +1,7 @@
-import { ISetSettings, INewSettings,IDemoPage } from './interface';
+import { ISetSettings, INewSettings, IDemoPage } from './interface';
 import 'jquery';
 
-class DemoPage  implements IDemoPage{
+class DemoPage implements IDemoPage {
   outerContainerElement: JQuery<HTMLElement>;
   leftValue: string[];
   rightValue: boolean[];

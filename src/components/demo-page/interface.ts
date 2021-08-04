@@ -1,4 +1,4 @@
-export interface ISetSettings{
+export interface ISetSettings {
   [key: string]: number | boolean;
 }
 
@@ -16,7 +16,7 @@ export interface IDemoPage {
   settingsObjInit(): INewSettings
   settingsObjInit(): INewSettings
   synchronizationLeft(): void
-  synchronizationRight():void
+  synchronizationRight(): void
   bindEventListeners(): void
 }
 

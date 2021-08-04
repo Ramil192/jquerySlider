@@ -35,7 +35,6 @@ export interface IObserverRight {
   callAllObserver(obj: IObserverRightArgument): void
 }
 
-
 export interface IObserverViewArgument {
   settings: ISettings
   state: IState
@@ -57,4 +56,3 @@ export interface IObserverLeftArgument {
 export interface IObserverRightArgument {
   valueRight: number;
 }
-

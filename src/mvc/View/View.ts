@@ -1,5 +1,7 @@
 import { IView, IScale, ISlider } from './interface';
-import { IObserverLeft, IObserverRight, IObserverTrack, IObserverScale } from '../Observer/interface';
+import {
+  IObserverLeft, IObserverRight, IObserverTrack, IObserverScale,
+} from '../Observer/interface';
 import { ISettings, IState } from '../Model/interface';
 
 import Scale from './subView/Scale/Scale';
@@ -31,25 +33,21 @@ export default class View implements IView {
     this.setEventHandlers();
   }
 
-
-
-  public setObserverLeft(observer: IObserverLeft) {
+  public setObserverLeft(observer: IObserverLeft): void {
     this.observerControllerModelLeft = observer;
   }
 
-  public setObserverRight(observer: IObserverRight) {
+  public setObserverRight(observer: IObserverRight): void {
     this.observerControllerModelRight = observer;
   }
 
-  public setObserverScale(observer: IObserverScale) {
+  public setObserverScale(observer: IObserverScale): void {
     this.observerControllerModelScale = observer;
   }
 
-  public setObserverTrack(observer: IObserverTrack) {
+  public setObserverTrack(observer: IObserverTrack): void {
     this.observerControllerModelTrack = observer;
   }
-
-
 
   public render(obj: { settings: ISettings, state: IState }): void {
     const {
@@ -67,7 +65,7 @@ export default class View implements IView {
       percentageLeft,
       valueRight,
       percentageRight,
-      isSmooth
+      isSmooth,
     } = obj.state;
 
     this.renderVertical(isVertical);
@@ -81,7 +79,7 @@ export default class View implements IView {
 
     this.renderThumbLeft(isDouble, min, valueLeft, percentageLeft);
     this.renderThumbRight(isVertical, valueRight, percentageRight);
-    this.leftValueSmoothRightValue(isSmooth)
+    this.leftValueSmoothRightValue(isSmooth);
   }
 
   public renderVertical(isVertical: boolean): void {
@@ -101,7 +99,7 @@ export default class View implements IView {
     }
   }
 
-  public doubleSlider(isDouble: boolean) {
+  public doubleSlider(isDouble: boolean): void {
     if (isDouble) {
       this.inputRight.css({ pointerEvents: 'none', zIndex: 2 });
     } else {
@@ -116,7 +114,7 @@ export default class View implements IView {
 
   public setSynchronizationRight(right: JQuery<HTMLElement>): void {
     this.synchronizationRight = right;
-    this.handlerInputRight()
+    this.handlerInputRight();
   }
 
   public renderThumbLeft(isDouble: boolean, min: number, valueLeft: number, percentageLeft: number): void {
@@ -169,33 +167,31 @@ export default class View implements IView {
     this.inputRight.val(valueRight);
   }
 
-
-  private callObserverLeft(obj: { valueLeft: number }) {
+  private callObserverLeft(obj: { valueLeft: number }): void {
     if (typeof this.observerControllerModelLeft !== 'undefined') {
       this.observerControllerModelLeft.callAllObserver(obj);
     }
   }
-  private callObserverRight(obj: { valueRight: number }) {
+
+  private callObserverRight(obj: { valueRight: number }): void {
     if (typeof this.observerControllerModelRight !== 'undefined') {
       this.observerControllerModelRight.callAllObserver(obj);
     }
   }
 
-  private callObserverScale(obj: { value: number }) {
+  private callObserverScale(obj: { value: number }): void {
     if (typeof this.observerControllerModelScale !== 'undefined') {
       this.observerControllerModelScale.callAllObserver(obj);
     }
   }
 
-  private callObserverTrack(obj: { width: number, coordinatesX: number }) {
+  private callObserverTrack(obj: { width: number, coordinatesX: number }): void {
     if (typeof this.observerControllerModelTrack !== 'undefined') {
       this.observerControllerModelTrack.callAllObserver(obj);
     }
   }
 
-
-  private leftValueSmoothRightValue(isSmooth: boolean) {
-
+  private leftValueSmoothRightValue(isSmooth: boolean): void {
     if (isSmooth) {
       this.inputRight.css({ zIndex: -1 });
     } else {
@@ -203,41 +199,40 @@ export default class View implements IView {
     }
   }
 
-  private handlerInputLeft = () => {
+  private handlerInputLeft = (): void => {
     const valueLeft: number = parseFloat(this.inputLeft.val()!.toString());
     this.callObserverLeft({ valueLeft });
   };
 
-  private handlerInputRight = () => {
+  private handlerInputRight = (): void => {
     const valueRight: number = parseFloat(this.inputRight.val()!.toString());
     this.callObserverRight({ valueRight });
   };
 
-
-  private handlerScaleClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>) => {
+  private handlerScaleClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>): void => {
     this.callObserverScale({ value: parseInt(e.target.innerHTML, 10) });
   };
 
-  private handlerTrackClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>) => {
+  private handlerTrackClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>): void => {
     this.callObserverTrack({ width: this.slider.trackClick.width()!, coordinatesX: e.offsetX });
   };
 
-  private handlerTextLeftMouseenter = () => {
+  private handlerTextLeftMouseenter = (): void => {
     this.inputLeft.css({ top: '-24px' });
-  }
+  };
 
-  private handlerThumbLeftMouseenter = () => {
+  private handlerThumbLeftMouseenter = (): void => {
     this.inputLeft.css({ top: '0px' });
-  }
-  private handlerTextRightMouseenter = () => {
+  };
+  private handlerTextRightMouseenter = (): void => {
     this.inputRight.css({ top: '-24px' });
-  }
+  };
 
-  private handlerThumbRightMouseenter = () => {
+  private handlerThumbRightMouseenter = (): void => {
     this.inputRight.css({ top: '0px' });
-  }
+  };
 
-  private setEventHandlers() {
+  private setEventHandlers(): void {
     this.inputLeft.on('input', this.handlerInputLeft);
     this.inputRight.on('input', this.handlerInputRight);
     this.scale.scale.on('click', this.handlerScaleClick);

@@ -1,12 +1,12 @@
-import ObserverT from '../src/mvc/Observer/ObserverT';
+import Observer from '../src/mvc/Observer/Observer';
 
-const observerT = new ObserverT();
+const observerT = new Observer();
 
 const functionPlug = function (obj) {
   console.log(obj);
 }
 
-describe('ObserverT ', () => {
+describe('Observer ', () => {
 
   test('addObserver', () => {
     observerT.addObserver(functionPlug);

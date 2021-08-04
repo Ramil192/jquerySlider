@@ -1,4 +1,4 @@
-class ObserverT <T> {
+class Observer<T> {
   public observers: Array<(obj: T) => void>;
   constructor() {
     this.observers = [];
@@ -17,4 +17,4 @@ class ObserverT <T> {
   }
 }
 
-export default ObserverT;
+export default Observer;

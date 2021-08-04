@@ -21,19 +21,17 @@ export default class Model implements IModel {
     };
   }
 
-  public setObserver(observer: IObserver) {
+  public setObserver(observer: IObserver): void {
     this.observerRender = observer;
   }
 
   public checkSettings(): void {
     const {
-      min, max, isDouble
+      min, max, isDouble,
     } = this.settings;
 
     const isMinMoreThanMaxAndMinMoreThanZero = (min >= max && min >= 0);
     const isMinMoreThanMaxAndMinLessThanZero = (min >= max && min <= 0);
-
-
 
     if (isMinMoreThanMaxAndMinMoreThanZero) {
       this.settings.min = max - 1;
@@ -42,8 +40,6 @@ export default class Model implements IModel {
     if (isMinMoreThanMaxAndMinLessThanZero && !isMinMoreThanMaxAndMinMoreThanZero) {
       this.settings.min = max - 1;
     }
-
-
 
     if (this.settings.min > this.settings.valueLeft) {
       this.settings.valueLeft = this.settings.min;
@@ -69,7 +65,6 @@ export default class Model implements IModel {
       this.settings.valueLeft = this.settings.max + 1;
     }
 
-
     if (this.isLeftMoreThanRightAndRightLessThanZero()) {
       this.settings.valueLeft = this.settings.valueRight - 1;
     }
@@ -90,8 +85,7 @@ export default class Model implements IModel {
 
     this.setStateRight({ valueRight: this.state.valueRight });
     this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
-    this.observerRender!.callAllObserver({ settings: this.settings, state: this.state })
-
+    this.observerRender!.callAllObserver({ settings: this.settings, state: this.state });
   }
 
   public setStateLeft(obj: { valueLeft: number }): void {
@@ -104,7 +98,7 @@ export default class Model implements IModel {
     this.settings.valueLeft = newValue;
 
     this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
-    this.observerRender!.callAllObserver({ settings: this.settings, state: this.state })
+    this.observerRender!.callAllObserver({ settings: this.settings, state: this.state });
   }
 
   public setStateRight(obj: { valueLeft?: number, valueRight: number }): void {
@@ -132,14 +126,13 @@ export default class Model implements IModel {
     this.settings.valueRight = newValue;
 
     this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
-    this.observerRender!.callAllObserver({ settings: this.settings, state: this.state })
-
+    this.observerRender!.callAllObserver({ settings: this.settings, state: this.state });
   }
 
-  public getNewValueForState(obj: { width: number, coordinatesX: number }) {
+  public getNewValueForState(obj: { width: number, coordinatesX: number }): void {
     const { width, coordinatesX } = obj;
     const percent: number = parseFloat(((100 / width) * coordinatesX).toFixed(1));
-    const newValueForState: number = (percent * (this.settings.max - this.settings.min) / 100) + this.settings.min;
+    const newValueForState: number = ((percent * (this.settings.max - this.settings.min)) / 100) + this.settings.min;
 
     this.setStateLeftOrRight({ value: Math.ceil(newValueForState) });
   }
@@ -159,16 +152,18 @@ export default class Model implements IModel {
     }
 
     this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
-    this.observerRender!.callAllObserver({ settings: this.settings, state: this.state })
+    this.observerRender!.callAllObserver({ settings: this.settings, state: this.state });
   }
 
   private getPercentage(val: number): number {
     const { min, max } = this.settings;
+
     return Math.abs(((val - min) / (max - min)) * 100);
   }
 
-  private setIsSmooth(valueLeft: number, valueRight: number) {
+  private setIsSmooth(valueLeft: number, valueRight: number): void {
     const difference = this.isFractional();
+
     if (Math.abs(valueRight - valueLeft) <= difference) {
       this.state.isSmooth = true;
     } else {
@@ -180,41 +175,41 @@ export default class Model implements IModel {
     return Number.isInteger(this.settings.step) ? 1 : 0.1;
   }
 
-  private newValueRight(valueRight: number) {
+  private newValueRight(valueRight: number): number {
     if (this.state.penultimateValue > valueRight) {
       this.state.newStepRight = this.settings.step;
       return parseFloat(Math.abs(this.state.penultimateValue - this.settings.step).toFixed(1));
-    } else {
-      this.state.isPenultimateValue = true;
-      return this.settings.max;
     }
+
+    this.state.isPenultimateValue = true;
+    return this.settings.max;
   }
 
-  private isPenultimateAndIsNotMaxValue(valueRight: number) {
-    return ((this.settings.max - this.settings.step) < valueRight) && (valueRight !== this.settings.max)
+  private isPenultimateAndIsNotMaxValue(valueRight: number):boolean {
+    return ((this.settings.max - this.settings.step) < valueRight) && (valueRight !== this.settings.max);
   }
 
-  private isMinMoreThanRightAndMinMoreThanZero(){
-    return (this.settings.min > this.settings.valueRight && this.settings.min >= 0)
+  private isMinMoreThanRightAndMinMoreThanZero():boolean {
+    return (this.settings.min > this.settings.valueRight && this.settings.min >= 0);
   }
 
-  private isMinMoreThanRightAndMinLessThanZero(){
-    return (this.settings.min > this.settings.valueRight && this.settings.min <= 0)
+  private isMinMoreThanRightAndMinLessThanZero():boolean {
+    return (this.settings.min > this.settings.valueRight && this.settings.min <= 0);
   }
 
-  private isMaxLessThanLeftAndMaxMoreThanZero(){
-    return (this.settings.max < this.settings.valueLeft && this.settings.max >= 0)
+  private isMaxLessThanLeftAndMaxMoreThanZero():boolean {
+    return (this.settings.max < this.settings.valueLeft && this.settings.max >= 0);
   }
 
-  private isMaxLessThanLeftAndMaxLessThanZero(){
-    return (this.settings.max < this.settings.valueLeft && this.settings.max <= 0)
+  private isMaxLessThanLeftAndMaxLessThanZero():boolean {
+    return (this.settings.max < this.settings.valueLeft && this.settings.max <= 0);
   }
 
-  private isLeftMoreThanRightAndRightLessThanZero(){
-    return (this.settings.valueLeft >= this.settings.valueRight && this.settings.valueRight >= 0)
-  }
-  private isLeftMoreThanRightAndRightMoreThanZero(){
-    return (this.settings.valueLeft >= this.settings.valueRight && this.settings.valueRight <= 0)
+  private isLeftMoreThanRightAndRightLessThanZero():boolean {
+    return (this.settings.valueLeft >= this.settings.valueRight && this.settings.valueRight >= 0);
   }
 
+  private isLeftMoreThanRightAndRightMoreThanZero():boolean {
+    return (this.settings.valueLeft >= this.settings.valueRight && this.settings.valueRight <= 0);
+  }
 }

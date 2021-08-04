@@ -30,19 +30,19 @@ describe('controller', () => {
       expect(model.observerRender).toBeDefined();
     })
 
-    test('init Observer view', () => {
+    test('init Observer Left', () => {
       expect(view.observerControllerModelLeft).toBeDefined();
     })
 
-    test('init Observer view', () => {
+    test('init Observer Right', () => {
       expect(view.observerControllerModelRight).toBeDefined();
     })
 
-    test('init Observer view', () => {
+    test('init Observer Scale', () => {
       expect(view.observerControllerModelScale).toBeDefined();
     })
 
-    test('init Observer view', () => {
+    test('init Observer Track', () => {
       expect(view.observerControllerModelTrack).toBeDefined();
     })
 

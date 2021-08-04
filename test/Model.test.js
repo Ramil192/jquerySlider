@@ -1,6 +1,6 @@
 import Model from '../src/mvc/model/Model';
 import View from '../src/mvc/view/View';
-import ObserverT from '../src/mvc/Observer/ObserverT';
+import Observer from '../src/mvc/Observer/Observer';
 import $ from 'jquery';
 global.$ = global.jQuery = $;
 
@@ -19,7 +19,7 @@ describe('Model', () => {
   }
 
   const model = new Model({ ...settings });
-  const observerRender = new ObserverT();
+  const observerRender = new Observer();
 
   const element = $('<div class = "test"></div>');
   const view = new View(element);

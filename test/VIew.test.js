@@ -1,6 +1,6 @@
 import View from '../src/mvc/view/View';
 import Model from '../src/mvc/model/Model';
-import ObserverT from '../src/mvc/Observer/ObserverT';
+import Observer from '../src/mvc/Observer/Observer';
 
 import $ from 'jquery';
 global.$ = global.jQuery = $;
@@ -18,8 +18,8 @@ describe('View', () => {
     isDouble: true,
   }
   const model = new Model({ ...settings })
-  const observerRender = new ObserverT();
-  const observerModel = new ObserverT();
+  const observerRender = new Observer();
+  const observerModel = new Observer();
 
   const element = $('<div class = "test"></div>');
   const view = new View(element);

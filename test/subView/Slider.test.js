@@ -30,7 +30,7 @@ describe('Slider', () => {
     isDouble = false;
 
     slider.doubleSlider(isDouble);
-    
+
     expect(slider.range.position().left).toBe(0);
     expect(slider.textLeft.css('display')).toBe('none');
     expect(slider.thumbLeft.css('display')).toBe('none');
