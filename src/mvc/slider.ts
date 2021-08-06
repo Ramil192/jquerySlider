@@ -28,7 +28,7 @@ import { INewSettings } from './Model/interface';
     }
 
     $(this).data().setSettings = function (newSettings: INewSettings): void {
-      const arr: Array<[string, number]> = Object.entries(newSettings);
+      const arr: Array<[string, number | boolean]> = Object.entries(newSettings) as Array<[string, number | boolean]>;
 
       arr.forEach(([key, value]) => {
         model.settings[key] = value;

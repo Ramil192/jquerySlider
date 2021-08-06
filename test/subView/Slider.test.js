@@ -1,4 +1,4 @@
-import Slider from '../../src/mvc/view/subView/Slider/Slider';
+import Slider from '../../src/mvc/View/subView/Slider/Slider';
 import $ from 'jquery';
 global.$ = global.jQuery = $;
 

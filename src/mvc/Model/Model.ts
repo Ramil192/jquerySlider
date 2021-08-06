@@ -108,7 +108,8 @@ export default class Model implements IModel {
   }
 
   public setStateRight(obj: { valueRight: number, fromRightEdge?: number, width?: number }): void {
-    let { valueRight, fromRightEdge, width } = obj;
+    let { valueRight } = obj;
+    const { fromRightEdge, width } = obj;
 
     if (fromRightEdge && width) {
       this.setStateCenterRight(fromRightEdge, width);

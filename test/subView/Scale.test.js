@@ -1,4 +1,4 @@
-import Scale from '../../src/mvc/view/subView/Scale/Scale';
+import Scale from '../../src/mvc/View/subView/Scale/Scale';
 import $ from 'jquery';
 global.$ = global.jQuery = $;
 
