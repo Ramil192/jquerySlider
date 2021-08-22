@@ -9,7 +9,7 @@ mixin data-input(options = {})
     } = options;
 
   div(class=`data-input`)
-    div(class=`data-input__text`)=text
+    p(class=`data-input__text`)=text
     if(isCheckbox)
       input(class=`data-input__input js-data-input__input` type="checkbox", checked=isChecked data-key=dataName)
     else

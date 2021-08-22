@@ -13,17 +13,17 @@ class Scale implements IScale {
 
     this.scale.children('span').each((index, e) => {
       if (isScaleShow) {
-        e.innerHTML = (min + scaleNumber * index).toString();
+        e.textContent = (min + scaleNumber * index).toString();
       } else {
-        e.innerHTML = '';
+        e.textContent = '';
       }
     });
 
     const lastElement = this.scale.children('span').length - 1;
     const firstElement = 0;
 
-    this.scale.children('span')[firstElement].innerHTML = (min).toString();
-    this.scale.children('span')[lastElement].innerHTML = (max).toString();
+    this.scale.children('span')[firstElement].textContent = (min).toString();
+    this.scale.children('span')[lastElement].textContent = (max).toString();
   }
 
   public verticalScale(isVertical: boolean): void {

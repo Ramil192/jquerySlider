@@ -217,7 +217,7 @@ export default class View implements IView {
   };
 
   private handlerScaleClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>): void => {
-    this.callObserverScale({ value: parseInt(e.target.innerHTML, 10) });
+    this.callObserverScale({ value: parseInt(e.target.textContent!, 10) });
   };
 
   private handlerTrackClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>): void => {
