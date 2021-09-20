@@ -1,6 +1,10 @@
 import { ISettings, IState } from '../Model/interface';
 import {
-  IObserverLeft, IObserverRight, IObserverTrack, IObserverScale,
+  IObserver,
+  IObserverLeftArgument,
+  IObserverRightArgument,
+  IObserverScaleArgument,
+  IObserverTrackArgument,
 } from '../Observer/interface';
 
 export interface IView {
@@ -12,20 +16,20 @@ export interface IView {
   synchronizationLeft?: JQuery<HTMLElement>;
   synchronizationRight?: JQuery<HTMLElement>;
 
-  observerControllerModelLeft?: IObserverLeft;
-  observerControllerModelRight?: IObserverRight
-  observerControllerModelScale?: IObserverScale;
-  observerControllerModelTrack?: IObserverTrack;
+  observerControllerModelLeft?: IObserver<IObserverLeftArgument>;
+  observerControllerModelRight?: IObserver<IObserverRightArgument>;
+  observerControllerModelScale?: IObserver<IObserverScaleArgument>;
+  observerControllerModelTrack?: IObserver<IObserverTrackArgument>;
 
   doubleSlider(isDouble: boolean): void;
-  setObserverLeft(observer: IObserverLeft): void;
-  setObserverRight(observer: IObserverRight): void;
-  setObserverScale(observerScale: IObserverScale): void;
-  setObserverTrack(observerTrack: IObserverTrack): void;
+  setObserverLeft(observer: IObserver<IObserverLeftArgument>): void;
+  setObserverRight(observer: IObserver<IObserverRightArgument>): void;
+  setObserverScale(observerScale: IObserver<IObserverScaleArgument>): void;
+  setObserverTrack(observerTrack: IObserver<IObserverTrackArgument>): void;
   render(obj: { settings: ISettings, state: IState }): void;
   renderThumbLeft(isDouble: boolean, min: number, valueLeft: number, percentageLeft: number): void;
   renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void;
-  renderVertical(isVertical: boolean, centerLeft:number, centerRight:number): void
+  renderVertical(isVertical: boolean, centerLeft: number, centerRight: number): void
   setSynchronizationLeft(left: JQuery<HTMLElement>): void;
   setSynchronizationRight(right: JQuery<HTMLElement>): void;
 }
@@ -51,5 +55,5 @@ export interface ISlider {
   doubleSlider(isDouble: boolean): void;
   renderThumbLeft(valueLeft: number, percentageLeft: number): void;
   renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void;
-  verticalSlider(isVertical: boolean, centerLeft:number, centerRight:number): void;
+  verticalSlider(isVertical: boolean, centerLeft: number, centerRight: number): void;
 }

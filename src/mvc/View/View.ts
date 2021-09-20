@@ -1,6 +1,6 @@
 import { IView, IScale, ISlider } from './interface';
 import {
-  IObserverLeft, IObserverRight, IObserverTrack, IObserverScale,
+  IObserver, IObserverLeftArgument, IObserverRightArgument, IObserverScaleArgument, IObserverTrackArgument,
 } from '../Observer/interface';
 import { ISettings, IState } from '../Model/interface';
 
@@ -17,10 +17,10 @@ export default class View implements IView {
   public synchronizationLeft?: JQuery<HTMLElement>;
   public synchronizationRight?: JQuery<HTMLElement>;
 
-  public observerControllerModelLeft?: IObserverLeft;
-  public observerControllerModelRight?: IObserverRight;
-  public observerControllerModelScale?: IObserverScale;
-  public observerControllerModelTrack?: IObserverTrack;
+  public observerControllerModelLeft?: IObserver<IObserverLeftArgument>;
+  public observerControllerModelRight?: IObserver<IObserverRightArgument>;
+  public observerControllerModelScale?: IObserver<IObserverScaleArgument>;
+  public observerControllerModelTrack?: IObserver<IObserverTrackArgument>;
 
   constructor(target: JQuery<HTMLElement>) {
     this.target = target;
@@ -33,19 +33,19 @@ export default class View implements IView {
     this.setEventHandlers();
   }
 
-  public setObserverLeft(observer: IObserverLeft): void {
+  public setObserverLeft(observer: IObserver<IObserverLeftArgument>): void {
     this.observerControllerModelLeft = observer;
   }
 
-  public setObserverRight(observer: IObserverRight): void {
+  public setObserverRight(observer: IObserver<IObserverRightArgument>): void {
     this.observerControllerModelRight = observer;
   }
 
-  public setObserverScale(observer: IObserverScale): void {
+  public setObserverScale(observer: IObserver<IObserverScaleArgument>): void {
     this.observerControllerModelScale = observer;
   }
 
-  public setObserverTrack(observer: IObserverTrack): void {
+  public setObserverTrack(observer: IObserver<IObserverTrackArgument>): void {
     this.observerControllerModelTrack = observer;
   }
 

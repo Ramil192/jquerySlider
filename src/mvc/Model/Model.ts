@@ -1,10 +1,10 @@
 import { ISettings, IState, IModel } from './interface';
-import { IObserver } from '../Observer/interface';
+import { IObserver, IObserverViewArgument } from '../Observer/interface';
 
 export default class Model implements IModel {
   public settings: ISettings;
   public state: IState;
-  public observerRender?: IObserver;
+  public observerRender?: IObserver<IObserverViewArgument>;
 
   constructor(settings: ISettings) {
     this.settings = settings;
@@ -23,7 +23,7 @@ export default class Model implements IModel {
     };
   }
 
-  public setObserver(observer: IObserver): void {
+  public setObserver(observer: IObserver<IObserverViewArgument>): void {
     this.observerRender = observer;
   }
 

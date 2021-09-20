@@ -1,4 +1,4 @@
-import { IObserver } from '../Observer/interface';
+import { IObserver, IObserverViewArgument } from '../Observer/interface';
 
 export interface ISettings {
   min: number,
@@ -42,9 +42,9 @@ export interface IState {
 export interface IModel {
   settings: ISettings
   state: IState
-  observerRender?: IObserver;
+  observerRender?: IObserver<IObserverViewArgument>;
 
-  setObserver(observer: IObserver): void
+  setObserver(observer: IObserver<IObserverViewArgument>): void
   setStateLeft(obj: { valueLeft: number, fromLeftEdge?: number, width?: number }): void
   setStateRight(obj: { valueRight: number, fromRightEdge?: number, width?: number }): void
   getNewValueForState(obj: { width: number, coordinatesX: number }): void

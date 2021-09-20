@@ -1,4 +1,6 @@
-class Observer<T> {
+import { IObserver } from './interface';
+
+class Observer<T> implements IObserver<T> {
   public observers: Array<(obj: T) => void>;
   constructor() {
     this.observers = [];

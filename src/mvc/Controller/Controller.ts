@@ -1,7 +1,12 @@
 import { IView } from '../View/interface';
 import { IModel } from '../Model/interface';
 import {
-  IObserver, IObserverTrack, IObserverScale, IObserverLeft, IObserverRight,
+  IObserver,
+  IObserverLeftArgument,
+  IObserverRightArgument,
+  IObserverScaleArgument,
+  IObserverTrackArgument,
+  IObserverViewArgument,
 } from '../Observer/interface';
 
 import Observer from '../Observer/Observer';
@@ -10,11 +15,11 @@ export default class Controller {
   private view: IView;
   private model: IModel;
 
-  private observerRender: IObserver;
-  private observerControllerModelLeft: IObserverLeft;
-  private observerControllerModelRight: IObserverRight;
-  private observerControllerModelScale: IObserverScale;
-  private observerControllerModelTrack: IObserverTrack;
+  private observerRender: IObserver<IObserverViewArgument>;
+  private observerControllerModelLeft: IObserver<IObserverLeftArgument>;
+  private observerControllerModelRight: IObserver<IObserverRightArgument>;
+  private observerControllerModelScale: IObserver<IObserverScaleArgument>;
+  private observerControllerModelTrack: IObserver<IObserverTrackArgument>;
 
   constructor(model: IModel, view: IView) {
     this.model = model;
