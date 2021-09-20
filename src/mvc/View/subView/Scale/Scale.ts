@@ -13,7 +13,7 @@ class Scale implements IScale {
 
     this.scale.children('span').each((index, e) => {
       if (isScaleShow) {
-        e.textContent = (min + scaleNumber * index).toString();
+        e.textContent = String((min + scaleNumber * index));
       } else {
         e.textContent = '';
       }
@@ -22,8 +22,8 @@ class Scale implements IScale {
     const lastElement = this.scale.children('span').length - 1;
     const firstElement = 0;
 
-    this.scale.children('span')[firstElement].textContent = (min).toString();
-    this.scale.children('span')[lastElement].textContent = (max).toString();
+    this.scale.children('span')[firstElement].textContent = String((min));
+    this.scale.children('span')[lastElement].textContent = String((max));
   }
 
   public verticalScale(isVertical: boolean): void {

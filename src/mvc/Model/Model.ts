@@ -198,7 +198,7 @@ export default class Model implements IModel {
   private newValueRight(valueRight: number): number {
     if (this.state.penultimateValue > valueRight) {
       this.state.newStepRight = this.settings.step;
-      return parseFloat(Math.abs(this.state.penultimateValue - this.settings.step).toFixed(1));
+      return Number(Math.abs(this.state.penultimateValue - this.settings.step).toFixed(1));
     }
 
     this.state.isPenultimateValue = true;
@@ -207,7 +207,7 @@ export default class Model implements IModel {
 
   public getNewValueForState(obj: { width: number, coordinatesX: number }): void {
     const { width, coordinatesX } = obj;
-    const percent: number = parseFloat(((100 / width) * coordinatesX).toFixed(1));
+    const percent = Number(((100 / width) * coordinatesX).toFixed(1));
     const newValueForState: number = ((percent * (this.settings.max - this.settings.min)) / 100) + this.settings.min;
 
     this.setStateLeftOrRight({ value: Math.ceil(newValueForState) });

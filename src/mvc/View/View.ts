@@ -202,14 +202,14 @@ export default class View implements IView {
   }
 
   private handlerInputLeft = (): void => {
-    const valueLeft: number = parseFloat(this.inputLeft.val()!.toString());
+    const valueLeft = Number(this.inputLeft.val());
     const fromLeftEdge: number = Math.floor(this.slider.range.position().left);
     const width: number = this.slider.textLeft.width()!;
     this.callObserverLeft({ valueLeft, fromLeftEdge, width });
   };
 
   private handlerInputRight = (): void => {
-    const valueRight: number = parseFloat(this.inputRight.val()!.toString());
+    const valueRight = Number(this.inputRight.val());
     const fromRightEdge = Math.abs((this.slider.range.position().left + this.slider.range.width()!) - 300);
     const width: number = this.slider.textRight.width()!;
 
@@ -217,7 +217,7 @@ export default class View implements IView {
   };
 
   private handlerScaleClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>): void => {
-    this.callObserverScale({ value: parseInt(e.target.textContent!, 10) });
+    this.callObserverScale({ value: Number(e.target.textContent) });
   };
 
   private handlerTrackClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>): void => {
