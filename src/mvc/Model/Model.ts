@@ -164,6 +164,7 @@ export default class Model implements IModel {
   }
 
   public setStateLeftOrRight(obj: { value: number }): void {
+    console.log(obj);
     const { value } = obj;
     let isRightNearer = Math.abs(this.state.valueRight - value) < Math.abs(this.state.valueLeft - value);
 

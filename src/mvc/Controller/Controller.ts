@@ -1,5 +1,5 @@
 import { IView } from '../View/interface';
-import { IModel } from '../Model/interface';
+import { IModel, ISettings, IState } from '../Model/interface';
 import {
   IObserver,
   IObserverLeftArgument,
@@ -33,20 +33,40 @@ export default class Controller {
   }
 
   public init(): void {
-    this.observerRender.addObserver(this.view.render.bind(this.view));
+    this.observerRender.addObserver(this.subscriberRender.bind(this));
     this.model.setObserver(this.observerRender);
     this.model.checkSettings();
 
-    this.observerControllerModelLeft.addObserver(this.model.setStateLeft.bind(this.model));
+    this.observerControllerModelLeft.addObserver(this.subscriberThumbLeft.bind(this));
     this.view.setObserverLeft(this.observerControllerModelLeft);
 
-    this.observerControllerModelRight.addObserver(this.model.setStateRight.bind(this.model));
+    this.observerControllerModelRight.addObserver(this.subscriberThumbRight.bind(this));
     this.view.setObserverRight(this.observerControllerModelRight);
 
-    this.observerControllerModelScale.addObserver(this.model.setStateLeftOrRight.bind(this.model));
+    this.observerControllerModelScale.addObserver(this.subscriberScale.bind(this));
     this.view.setObserverScale(this.observerControllerModelScale);
 
-    this.observerControllerModelTrack.addObserver(this.model.getNewValueForState.bind(this.model));
+    this.observerControllerModelTrack.addObserver(this.subscriberTrack.bind(this));
     this.view.setObserverTrack(this.observerControllerModelTrack);
+  }
+
+  private subscriberRender(obj: { settings: ISettings, state: IState }) {
+    this.view.render(obj);
+  }
+
+  private subscriberThumbLeft(obj: { valueLeft: number, fromLeftEdge?: number, width?: number }) {
+    this.model.setStateLeft(obj);
+  }
+
+  private subscriberThumbRight(obj: { valueRight: number, fromRightEdge?: number, width?: number }) {
+    this.model.setStateRight(obj);
+  }
+
+  private subscriberScale(obj: { value: number }) {
+    this.model.setStateLeftOrRight(obj);
+  }
+
+  private subscriberTrack(obj: { width: number, coordinatesX: number }) {
+    this.model.getNewValueForState(obj);
   }
 }
