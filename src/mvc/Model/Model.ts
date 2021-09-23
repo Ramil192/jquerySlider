@@ -1,12 +1,19 @@
-import { ISettings, IState, IModel } from './interface';
-import { IObserver, IObserverViewArgument } from '../Observer/interface';
+import {
+  ISettings,
+  IState,
+  IModel,
+  IObserverViewArgument,
+  ModelActionTypes,
+}
+  from './interface';
+import Observer from '../Observer/Observer';
 
-export default class Model implements IModel {
+export default class Model extends Observer<IObserverViewArgument> implements IModel {
   public settings: ISettings;
   public state: IState;
-  public observerRender?: IObserver<IObserverViewArgument>;
 
   constructor(settings: ISettings) {
+    super();
     this.settings = settings;
     this.state = {
       valueLeft: 0,
@@ -21,10 +28,6 @@ export default class Model implements IModel {
       isPenultimateValue: false,
       isSmooth: false,
     };
-  }
-
-  public setObserver(observer: IObserver<IObserverViewArgument>): void {
-    this.observerRender = observer;
   }
 
   public checkSettings(): void {
@@ -87,12 +90,18 @@ export default class Model implements IModel {
 
     this.setStateRight({ valueRight: this.state.valueRight });
     this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
-    this.observerRender!.callAllObserver({ settings: this.settings, state: this.state });
+
+    this.callObserver({
+      type: ModelActionTypes.RENDER,
+      value: {
+        settings: this.settings,
+        state: this.state,
+      },
+    });
   }
 
   public setStateLeft(obj: { valueLeft: number, fromLeftEdge?: number, width?: number }): void {
     const { valueLeft, fromLeftEdge, width } = obj;
-
     if (fromLeftEdge && width) {
       this.setStateCenterLeft(fromLeftEdge, width);
     }
@@ -104,7 +113,14 @@ export default class Model implements IModel {
     this.settings.valueLeft = newValue;
 
     this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
-    this.observerRender!.callAllObserver({ settings: this.settings, state: this.state });
+
+    this.callObserver({
+      type: ModelActionTypes.RENDER,
+      value: {
+        settings: this.settings,
+        state: this.state,
+      },
+    });
   }
 
   public setStateRight(obj: { valueRight: number, fromRightEdge?: number, width?: number }): void {
@@ -137,7 +153,14 @@ export default class Model implements IModel {
     this.settings.valueRight = newValue;
 
     this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
-    this.observerRender!.callAllObserver({ settings: this.settings, state: this.state });
+
+    this.callObserver({
+      type: ModelActionTypes.RENDER,
+      value: {
+        settings: this.settings,
+        state: this.state,
+      },
+    });
   }
 
   private setStateCenterLeft(fromLeftEdge: number, width: number): void {
@@ -163,23 +186,21 @@ export default class Model implements IModel {
     return -50;
   }
 
-  public setStateLeftOrRight(obj: { value: number }): void {
-    console.log(obj);
-    const { value } = obj;
-    let isRightNearer = Math.abs(this.state.valueRight - value) < Math.abs(this.state.valueLeft - value);
+  public setStateLeftOrRight(obj: { valueTarget: number }): void {
+    const { valueTarget } = obj;
+    let isRightNearer = Math.abs(this.state.valueRight - valueTarget) < Math.abs(this.state.valueLeft - valueTarget);
 
     if (!this.settings.isDouble) {
       isRightNearer = true;
     }
 
     if (isRightNearer) {
-      this.setStateRight({ valueRight: value });
+      this.setStateRight({ valueRight: valueTarget });
     } else {
-      this.setStateLeft({ valueLeft: value });
+      this.setStateLeft({ valueLeft: valueTarget });
     }
 
     this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
-    this.observerRender!.callAllObserver({ settings: this.settings, state: this.state });
   }
 
   private setIsSmooth(valueLeft: number, valueRight: number): void {
@@ -211,7 +232,7 @@ export default class Model implements IModel {
     const percent = Number(((100 / width) * coordinatesX).toFixed(1));
     const newValueForState: number = ((percent * (this.settings.max - this.settings.min)) / 100) + this.settings.min;
 
-    this.setStateLeftOrRight({ value: Math.ceil(newValueForState) });
+    this.setStateLeftOrRight({ valueTarget: Math.ceil(newValueForState) });
   }
 
   private getPercentage(val: number): number {

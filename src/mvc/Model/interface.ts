@@ -1,4 +1,4 @@
-import { IObserver, IObserverViewArgument } from '../Observer/interface';
+import { IObserver } from '../Observer/interface';
 
 export interface ISettings {
   min: number,
@@ -39,15 +39,25 @@ export interface IState {
   isSmooth: boolean
 }
 
-export interface IModel {
+export enum ModelActionTypes {
+  RENDER = 'valueUpdate',
+}
+
+export interface IObserverViewArgument {
+  type: ModelActionTypes.RENDER,
+  value: {
+    settings: ISettings
+    state: IState
+  }
+}
+
+export interface IModel extends IObserver<IObserverViewArgument> {
   settings: ISettings
   state: IState
-  observerRender?: IObserver<IObserverViewArgument>;
 
-  setObserver(observer: IObserver<IObserverViewArgument>): void
   setStateLeft(obj: { valueLeft: number, fromLeftEdge?: number, width?: number }): void
   setStateRight(obj: { valueRight: number, fromRightEdge?: number, width?: number }): void
   getNewValueForState(obj: { width: number, coordinatesX: number }): void
-  setStateLeftOrRight(obj: { value: number }): void
+  setStateLeftOrRight(obj: { valueTarget: number }): void
   checkSettings(prevLeft?: number): void
 }

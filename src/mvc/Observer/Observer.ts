@@ -14,7 +14,7 @@ class Observer<T> implements IObserver<T> {
     this.observers = this.observers.filter((item) => item !== observer);
   }
 
-  public callAllObserver(obj: T): void {
+  public callObserver(obj: T): void {
     this.observers.forEach((observer) => observer(obj));
   }
 }

@@ -1,5 +1,5 @@
-import View from './View/View';
 import Model from './Model/Model';
+import View from './View/View';
 import Controller from './Controller/Controller';
 import { INewSettings } from './Model/interface';
 

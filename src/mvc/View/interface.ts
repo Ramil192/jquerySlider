@@ -1,13 +1,7 @@
 import { ISettings, IState } from '../Model/interface';
-import {
-  IObserver,
-  IObserverLeftArgument,
-  IObserverRightArgument,
-  IObserverScaleArgument,
-  IObserverTrackArgument,
-} from '../Observer/interface';
+import { IObserver } from '../Observer/interface';
 
-export interface IView {
+export interface IView extends IObserver<ActionTypeView> {
   target: JQuery<HTMLElement>
   inputLeft: JQuery<HTMLElement>
   inputRight: JQuery<HTMLElement>
@@ -16,16 +10,7 @@ export interface IView {
   synchronizationLeft?: JQuery<HTMLElement>;
   synchronizationRight?: JQuery<HTMLElement>;
 
-  observerControllerModelLeft?: IObserver<IObserverLeftArgument>;
-  observerControllerModelRight?: IObserver<IObserverRightArgument>;
-  observerControllerModelScale?: IObserver<IObserverScaleArgument>;
-  observerControllerModelTrack?: IObserver<IObserverTrackArgument>;
-
   doubleSlider(isDouble: boolean): void;
-  setObserverLeft(observer: IObserver<IObserverLeftArgument>): void;
-  setObserverRight(observer: IObserver<IObserverRightArgument>): void;
-  setObserverScale(observerScale: IObserver<IObserverScaleArgument>): void;
-  setObserverTrack(observerTrack: IObserver<IObserverTrackArgument>): void;
   render(obj: { settings: ISettings, state: IState }): void;
   renderThumbLeft(isDouble: boolean, min: number, valueLeft: number, percentageLeft: number): void;
   renderThumbRight(isVertical: boolean, valueRight: number, percentageRight: number): void;
@@ -40,6 +25,48 @@ export interface IScale {
   renderScale(min: number, max: number, isScale: boolean): void;
   verticalScale(isVertical: boolean): void;
 }
+
+export enum ViewActionTypes {
+  LEFT = 'leftThumb',
+  RIGHT = 'rightThumb',
+  SCALE = 'scale',
+  TRACK = 'track',
+}
+
+export interface IObserverLeftArgument {
+  type: ViewActionTypes.LEFT;
+  value: {
+    valueLeft: number;
+    fromLeftEdge?: number;
+    width?: number;
+  }
+}
+
+export interface IObserverRightArgument {
+  type: ViewActionTypes.RIGHT;
+  value: {
+    valueRight: number;
+    fromRightEdge?: number,
+    width?: number
+  }
+}
+
+export interface IObserverScaleArgument {
+  type: ViewActionTypes.SCALE;
+  value: {
+    valueTarget: number
+  }
+}
+
+export interface IObserverTrackArgument {
+  type: ViewActionTypes.TRACK;
+  value: {
+    width: number
+    coordinatesX: number
+  }
+}
+
+export type ActionTypeView = IObserverLeftArgument | IObserverRightArgument | IObserverScaleArgument | IObserverTrackArgument;
 
 export interface ISlider {
   slider: JQuery<HTMLElement>;
