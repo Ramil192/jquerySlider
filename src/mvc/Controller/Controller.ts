@@ -22,7 +22,7 @@ export default class Controller {
       switch (data.type) {
         case ModelActionTypes.RENDER:
           this.view.render(data.value); break;
-        default: () => { };
+        // no default
       }
     });
   }
@@ -38,7 +38,7 @@ export default class Controller {
           this.model.setStateLeftOrRight(data.value); break;
         case ViewActionTypes.TRACK:
           this.model.getNewValueForState(data.value); break;
-        default: () => { };
+        // no default
       }
     });
   }
