@@ -44,5 +44,15 @@
     "fsd/no-function-declaration-in-event-listener": "error",
     "fsd/split-conditionals": "error",
     "@typescript-eslint/no-unsafe-call": "off"
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.test.js"
+      ],
+      "env": {
+        "jest": true
+      }
+    }
+  ]
 }
