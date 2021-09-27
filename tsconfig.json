@@ -6,7 +6,12 @@
       "strict": true,
       "experimentalDecorators": true,
     },
- 
+    "awesomeTypescriptLoaderOptions": {
+      "useWebpackText": true,
+      "useTranspileModule": true,
+      "doTypeCheck": true,
+      "forkChecker": true
+      },
     "exclude": [
       "node_modules",
       "dist"

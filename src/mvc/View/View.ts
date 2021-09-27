@@ -1,13 +1,13 @@
-import { IView, IScale, ISlider } from './interface';
 import {
-  IObserverLeft, IObserverRight, IObserverTrack, IObserverScale,
-} from '../Observer/interface';
+  IView, IScale, ISlider, ActionTypeView, ViewActionTypes,
+} from './interface';
 import { ISettings, IState } from '../Model/interface';
 
 import Scale from './subView/Scale/Scale';
 import Slider from './subView/Slider/Slider';
+import Observer from '../Observer/Observer';
 
-export default class View implements IView {
+export default class View extends Observer<ActionTypeView> implements IView {
   public target: JQuery<HTMLElement>;
   public inputLeft: JQuery<HTMLElement>;
   public inputRight: JQuery<HTMLElement>;
@@ -17,12 +17,8 @@ export default class View implements IView {
   public synchronizationLeft?: JQuery<HTMLElement>;
   public synchronizationRight?: JQuery<HTMLElement>;
 
-  public observerControllerModelLeft?: IObserverLeft;
-  public observerControllerModelRight?: IObserverRight;
-  public observerControllerModelScale?: IObserverScale;
-  public observerControllerModelTrack?: IObserverTrack;
-
   constructor(target: JQuery<HTMLElement>) {
+    super();
     this.target = target;
     this.inputLeft = $('<input class="range-slider__input-left" type="range">');
     this.inputRight = $('<input class="range-slider__input-right" type="range">');
@@ -31,22 +27,6 @@ export default class View implements IView {
 
     this.init();
     this.setEventHandlers();
-  }
-
-  public setObserverLeft(observer: IObserverLeft): void {
-    this.observerControllerModelLeft = observer;
-  }
-
-  public setObserverRight(observer: IObserverRight): void {
-    this.observerControllerModelRight = observer;
-  }
-
-  public setObserverScale(observer: IObserverScale): void {
-    this.observerControllerModelScale = observer;
-  }
-
-  public setObserverTrack(observer: IObserverTrack): void {
-    this.observerControllerModelTrack = observer;
   }
 
   public render(obj: { settings: ISettings, state: IState }): void {
@@ -116,7 +96,6 @@ export default class View implements IView {
 
   public setSynchronizationRight(right: JQuery<HTMLElement>): void {
     this.synchronizationRight = right;
-    this.handlerInputRight();
   }
 
   public renderThumbLeft(isDouble: boolean, min: number, valueLeft: number, percentageLeft: number): void {
@@ -169,30 +148,6 @@ export default class View implements IView {
     this.inputRight.val(valueRight);
   }
 
-  private callObserverLeft(obj: { valueLeft: number, fromLeftEdge?: number, width?: number }): void {
-    if (typeof this.observerControllerModelLeft !== 'undefined') {
-      this.observerControllerModelLeft.callAllObserver(obj);
-    }
-  }
-
-  private callObserverRight(obj: { valueRight: number, fromRightEdge?: number, width?: number }): void {
-    if (typeof this.observerControllerModelRight !== 'undefined') {
-      this.observerControllerModelRight.callAllObserver(obj);
-    }
-  }
-
-  private callObserverScale(obj: { value: number }): void {
-    if (typeof this.observerControllerModelScale !== 'undefined') {
-      this.observerControllerModelScale.callAllObserver(obj);
-    }
-  }
-
-  private callObserverTrack(obj: { width: number, coordinatesX: number }): void {
-    if (typeof this.observerControllerModelTrack !== 'undefined') {
-      this.observerControllerModelTrack.callAllObserver(obj);
-    }
-  }
-
   private leftValueSmoothRightValue(isSmooth: boolean): void {
     if (isSmooth) {
       this.inputRight.css({ zIndex: -1 });
@@ -201,41 +156,50 @@ export default class View implements IView {
     }
   }
 
-  private handlerInputLeft = (): void => {
-    const valueLeft: number = parseFloat(this.inputLeft.val()!.toString());
+  private handlerInputLeft = (e: JQuery.Event): void => {
+    e.stopPropagation();
+    const valueLeft = Number(this.inputLeft.val());
     const fromLeftEdge: number = Math.floor(this.slider.range.position().left);
     const width: number = this.slider.textLeft.width()!;
-    this.callObserverLeft({ valueLeft, fromLeftEdge, width });
+    this.callObserver({ type: ViewActionTypes.LEFT, value: { valueLeft, fromLeftEdge, width } });
   };
 
-  private handlerInputRight = (): void => {
-    const valueRight: number = parseFloat(this.inputRight.val()!.toString());
+  private handlerInputRight = (e: JQuery.Event): void => {
+    e.stopPropagation();
+    const valueRight = Number(this.inputRight.val());
     const fromRightEdge = Math.abs((this.slider.range.position().left + this.slider.range.width()!) - 300);
     const width: number = this.slider.textRight.width()!;
 
-    this.callObserverRight({ valueRight, fromRightEdge, width });
+    this.callObserver({ type: ViewActionTypes.RIGHT, value: { valueRight, fromRightEdge, width } });
   };
 
   private handlerScaleClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>): void => {
-    this.callObserverScale({ value: parseInt(e.target.innerHTML, 10) });
+    e.stopPropagation();
+    this.callObserver({ type: ViewActionTypes.SCALE, value: { valueTarget: Number(e.target.textContent) } });
   };
 
   private handlerTrackClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>): void => {
-    this.callObserverTrack({ width: this.slider.trackClick.width()!, coordinatesX: e.offsetX });
+    e.stopPropagation();
+    this.callObserver({ type: ViewActionTypes.TRACK, value: { width: this.slider.trackClick.width()!, coordinatesX: e.offsetX } });
   };
 
-  private handlerTextLeftMouseenter = (): void => {
+  private handlerTextLeftMouseenter = (e: JQuery.Event): void => {
+    e.stopPropagation();
     this.inputLeft.css({ top: '-24px' });
   };
 
-  private handlerThumbLeftMouseenter = (): void => {
+  private handlerThumbLeftMouseenter = (e: JQuery.Event): void => {
+    e.stopPropagation();
     this.inputLeft.css({ top: '0px' });
   };
-  private handlerTextRightMouseenter = (): void => {
+
+  private handlerTextRightMouseenter = (e: JQuery.Event): void => {
+    e.stopPropagation();
     this.inputRight.css({ top: '-24px' });
   };
 
-  private handlerThumbRightMouseenter = (): void => {
+  private handlerThumbRightMouseenter = (e: JQuery.Event): void => {
+    e.stopPropagation();
     this.inputRight.css({ top: '0px' });
   };
 

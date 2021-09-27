@@ -1,21 +1,21 @@
-import Slider from '../../src/mvc/view/subView/Slider/Slider';
 import $ from 'jquery';
-global.$ = global.jQuery = $;
+import Slider from '../../src/mvc/View/subView/Slider/Slider';
+
+window.$ = $;
 
 describe('Slider', () => {
-  let slider = '';
+  const slider = new Slider();
 
-  slider = new Slider();
   let isLabel = false;
   let isDouble = false;
-  let isVertical = false;
+  const isVertical = false;
 
   test('renderText(false,false)', () => {
     slider.renderText(isLabel, isDouble);
 
     expect(slider.textLeft.css('display')).toBe('none');
     expect(slider.textRight.css('display')).toBe('none');
-  })
+  });
 
   test('renderText(true,true)', () => {
     isLabel = true;
@@ -24,7 +24,7 @@ describe('Slider', () => {
 
     expect(slider.textLeft.css('display')).toBe('');
     expect(slider.textRight.css('display')).toBe('');
-  })
+  });
 
   test('doubleSlider', () => {
     isDouble = false;
@@ -34,15 +34,12 @@ describe('Slider', () => {
     expect(slider.range.position().left).toBe(0);
     expect(slider.textLeft.css('display')).toBe('none');
     expect(slider.thumbLeft.css('display')).toBe('none');
-  })
+  });
 
   test('verticalSlider', () => {
-
-    slider.verticalSlider(isVertical,0,0);
+    slider.verticalSlider(isVertical, 0, 0);
 
     expect(slider.textLeft.css('transform')).toBe('rotate(0deg) translate(0%, 0px)');
     expect(slider.textRight.css('transform')).toBe('rotate(0deg) translate(0%, 0px)');
-  })
-
-
-})
+  });
+});

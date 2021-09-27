@@ -74,5 +74,5 @@ controller знает о model и view
  
 
 # UML
-https://ibb.co/28zKnZD
+https://ibb.co/LpTTj2h
 (./uml/uml.png)

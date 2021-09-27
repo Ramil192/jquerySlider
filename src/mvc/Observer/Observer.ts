@@ -1,4 +1,6 @@
-class Observer<T> {
+import { IObserver } from './interface';
+
+class Observer<T> implements IObserver<T> {
   public observers: Array<(obj: T) => void>;
   constructor() {
     this.observers = [];
@@ -12,7 +14,7 @@ class Observer<T> {
     this.observers = this.observers.filter((item) => item !== observer);
   }
 
-  public callAllObserver(obj: T): void {
+  public callObserver(obj: T): void {
     this.observers.forEach((observer) => observer(obj));
   }
 }

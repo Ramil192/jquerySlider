@@ -1,9 +1,9 @@
+import $ from 'jquery';
 import Model from '../src/mvc/Model/Model';
 import View from '../src/mvc/View/View';
 import Controller from '../src/mvc/Controller/Controller';
 
-import $ from 'jquery';
-global.$ = global.jQuery = $;
+window.$ = $;
 
 describe('controller', () => {
   const model = new Model({
@@ -18,33 +18,33 @@ describe('controller', () => {
     isDouble: true,
   });
 
-  const element = $('<div class = "test"></div>')
+  const element = $('<div class = "test"></div>');
   const view = new View(element);
 
   const controller = new Controller(model, view);
 
-  describe('init:', () => {
+  describe('Controller', () => {
+    test('init Controller', () => {
+      controller.init();
 
-    controller.init();
-    test('init Observer model', () => {
-      expect(model.observerRender).toBeDefined();
-    })
+      expect(model.observers.length).toBe(1);
+      expect(view.observers.length).toBe(1);
+    });
 
-    test('init Observer Left', () => {
-      expect(view.observerControllerModelLeft).toBeDefined();
-    })
+    test('ViewActionTypes.LEFT', () => {
+      view.handlerInputLeft();
+      expect(model.settings.valueLeft).toBe(25);
+    });
 
-    test('init Observer Right', () => {
-      expect(view.observerControllerModelRight).toBeDefined();
-    })
+    test('ViewActionTypes.RIGHT', () => {
+      view.handlerInputRight();
+      expect(model.settings.valueRight).toBe(75);
+    });
 
-    test('init Observer Scale', () => {
-      expect(view.observerControllerModelScale).toBeDefined();
-    })
-
-    test('init Observer Track', () => {
-      expect(view.observerControllerModelTrack).toBeDefined();
-    })
-
-  })
-})
+    test('ViewActionTypes.SCALE', () => {
+      const click = $.Event('click');
+      view.scale.scale.trigger(click);
+      expect(model.settings.valueLeft).toBe(25);
+    });
+  });
+});
