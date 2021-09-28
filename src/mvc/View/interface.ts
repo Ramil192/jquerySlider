@@ -7,8 +7,10 @@ export interface IView extends IObserver<ActionTypeView> {
   inputRight: JQuery<HTMLElement>
   scale: IScale
   slider: ISlider
+
   synchronizationLeft?: JQuery<HTMLElement>;
   synchronizationRight?: JQuery<HTMLElement>;
+  body?: JQuery<HTMLElement>;
 
   doubleSlider(isDouble: boolean): void;
   render(obj: { settings: ISettings, state: IState }): void;
