@@ -16,6 +16,7 @@ export default class View extends Observer<ActionTypeView> implements IView {
 
   public synchronizationLeft?: JQuery<HTMLElement>;
   public synchronizationRight?: JQuery<HTMLElement>;
+  public body?: JQuery<HTMLElement>;
 
   constructor(target: JQuery<HTMLElement>) {
     super();
@@ -132,6 +133,8 @@ export default class View extends Observer<ActionTypeView> implements IView {
       margin: '32px 0px',
       width: '100%',
     });
+
+    this.body = $('body');
   }
 
   private changeAttrInput(min: number, max: number, step: number, newStepRight: number, valueLeft: number, valueRight: number): void {
@@ -157,7 +160,14 @@ export default class View extends Observer<ActionTypeView> implements IView {
   }
 
   private handlerInputLeft = (e: JQuery.Event): void => {
-    e.stopPropagation();
+    if (e.type === 'touchstart') {
+      this.body!.css({ overflow: 'hidden' });
+    }
+
+    if (e.type === 'touchend') {
+      this.body!.css({ overflow: 'scroll' });
+    }
+
     const valueLeft = Number(this.inputLeft.val());
     const fromLeftEdge: number = Math.floor(this.slider.range.position().left);
     const width: number = this.slider.textLeft.width()!;
@@ -165,7 +175,14 @@ export default class View extends Observer<ActionTypeView> implements IView {
   };
 
   private handlerInputRight = (e: JQuery.Event): void => {
-    e.stopPropagation();
+    if (e.type === 'touchstart') {
+      this.body!.css({ overflow: 'hidden' });
+    }
+
+    if (e.type === 'touchend') {
+      this.body!.css({ overflow: 'scroll' });
+    }
+
     const valueRight = Number(this.inputRight.val());
     const fromRightEdge = Math.abs((this.slider.range.position().left + this.slider.range.width()!) - 300);
     const width: number = this.slider.textRight.width()!;
@@ -174,43 +191,58 @@ export default class View extends Observer<ActionTypeView> implements IView {
   };
 
   private handlerScaleClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>): void => {
-    e.stopPropagation();
+    e.preventDefault();
     this.callObserver({ type: ViewActionTypes.SCALE, value: { valueTarget: Number(e.target.textContent) } });
   };
 
   private handlerTrackClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>): void => {
-    e.stopPropagation();
+    e.preventDefault();
     this.callObserver({ type: ViewActionTypes.TRACK, value: { width: this.slider.trackClick.width()!, coordinatesX: e.offsetX } });
   };
 
   private handlerTextLeftMouseenter = (e: JQuery.Event): void => {
-    e.stopPropagation();
+    e.preventDefault();
     this.inputLeft.css({ top: '-24px' });
   };
 
   private handlerThumbLeftMouseenter = (e: JQuery.Event): void => {
-    e.stopPropagation();
+    e.preventDefault();
     this.inputLeft.css({ top: '0px' });
   };
 
   private handlerTextRightMouseenter = (e: JQuery.Event): void => {
-    e.stopPropagation();
+    e.preventDefault();
     this.inputRight.css({ top: '-24px' });
   };
 
   private handlerThumbRightMouseenter = (e: JQuery.Event): void => {
-    e.stopPropagation();
+    e.preventDefault();
     this.inputRight.css({ top: '0px' });
   };
 
+  preventDefault = (e: JQuery.Event) => {
+    e.preventDefault();
+    return false;
+  };
+
   private setEventHandlers(): void {
-    this.inputLeft.on('input', this.handlerInputLeft);
-    this.inputRight.on('input', this.handlerInputRight);
+    this.inputLeft.on('input touchstart  touchend', this.handlerInputLeft);
+    this.inputRight.on('input touchstart  touchend', this.handlerInputRight);
     this.scale.scale.on('click', this.handlerScaleClick);
     this.slider.trackClick.on('click', this.handlerTrackClick);
     this.slider.textLeft.on('mouseenter', this.handlerTextLeftMouseenter);
     this.slider.thumbLeft.on('mouseenter', this.handlerThumbLeftMouseenter);
     this.slider.textRight.on('mouseenter', this.handlerTextRightMouseenter);
     this.slider.thumbRight.on('mouseenter', this.handlerThumbRightMouseenter);
+
+    this.slider.textLeft.on('dragstart drop', this.preventDefault);
+    this.slider.textRight.on('dragstart drop', this.preventDefault);
+    this.slider.thumbLeft.on('dragstart drop', this.preventDefault);
+    this.slider.thumbRight.on('dragstart drop', this.preventDefault);
+    this.slider.trackClick.on('dragstart drop', this.preventDefault);
+    this.scale.scale.on('dragstart drop', this.preventDefault);
+
+    this.inputLeft.on('dragstart drop', this.preventDefault);
+    this.inputRight.on('dragstart drop', this.preventDefault);
   }
 }
