@@ -159,30 +159,14 @@ export default class View extends Observer<ActionTypeView> implements IView {
     }
   }
 
-  private handlerInputLeft = (e: JQuery.Event): void => {
-    if (e.type === 'touchstart') {
-      this.body!.css({ overflow: 'hidden' });
-    }
-
-    if (e.type === 'touchend') {
-      this.body!.css({ overflow: 'scroll' });
-    }
-
+  private handlerInputLeft = (): void => {
     const valueLeft = Number(this.inputLeft.val());
     const fromLeftEdge: number = Math.floor(this.slider.range.position().left);
     const width: number = this.slider.textLeft.width()!;
     this.callObserver({ type: ViewActionTypes.LEFT, value: { valueLeft, fromLeftEdge, width } });
   };
 
-  private handlerInputRight = (e: JQuery.Event): void => {
-    if (e.type === 'touchstart') {
-      this.body!.css({ overflow: 'hidden' });
-    }
-
-    if (e.type === 'touchend') {
-      this.body!.css({ overflow: 'scroll' });
-    }
-
+  private handlerInputRight = (): void => {
     const valueRight = Number(this.inputRight.val());
     const fromRightEdge = Math.abs((this.slider.range.position().left + this.slider.range.width()!) - 300);
     const width: number = this.slider.textRight.width()!;
@@ -191,32 +175,26 @@ export default class View extends Observer<ActionTypeView> implements IView {
   };
 
   private handlerScaleClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>): void => {
-    e.preventDefault();
     this.callObserver({ type: ViewActionTypes.SCALE, value: { valueTarget: Number(e.target.textContent) } });
   };
 
   private handlerTrackClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>): void => {
-    e.preventDefault();
     this.callObserver({ type: ViewActionTypes.TRACK, value: { width: this.slider.trackClick.width()!, coordinatesX: e.offsetX } });
   };
 
   private handlerTextLeftMouseenter = (e: JQuery.Event): void => {
-    e.preventDefault();
     this.inputLeft.css({ top: '-24px' });
   };
 
   private handlerThumbLeftMouseenter = (e: JQuery.Event): void => {
-    e.preventDefault();
     this.inputLeft.css({ top: '0px' });
   };
 
   private handlerTextRightMouseenter = (e: JQuery.Event): void => {
-    e.preventDefault();
     this.inputRight.css({ top: '-24px' });
   };
 
   private handlerThumbRightMouseenter = (e: JQuery.Event): void => {
-    e.preventDefault();
     this.inputRight.css({ top: '0px' });
   };
 
@@ -226,8 +204,8 @@ export default class View extends Observer<ActionTypeView> implements IView {
   };
 
   private setEventHandlers(): void {
-    this.inputLeft.on('input touchstart  touchend', this.handlerInputLeft);
-    this.inputRight.on('input touchstart  touchend', this.handlerInputRight);
+    this.inputLeft.on('pointermove', this.handlerInputLeft);
+    this.inputRight.on('pointermove', this.handlerInputRight);
     this.scale.scale.on('click', this.handlerScaleClick);
     this.slider.trackClick.on('click', this.handlerTrackClick);
     this.slider.textLeft.on('mouseenter', this.handlerTextLeftMouseenter);
@@ -242,7 +220,7 @@ export default class View extends Observer<ActionTypeView> implements IView {
     this.slider.trackClick.on('dragstart drop', this.preventDefault);
     this.scale.scale.on('dragstart drop', this.preventDefault);
 
-    this.inputLeft.on('dragstart drop', this.preventDefault);
-    this.inputRight.on('dragstart drop', this.preventDefault);
+    this.inputLeft.on('dragstart drop ', this.preventDefault);
+    this.inputRight.on('dragstart drop ', this.preventDefault);
   }
 }
