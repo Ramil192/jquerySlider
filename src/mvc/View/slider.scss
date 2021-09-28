@@ -3,6 +3,7 @@
   z-index: 1;
   height: 5px;
   margin: 0px 10px;
+  touch-action: none;
 }
 
 .range-slider__body-track,
@@ -63,6 +64,8 @@
   height: 10px;
   width: 100%;
   -webkit-appearance: none;
+  touch-action: none;
+  transform: rotate(0deg);
   opacity: 0;
 }
 
