@@ -33,8 +33,6 @@ describe('Model', () => {
     valueRight,
     percentageLeft: 25,
     percentageRight: 75,
-    centerLeft: -30,
-    centerRight: 30,
   };
 
   describe('checkSettings', () => {
