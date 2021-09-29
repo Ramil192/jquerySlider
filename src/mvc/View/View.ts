@@ -47,11 +47,9 @@ export default class View extends Observer<ActionTypeView> implements IView {
       valueRight,
       percentageRight,
       isSmooth,
-      centerLeft,
-      centerRight,
     } = obj.state;
 
-    this.renderVertical(isVertical, centerLeft, centerRight);
+    this.renderVertical(isVertical);
     this.changeAttrInput(min, max, step, newStepRight, valueLeft, valueRight);
 
     this.scale.renderScale(min, max, isScale);
@@ -65,7 +63,10 @@ export default class View extends Observer<ActionTypeView> implements IView {
     this.leftValueSmoothRightValue(isSmooth);
   }
 
-  public renderVertical(isVertical: boolean, centerLeft: number, centerRight: number): void {
+  public renderVertical(isVertical: boolean): void {
+    const centerLeft = this.setCenterLeft();
+    const centerRight = this.setCenterRight();
+
     this.slider.verticalSlider(isVertical, centerLeft, centerRight);
     this.scale.verticalScale(isVertical);
 
@@ -159,19 +160,41 @@ export default class View extends Observer<ActionTypeView> implements IView {
     }
   }
 
-  private handlerInputLeft = (): void => {
-    const valueLeft = Number(this.inputLeft.val());
+  private setCenterLeft(): number {
     const fromLeftEdge: number = Math.floor(this.slider.range.position().left);
     const width: number = this.slider.textLeft.width()!;
-    this.callObserver({ type: ViewActionTypes.LEFT, value: { valueLeft, fromLeftEdge, width } });
+    let result = 0;
+
+    if (Math.floor(fromLeftEdge) >= (width / 2)) {
+      result = -50;
+    } else {
+      result = -30;
+    }
+
+    return result;
+  }
+
+  private setCenterRight(): number {
+    const fromRightEdge = Math.abs((this.slider.range.position().left + this.slider.range.width()!) - 300);
+    const width: number = this.slider.textRight.width()!;
+    let result = 0;
+
+    if (Math.floor(fromRightEdge) >= (width / 2)) {
+      result = 60;
+    } else {
+      result = 30;
+    }
+    return result;
+  }
+
+  private handlerInputLeft = (): void => {
+    const valueLeft = Number(this.inputLeft.val());
+    this.callObserver({ type: ViewActionTypes.LEFT, value: { valueLeft } });
   };
 
   private handlerInputRight = (): void => {
     const valueRight = Number(this.inputRight.val());
-    const fromRightEdge = Math.abs((this.slider.range.position().left + this.slider.range.width()!) - 300);
-    const width: number = this.slider.textRight.width()!;
-
-    this.callObserver({ type: ViewActionTypes.RIGHT, value: { valueRight, fromRightEdge, width } });
+    this.callObserver({ type: ViewActionTypes.RIGHT, value: { valueRight } });
   };
 
   private handlerScaleClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>): void => {

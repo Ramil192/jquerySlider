@@ -22,8 +22,6 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
       percentageRight: 0,
       newStepRight: 0,
       penultimateValue: 0,
-      centerLeft: this.setStateCenterLeftBegin(this.settings.valueLeft),
-      centerRight: 30,
       isPenultimate: false,
       isPenultimateValue: false,
       isSmooth: false,
@@ -100,12 +98,8 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
     });
   }
 
-  public setStateLeft(obj: { valueLeft: number, fromLeftEdge?: number, width?: number }): void {
-    const { valueLeft, fromLeftEdge, width } = obj;
-    if (fromLeftEdge && width) {
-      this.setStateCenterLeft(fromLeftEdge, width);
-    }
-
+  public setStateLeft(obj: { valueLeft: number }): void {
+    const { valueLeft } = obj;
     const newValue = Math.min(valueLeft, this.state.valueRight - this.isFractional());
 
     this.state.percentageLeft = this.getPercentage(newValue);
@@ -123,13 +117,8 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
     });
   }
 
-  public setStateRight(obj: { valueRight: number, fromRightEdge?: number, width?: number }): void {
+  public setStateRight(obj: { valueRight: number }): void {
     let { valueRight } = obj;
-    const { fromRightEdge, width } = obj;
-
-    if (fromRightEdge && width) {
-      this.setStateCenterRight(fromRightEdge, width);
-    }
 
     if (this.state.isPenultimateValue) {
       valueRight = this.state.penultimateValue;
@@ -161,29 +150,6 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
         state: this.state,
       },
     });
-  }
-
-  private setStateCenterLeft(fromLeftEdge: number, width: number): void {
-    if (Math.floor(fromLeftEdge) >= (width / 2)) {
-      this.state.centerLeft = -50;
-    } else {
-      this.state.centerLeft = -30;
-    }
-  }
-
-  private setStateCenterRight(fromRightEdge: number, width: number): void {
-    if (Math.floor(fromRightEdge) >= (width / 2)) {
-      this.state.centerRight = 60;
-    } else {
-      this.state.centerRight = 30;
-    }
-  }
-
-  private setStateCenterLeftBegin(valueLeft: number): number {
-    if (Math.abs(valueLeft) >= 10) {
-      return -30;
-    }
-    return -50;
   }
 
   public setStateLeftOrRight(obj: { valueTarget: number }): void {
