@@ -55,7 +55,7 @@ export interface IModel extends IObserver<IObserverViewArgument> {
 
   setStateLeft(obj: { valueLeft: number }): void
   setStateRight(obj: { valueRight: number }): void
-  getNewValueForState(obj: { width: number, coordinatesX: number }): void
+  getNewValueForState(obj: { percent: number }): void
   setStateLeftOrRight(obj: { valueTarget: number }): void
   checkSettings(prevLeft?: number): void
 }

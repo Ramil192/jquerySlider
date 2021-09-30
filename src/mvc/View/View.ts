@@ -197,38 +197,42 @@ export default class View extends Observer<ActionTypeView> implements IView {
     this.callObserver({ type: ViewActionTypes.RIGHT, value: { valueRight } });
   };
 
-  private handlerScaleClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>): void => {
-    this.callObserver({ type: ViewActionTypes.SCALE, value: { valueTarget: Number(e.target.textContent) } });
+  private handlerScaleClick = (event: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>): void => {
+    this.callObserver({ type: ViewActionTypes.SCALE, value: { valueTarget: Number(event.target.textContent) } });
   };
 
-  private handlerTrackClick = (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>): void => {
-    this.callObserver({ type: ViewActionTypes.TRACK, value: { width: this.slider.trackClick.width()!, coordinatesX: e.offsetX } });
+  private handlerTrackClick = (event: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>): void => {
+    const width = this.slider.trackClick.width()!;
+    const coordinatesX = event.offsetX;
+    const percent = Number(((100 / width) * coordinatesX).toFixed(1));
+
+    this.callObserver({ type: ViewActionTypes.TRACK, value: { percent } });
   };
 
-  private handlerTextLeftMouseenter = (e: JQuery.Event): void => {
+  private handlerTextLeftMouseenter = (): void => {
     this.inputLeft.css({ top: '-24px' });
   };
 
-  private handlerThumbLeftMouseenter = (e: JQuery.Event): void => {
+  private handlerThumbLeftMouseenter = (): void => {
     this.inputLeft.css({ top: '0px' });
   };
 
-  private handlerTextRightMouseenter = (e: JQuery.Event): void => {
+  private handlerTextRightMouseenter = (): void => {
     this.inputRight.css({ top: '-24px' });
   };
 
-  private handlerThumbRightMouseenter = (e: JQuery.Event): void => {
+  private handlerThumbRightMouseenter = (): void => {
     this.inputRight.css({ top: '0px' });
   };
 
-  preventDefault = (e: JQuery.Event) => {
-    e.preventDefault();
+  preventDefault = (event: JQuery.Event):boolean => {
+    event.preventDefault();
     return false;
   };
 
   private setEventHandlers(): void {
-    this.inputLeft.on('pointermove', this.handlerInputLeft);
-    this.inputRight.on('pointermove', this.handlerInputRight);
+    this.inputLeft.on('input', this.handlerInputLeft);
+    this.inputRight.on('input', this.handlerInputRight);
     this.scale.scale.on('click', this.handlerScaleClick);
     this.slider.trackClick.on('click', this.handlerTrackClick);
     this.slider.textLeft.on('mouseenter', this.handlerTextLeftMouseenter);

@@ -128,14 +128,31 @@ describe('Model', () => {
       model.settings = { ...settings };
     });
 
-    test('getNewValueForState()', () => {
+    test('getNewValueForState(100)', () => {
       const obj = {
-        width: 320,
-        coordinatesX: 319,
+        percent: 100,
       };
 
       model.getNewValueForState(obj);
       expect(model.settings.valueRight).toBe(100);
+    });
+
+    test('getNewValueForState(70)', () => {
+      const obj = {
+        percent: 70,
+      };
+
+      model.getNewValueForState(obj);
+      expect(model.settings.valueRight).toBe(70);
+    });
+
+    test('getNewValueForState(70)', () => {
+      const obj = {
+        percent: 5,
+      };
+
+      model.getNewValueForState(obj);
+      expect(model.settings.valueLeft).toBe(5);
     });
   });
 

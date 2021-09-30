@@ -59,8 +59,7 @@ export interface IObserverScaleArgument {
 export interface IObserverTrackArgument {
   type: ViewActionTypes.TRACK;
   value: {
-    width: number
-    coordinatesX: number
+    percent: number
   }
 }
 

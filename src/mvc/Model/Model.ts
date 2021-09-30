@@ -193,9 +193,8 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
     return this.settings.max;
   }
 
-  public getNewValueForState(obj: { width: number, coordinatesX: number }): void {
-    const { width, coordinatesX } = obj;
-    const percent = Number(((100 / width) * coordinatesX).toFixed(1));
+  public getNewValueForState(obj: { percent: number }): void {
+    const { percent } = obj;
     const newValueForState: number = ((percent * (this.settings.max - this.settings.min)) / 100) + this.settings.min;
 
     this.setStateLeftOrRight({ valueTarget: Math.ceil(newValueForState) });
