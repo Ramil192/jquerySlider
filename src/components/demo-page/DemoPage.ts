@@ -5,8 +5,8 @@ class DemoPage implements IDemoPage {
   outerContainerElement: JQuery<HTMLElement>;
   leftValue: string[];
   rightValue: boolean[];
-  columnNumber: JQuery<HTMLElement>;
-  columnCheckbox: JQuery<HTMLElement>;
+  columnNumber: JQuery<HTMLInputElement>;
+  columnCheckbox: JQuery<HTMLInputElement>;
   valueLeft: JQuery<HTMLElement>;
   valueRight: JQuery<HTMLElement>;
   plugin: JQuery<HTMLElement>;
@@ -15,8 +15,8 @@ class DemoPage implements IDemoPage {
     this.outerContainerElement = $('html').find(outerContainerElement);
     this.leftValue = [];
     this.rightValue = [];
-    this.columnNumber = this.outerContainerElement.find('.js-data-input__input[type="number"]');
-    this.columnCheckbox = this.outerContainerElement.find('.js-data-input__input[type="checkbox"]');
+    this.columnNumber = this.outerContainerElement.find<HTMLInputElement>('.js-data-input__input[type="number"]');
+    this.columnCheckbox = this.outerContainerElement.find<HTMLInputElement>('.js-data-input__input[type="checkbox"]');
     this.plugin = this.outerContainerElement.find('.js-demo-page__plugin').pluginRange(this.settingsObjInit());
     this.valueLeft = this.columnNumber.eq(3);
     this.valueRight = this.columnNumber.eq(4);
@@ -34,15 +34,15 @@ class DemoPage implements IDemoPage {
     const settingObj: ISetSettings = {};
 
     this.columnNumber.each((i, e) => {
-      if ((e as HTMLInputElement).dataset.key !== undefined) {
-        const key = (e as HTMLInputElement).dataset.key!;
-        settingObj[key] = +(e as HTMLInputElement).value;
+      if (e.dataset.key !== undefined) {
+        const key = e.dataset.key!;
+        settingObj[key] = Number(e.value);
       }
     });
 
     this.columnCheckbox.each((i, e) => {
-      const key = (e as HTMLInputElement).dataset.key!;
-      settingObj[key] = (e as HTMLInputElement).checked;
+      const key = e.dataset.key!;
+      settingObj[key] = e.checked;
     });
 
     return settingObj;
@@ -57,12 +57,12 @@ class DemoPage implements IDemoPage {
   }
 
   bindEventListeners(): void {
-    this.columnNumber.bind('input', (e: JQuery.TriggeredEvent<HTMLElement, undefined, HTMLElement, HTMLElement>) => {
-      this.plugin.data().setSettings({ [(e.target as HTMLInputElement).dataset.key!]: +(e.target as HTMLInputElement).value });
+    this.columnNumber.bind('input', (e) => {
+      this.plugin.data().setSettings({ [e.target.dataset.key!]: Number(e.target.value) });
     });
 
-    this.columnCheckbox.bind('input', (e: JQuery.TriggeredEvent<HTMLElement, undefined, HTMLElement, HTMLElement>) => {
-      this.plugin.data().setSettings({ [(e.target as HTMLInputElement).dataset.key!]: (e.target as HTMLInputElement).checked });
+    this.columnCheckbox.bind('input', (e) => {
+      this.plugin.data().setSettings({ [e.target.dataset.key!]: e.target.checked });
     });
   }
 }
