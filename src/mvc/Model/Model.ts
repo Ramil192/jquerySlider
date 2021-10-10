@@ -69,7 +69,6 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
     this.state.percentageLeft = this.getPercentage(this.settings.valueLeft);
     this.state.percentageRight = this.getPercentage(this.settings.valueRight);
 
-    this.setStateRight({ valueRight: this.state.valueRight });
     this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
 
     this.callObserver({
@@ -101,22 +100,14 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
   }
 
   public setStateRight(obj: { valueRight: number }): void {
-    let { valueRight } = obj;
-
-    if (this.state.isPenultimateValue) {
-      valueRight = this.state.penultimateValue;
-      this.state.isPenultimateValue = false;
-    }
-
-    if (this.state.isPenultimate) {
-      valueRight = this.newValueRight(valueRight);
-      this.state.isPenultimate = false;
-    }
+    const { valueRight } = obj;
 
     if (this.isPenultimateAndIsNotMaxValue(valueRight)) {
       this.state.newStepRight = Number.isInteger(this.settings.step) ? 0 : 0.1;
+      this.state.newStepRight = Math.abs(this.settings.max - valueRight);
       this.state.penultimateValue = valueRight;
-      this.state.isPenultimate = true;
+    } else {
+      this.state.newStepRight = this.settings.step;
     }
 
     const newValue = Math.max(valueRight, this.state.valueLeft + this.getStep());
@@ -166,16 +157,6 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
     return Number.isInteger(this.settings.step) ? 1 : 0.1;
   }
 
-  private newValueRight(valueRight: number): number {
-    if (this.state.penultimateValue > valueRight) {
-      this.state.newStepRight = this.settings.step;
-      return Number(Math.abs(this.state.penultimateValue - this.settings.step).toFixed(1));
-    }
-
-    this.state.isPenultimateValue = true;
-    return this.settings.max;
-  }
-
   public getNewValueForState(obj: { percent: number }): void {
     const { percent } = obj;
     const newValueForState: number = ((percent * (this.settings.max - this.settings.min)) / 100) + this.settings.min;
@@ -190,15 +171,11 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
   }
 
   private isPenultimateAndIsNotMaxValue(valueRight: number): boolean {
-    return ((this.settings.max - this.settings.step) < valueRight) && (valueRight !== this.settings.max);
+    return (Math.abs(this.settings.max - valueRight) < this.settings.step);
   }
 
   private isMinMoreThanRightAndMinMoreThanZero(): boolean {
     return (this.settings.min > this.settings.valueRight && this.settings.min >= 0);
-  }
-
-  private isMinMoreThanRightAndMinLessThanZero(): boolean {
-    return (this.settings.min > this.settings.valueRight && this.settings.min <= 0);
   }
 
   private isLeftMoreThanRightAndRightLessThanZero(): boolean {
