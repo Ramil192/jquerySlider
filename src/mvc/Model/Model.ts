@@ -100,7 +100,7 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
 
   public setStateLeft(obj: { valueLeft: number }): void {
     const { valueLeft } = obj;
-    const newValue = Math.min(valueLeft, this.state.valueRight - this.isFractional());
+    const newValue = Math.min(valueLeft, this.state.valueRight - this.getStep());
 
     this.state.percentageLeft = this.getPercentage(newValue);
     this.state.valueLeft = newValue;
@@ -136,7 +136,7 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
       this.state.isPenultimate = true;
     }
 
-    const newValue = Math.max(valueRight, this.state.valueLeft + this.isFractional());
+    const newValue = Math.max(valueRight, this.state.valueLeft + this.getStep());
     this.state.percentageRight = this.getPercentage(newValue);
     this.state.valueRight = newValue;
     this.settings.valueRight = newValue;
@@ -170,7 +170,7 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
   }
 
   private setIsSmooth(valueLeft: number, valueRight: number): void {
-    const difference = this.isFractional();
+    const difference = this.getStep();
 
     if (Math.abs(valueRight - valueLeft) <= difference) {
       this.state.isSmooth = true;
@@ -179,7 +179,7 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
     }
   }
 
-  private isFractional(): number {
+  private getStep(): number {
     return Number.isInteger(this.settings.step) ? 1 : 0.1;
   }
 
