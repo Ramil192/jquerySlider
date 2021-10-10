@@ -77,6 +77,10 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
     }
 
     if (!isDouble) {
+      this.settings.valueLeft = this.settings.min - 1;
+    }
+
+    if (isDouble && this.settings.valueLeft < this.settings.min) {
       this.settings.valueLeft = this.settings.min;
     }
 
