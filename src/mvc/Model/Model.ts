@@ -34,13 +34,8 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
     } = this.settings;
 
     const isMinMoreThanMaxAndMinMoreThanZero = (min >= max && min >= 0);
-    const isMinMoreThanMaxAndMinLessThanZero = (min >= max && min <= 0);
 
     if (isMinMoreThanMaxAndMinMoreThanZero) {
-      this.settings.min = max - 1;
-    }
-
-    if (isMinMoreThanMaxAndMinLessThanZero && !isMinMoreThanMaxAndMinMoreThanZero) {
       this.settings.min = max - 1;
     }
 
@@ -56,23 +51,7 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
       this.settings.valueRight = this.settings.min + 1;
     }
 
-    if (this.isMinMoreThanRightAndMinLessThanZero()) {
-      this.settings.valueRight = this.settings.min - 1;
-    }
-
-    if (this.isMaxLessThanLeftAndMaxMoreThanZero()) {
-      this.settings.valueLeft = this.settings.max - 1;
-    }
-
-    if (this.isMaxLessThanLeftAndMaxLessThanZero()) {
-      this.settings.valueLeft = this.settings.max + 1;
-    }
-
     if (this.isLeftMoreThanRightAndRightLessThanZero()) {
-      this.settings.valueLeft = this.settings.valueRight - 1;
-    }
-
-    if (this.isLeftMoreThanRightAndRightMoreThanZero()) {
       this.settings.valueLeft = this.settings.valueRight - 1;
     }
 
@@ -222,19 +201,7 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
     return (this.settings.min > this.settings.valueRight && this.settings.min <= 0);
   }
 
-  private isMaxLessThanLeftAndMaxMoreThanZero(): boolean {
-    return (this.settings.max < this.settings.valueLeft && this.settings.max >= 0);
-  }
-
-  private isMaxLessThanLeftAndMaxLessThanZero(): boolean {
-    return (this.settings.max < this.settings.valueLeft && this.settings.max <= 0);
-  }
-
   private isLeftMoreThanRightAndRightLessThanZero(): boolean {
     return (this.settings.valueLeft >= this.settings.valueRight && this.settings.valueRight >= 0);
-  }
-
-  private isLeftMoreThanRightAndRightMoreThanZero(): boolean {
-    return (this.settings.valueLeft >= this.settings.valueRight && this.settings.valueRight <= 0);
   }
 }
