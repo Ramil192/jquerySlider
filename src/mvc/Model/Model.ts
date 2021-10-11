@@ -163,10 +163,10 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
   }
 
   private isMinMoreThanRightAndMinMoreThanZero(): boolean {
-    return (this.settings.min > this.settings.valueRight && this.settings.min >= 0);
+    return (this.settings.min > this.settings.valueRight);
   }
 
   private isLeftMoreThanRightAndRightLessThanZero(): boolean {
-    return (this.settings.valueLeft >= this.settings.valueRight && this.settings.valueRight >= 0);
+    return (this.settings.valueLeft >= this.settings.valueRight);
   }
 }
