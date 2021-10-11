@@ -22,8 +22,6 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
       percentageRight: 0,
       newStepRight: 0,
       penultimateValue: 0,
-      centerLeft: this.setStateCenterLeftBegin(this.settings.valueLeft),
-      centerRight: 30,
       isPenultimate: false,
       isPenultimateValue: false,
       isSmooth: false,
@@ -36,13 +34,8 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
     } = this.settings;
 
     const isMinMoreThanMaxAndMinMoreThanZero = (min >= max && min >= 0);
-    const isMinMoreThanMaxAndMinLessThanZero = (min >= max && min <= 0);
 
     if (isMinMoreThanMaxAndMinMoreThanZero) {
-      this.settings.min = max - 1;
-    }
-
-    if (isMinMoreThanMaxAndMinLessThanZero && !isMinMoreThanMaxAndMinMoreThanZero) {
       this.settings.min = max - 1;
     }
 
@@ -58,27 +51,15 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
       this.settings.valueRight = this.settings.min + 1;
     }
 
-    if (this.isMinMoreThanRightAndMinLessThanZero()) {
-      this.settings.valueRight = this.settings.min - 1;
-    }
-
-    if (this.isMaxLessThanLeftAndMaxMoreThanZero()) {
-      this.settings.valueLeft = this.settings.max - 1;
-    }
-
-    if (this.isMaxLessThanLeftAndMaxLessThanZero()) {
-      this.settings.valueLeft = this.settings.max + 1;
-    }
-
     if (this.isLeftMoreThanRightAndRightLessThanZero()) {
       this.settings.valueLeft = this.settings.valueRight - 1;
     }
 
-    if (this.isLeftMoreThanRightAndRightMoreThanZero()) {
-      this.settings.valueLeft = this.settings.valueRight - 1;
+    if (!isDouble) {
+      this.settings.valueLeft = this.settings.min - 1;
     }
 
-    if (!isDouble) {
+    if (isDouble && this.settings.valueLeft < this.settings.min) {
       this.settings.valueLeft = this.settings.min;
     }
 
@@ -88,7 +69,6 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
     this.state.percentageLeft = this.getPercentage(this.settings.valueLeft);
     this.state.percentageRight = this.getPercentage(this.settings.valueRight);
 
-    this.setStateRight({ valueRight: this.state.valueRight });
     this.setIsSmooth(this.state.valueLeft, this.state.valueRight);
 
     this.callObserver({
@@ -100,13 +80,9 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
     });
   }
 
-  public setStateLeft(obj: { valueLeft: number, fromLeftEdge?: number, width?: number }): void {
-    const { valueLeft, fromLeftEdge, width } = obj;
-    if (fromLeftEdge && width) {
-      this.setStateCenterLeft(fromLeftEdge, width);
-    }
-
-    const newValue = Math.min(valueLeft, this.state.valueRight - this.isFractional());
+  public setStateLeft(obj: { valueLeft: number }): void {
+    const { valueLeft } = obj;
+    const newValue = Math.min(valueLeft, this.state.valueRight - this.getStep());
 
     this.state.percentageLeft = this.getPercentage(newValue);
     this.state.valueLeft = newValue;
@@ -123,31 +99,10 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
     });
   }
 
-  public setStateRight(obj: { valueRight: number, fromRightEdge?: number, width?: number }): void {
-    let { valueRight } = obj;
-    const { fromRightEdge, width } = obj;
+  public setStateRight(obj: { valueRight: number }): void {
+    const { valueRight } = obj;
 
-    if (fromRightEdge && width) {
-      this.setStateCenterRight(fromRightEdge, width);
-    }
-
-    if (this.state.isPenultimateValue) {
-      valueRight = this.state.penultimateValue;
-      this.state.isPenultimateValue = false;
-    }
-
-    if (this.state.isPenultimate) {
-      valueRight = this.newValueRight(valueRight);
-      this.state.isPenultimate = false;
-    }
-
-    if (this.isPenultimateAndIsNotMaxValue(valueRight)) {
-      this.state.newStepRight = Number.isInteger(this.settings.step) ? 0 : 0.1;
-      this.state.penultimateValue = valueRight;
-      this.state.isPenultimate = true;
-    }
-
-    const newValue = Math.max(valueRight, this.state.valueLeft + this.isFractional());
+    const newValue = Math.max(valueRight, this.state.valueLeft + this.getStep());
     this.state.percentageRight = this.getPercentage(newValue);
     this.state.valueRight = newValue;
     this.settings.valueRight = newValue;
@@ -161,29 +116,6 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
         state: this.state,
       },
     });
-  }
-
-  private setStateCenterLeft(fromLeftEdge: number, width: number): void {
-    if (Math.floor(fromLeftEdge) >= (width / 2)) {
-      this.state.centerLeft = -50;
-    } else {
-      this.state.centerLeft = -30;
-    }
-  }
-
-  private setStateCenterRight(fromRightEdge: number, width: number): void {
-    if (Math.floor(fromRightEdge) >= (width / 2)) {
-      this.state.centerRight = 60;
-    } else {
-      this.state.centerRight = 30;
-    }
-  }
-
-  private setStateCenterLeftBegin(valueLeft: number): number {
-    if (Math.abs(valueLeft) >= 10) {
-      return -30;
-    }
-    return -50;
   }
 
   public setStateLeftOrRight(obj: { valueTarget: number }): void {
@@ -204,7 +136,7 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
   }
 
   private setIsSmooth(valueLeft: number, valueRight: number): void {
-    const difference = this.isFractional();
+    const difference = this.getStep();
 
     if (Math.abs(valueRight - valueLeft) <= difference) {
       this.state.isSmooth = true;
@@ -213,23 +145,12 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
     }
   }
 
-  private isFractional(): number {
+  private getStep(): number {
     return Number.isInteger(this.settings.step) ? 1 : 0.1;
   }
 
-  private newValueRight(valueRight: number): number {
-    if (this.state.penultimateValue > valueRight) {
-      this.state.newStepRight = this.settings.step;
-      return Number(Math.abs(this.state.penultimateValue - this.settings.step).toFixed(1));
-    }
-
-    this.state.isPenultimateValue = true;
-    return this.settings.max;
-  }
-
-  public getNewValueForState(obj: { width: number, coordinatesX: number }): void {
-    const { width, coordinatesX } = obj;
-    const percent = Number(((100 / width) * coordinatesX).toFixed(1));
+  public getNewValueForState(obj: { percent: number }): void {
+    const { percent } = obj;
     const newValueForState: number = ((percent * (this.settings.max - this.settings.min)) / 100) + this.settings.min;
 
     this.setStateLeftOrRight({ valueTarget: Math.ceil(newValueForState) });
@@ -241,31 +162,11 @@ export default class Model extends Observer<IObserverViewArgument> implements IM
     return Math.abs(((val - min) / (max - min)) * 100);
   }
 
-  private isPenultimateAndIsNotMaxValue(valueRight: number): boolean {
-    return ((this.settings.max - this.settings.step) < valueRight) && (valueRight !== this.settings.max);
-  }
-
   private isMinMoreThanRightAndMinMoreThanZero(): boolean {
     return (this.settings.min > this.settings.valueRight && this.settings.min >= 0);
   }
 
-  private isMinMoreThanRightAndMinLessThanZero(): boolean {
-    return (this.settings.min > this.settings.valueRight && this.settings.min <= 0);
-  }
-
-  private isMaxLessThanLeftAndMaxMoreThanZero(): boolean {
-    return (this.settings.max < this.settings.valueLeft && this.settings.max >= 0);
-  }
-
-  private isMaxLessThanLeftAndMaxLessThanZero(): boolean {
-    return (this.settings.max < this.settings.valueLeft && this.settings.max <= 0);
-  }
-
   private isLeftMoreThanRightAndRightLessThanZero(): boolean {
     return (this.settings.valueLeft >= this.settings.valueRight && this.settings.valueRight >= 0);
-  }
-
-  private isLeftMoreThanRightAndRightMoreThanZero(): boolean {
-    return (this.settings.valueLeft >= this.settings.valueRight && this.settings.valueRight <= 0);
   }
 }
